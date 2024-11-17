@@ -17,7 +17,11 @@ class XAPIGenerator:
                     "Krankheits- und Schädlingsbekämpfung durchführen",
                     "Grünpflanzen pflanzen",
                     "Baumkrankheiten bekämpfen"
-                ]
+                ],
+                "instructor": {
+                    "mbox": "mailto:instructor2@example.com"
+                }
+                
             },
             "Grundlagen des Kletterns": {
                 "materials": [
@@ -25,14 +29,20 @@ class XAPIGenerator:
                     "Gefahren im Umgang mit Bäumen mindern",
                     "Mit Seilausrüstung Bäume erklimmen",
                     "Sicherheitsverfahren in großen Höhen befolgen"
-                ]
+                ],
+                "instructor": {
+                    "mbox": "mailto:instructor1@example.com"
+                }
             },
             "Grundlagen der Instandhaltung": {
                 "materials": [
                     "Kettensäge bedienen",
                     "Forstwirtschaftliche Ausrüstung instand halten",
                     "Bei der Baumidentifizierung assistieren"
-                ]
+                ],
+                "instructor": {
+                    "mbox": "mailto:instructor3@example.com"
+                }
             }
         }
 
@@ -50,25 +60,15 @@ class XAPIGenerator:
     def add_context(self, subcourse, material):
         """Generate a standard context structure for xAPI statements"""
         return {
-            "contextActivities": {
-                "parent": [
-                    {
-                        "id": "https://example.com/activities/learning-path-5678",
-                        "definition": {
-                            "name": {
-                                "en": subcourse
-                            }
-                        }
-                    }
-                ]
-            },
-            "extensions": {
-                "https://example.com/activities/extensions/course_id": "course-1234"
-            },
-            "platform": "Adaptive Learning Dashboard"
+            "context": {
+        "instructor": {
+            "mbox": "mailto:hhhjjjh@inet",
+            "name": "hgvlhgjvl"
+        }
+    }
         }
 
-    def generate_statement(self, user_id, verb, activity, timestamp, score=None, duration=None):
+    def generate_statement(self, user_id, verb, activity, timestamp, score=None, duration=None, raiting=None):
         """Generate a single xAPI statement"""
         statement = {
             "id": str(uuid.uuid4()),
@@ -99,9 +99,15 @@ class XAPIGenerator:
                     "max": 100
                 }
             }
+        if raiting is not None:
+            statement["result"] = {
+                "score": {
+                    "raw": int(raiting),
+                    "min": 1,
+                    "max": 5
+                }
+            }
         
-        
-
         if duration is not None:
             statement["result"] = statement.get("result", {})
             statement["result"]["duration"] = f"PT{duration}M"
@@ -147,7 +153,11 @@ class XAPIGenerator:
 
         return statements
 
-    # Generates a complete learning journey for one user of type consistent leraner 
+    #TODO Generates a complete learning journey for one user of type consistent leraner 
+    # Add more logic so the user has more than one lern sessions for a test
+    # Time difference between learning session and test session should  exist
+    # Time difference between two actions should exist
+    # for each  learning session the probability of make a test should get higher
     def generate_user_journey(self, user_id, start_date, profile):
         """Generate a complete learning journey for one user"""
         statements = []
@@ -173,6 +183,7 @@ class XAPIGenerator:
                         user_id, material, current_date, duration
                     )
                     statements.extend(material_statements)
+                    
 
                     # Generate test statements
                     test_score = random.uniform(
@@ -185,6 +196,10 @@ class XAPIGenerator:
                         user_id, material, end_time, test_score
                     )
                     statements.extend(test_statements)
+                    
+                    if random.random() > 0.5:
+                     statements.append(self.generate_statement(
+                      user_id, "rated", material, current_date,raiting=random.randint(1,5)))
 
                 # Advance time
                 days_advance = 7 / profile["study_frequency"]
@@ -222,9 +237,7 @@ class XAPIGenerator:
               statements.extend(material_statements)
             
             if random.random() > 0.8:
-               self.generate_statement(
-                   user_id, "searched", material, current_date 
-               )
+            
                statements.append(self.generate_statement(
                    user_id, "searched", material, current_date 
                ))
@@ -252,7 +265,13 @@ class XAPIGenerator:
         return statements
 
 
-## Generate a Learnining Journey for  user of type dimiished Driver 
+## TODO Generate a Learnining Journey for user of type Diminished Drive  D
+## Create a Logic so in the beginning the user is very active and then the user becomes less active
+
+
+## TODO Generate a Learnining Journey for user of type Diminished Drive C
+## Create a Logic so in the beginning the user is very active and then the user becomes less active then the user becomes very active again
+## First 4 weeks the user is very active, then the user becomes less active for 4-6 weeks and then the user becomes very active again for the last 4-2 weeks
 
 def generate_dataset(num_users=5, output_file="xapi_statements1.json"):
     """Generate complete dataset with multiple users"""
@@ -282,3 +301,5 @@ if __name__ == "__main__":
     # Generate data for 5 users
     statements = generate_dataset(num_users=1)
     print(f"Generated {len(statements)} xAPI statements")
+    
+    
