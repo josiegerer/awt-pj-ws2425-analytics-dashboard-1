@@ -46,6 +46,27 @@ class XAPIGenerator:
             "completion_rate": random.uniform(0.7, 1.0),  # probability of completing an activity
             "test_performance": random.uniform(0.6, 1.0),  # base test performance
         }
+    
+    def add_context(self, subcourse, material):
+        """Generate a standard context structure for xAPI statements"""
+        return {
+            "contextActivities": {
+                "parent": [
+                    {
+                        "id": "https://example.com/activities/learning-path-5678",
+                        "definition": {
+                            "name": {
+                                "en": subcourse
+                            }
+                        }
+                    }
+                ]
+            },
+            "extensions": {
+                "https://example.com/activities/extensions/course_id": "course-1234"
+            },
+            "platform": "Adaptive Learning Dashboard"
+        }
 
     def generate_statement(self, user_id, verb, activity, timestamp, score=None, duration=None):
         """Generate a single xAPI statement"""
@@ -78,6 +99,8 @@ class XAPIGenerator:
                     "max": 100
                 }
             }
+        
+        
 
         if duration is not None:
             statement["result"] = statement.get("result", {})
@@ -124,10 +147,12 @@ class XAPIGenerator:
 
         return statements
 
+    # Generates a complete learning journey for one user of type consistent leraner 
     def generate_user_journey(self, user_id, start_date, profile):
         """Generate a complete learning journey for one user"""
         statements = []
         current_date = start_date
+        
 
         for subcourse, content in self.course_structure.items():
             # Started subcourse
@@ -171,9 +196,65 @@ class XAPIGenerator:
             ))
 
         return statements
+## Generate a Learnining Journey for one user of type inconsistent learner
+   
+    def generate_user_journey_of_inconsistent_learner(self, user_id, start_date, profile):
+        statements = []
+        
+        current_date = start_date
+        completed_materials = set()
+        
+        uncompleted_materials = {material for subcourse in self.course_structure.values() for material in subcourse["materials"]}
+        while current_date < start_date + timedelta(days=90):  # Simulate up to 3 months
+            material = random.choice(uncompleted_materials)   
+            if random.random() < profile["completion_rate"]:
+            # Learning session
+             duration = random.randint(
+                int(profile["study_duration"] * 0.5),
+                int(profile["study_duration"] * 1.5)
+            )
+             
+            if random.random() > 0.5:
+            # Generate learning material statements
+              material_statements, end_time = self.generate_learning_session(
+                user_id, material, current_date, duration
+               )
+              statements.extend(material_statements)
+            
+            if random.random() > 0.8:
+               self.generate_statement(
+                   user_id, "searched", material, current_date 
+               )
+               statements.append(self.generate_statement(
+                   user_id, "searched", material, current_date 
+               ))
+               
+            if random.random() > 0.5:
+            # Generate test statements
+                test_score = random.uniform(
+                profile["test_performance"] * 0.5,
+                profile["test_performance"] * 1.5
+)
+                test_score = min(1.0, test_score)  # Cap at 1.0
+
+                test_statements = self.generate_test_session(
+                user_id, material, end_time, test_score)
+                statements.extend(test_statements)
+
+                if test_score >= self.test_pass_threshold:
+                  uncompleted_materials.remove(material)
+                  completed_materials.add(material)
+
+            # Advance time
+            days_advance = 7 / profile["study_frequency"]
+            current_date += timedelta(days=days_advance)
+
+        return statements
 
 
-def generate_dataset(num_users=5, output_file="xapi_statements.json"):
+## Generate a Learnining Journey for  user of type dimiished Driver 
+
+def generate_dataset(num_users=5, output_file="xapi_statements1.json"):
     """Generate complete dataset with multiple users"""
     generator = XAPIGenerator()
     all_statements = []
