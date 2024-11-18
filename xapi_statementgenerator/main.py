@@ -4,6 +4,14 @@ import json
 import uuid
 
 
+#TODO: Create a difficulty for an activity
+
+#TODO: Create a context for statement construction
+
+#TODO: Add serach and reated verb for user journey
+
+#TODO:
+
 class XAPIGenerator:
     def __init__(self):
         self.course_structure = {
@@ -57,13 +65,13 @@ class XAPIGenerator:
             "test_performance": random.uniform(0.6, 1.0),  # base test performance
         }
     
-    def add_context(self, subcourse, material):
+    def add_context(self, name, mbox):
         """Generate a standard context structure for xAPI statements"""
         return {
             "context": {
         "instructor": {
-            "mbox": "mailto:hhhjjjh@inet",
-            "name": "hgvlhgjvl"
+            "mbox": mbox,
+            "name": name
         }
     }
         }
@@ -153,11 +161,13 @@ class XAPIGenerator:
 
         return statements
 
-    #TODO Generates a complete learning journey for one user of type consistent leraner 
+    #TODO: Generates a complete learning journey for one user of type consistent leraner 
     # Add more logic so the user has more than one lern sessions for a test
     # Time difference between learning session and test session should  exist
     # Time difference between two actions should exist
-    # for each  learning session the probability of make a test should get higher
+    # for each learning session the probability of make a test should get higher
+    
+    
     def generate_user_journey(self, user_id, start_date, profile):
         """Generate a complete learning journey for one user"""
         statements = []
@@ -211,67 +221,161 @@ class XAPIGenerator:
             ))
 
         return statements
-## Generate a Learnining Journey for one user of type inconsistent learner
-   
+    
+## Generate a Learnining Journey for one user of type inconsistent learner 
     def generate_user_journey_of_inconsistent_learner(self, user_id, start_date, profile):
+        """Generate a learning journey for an inconsistent learner"""
         statements = []
-        
         current_date = start_date
         completed_materials = set()
-        
+        learning_sessions={}
+
+        # Get a flat set of all materials across all subcourses
         uncompleted_materials = {material for subcourse in self.course_structure.values() for material in subcourse["materials"]}
+
         while current_date < start_date + timedelta(days=90):  # Simulate up to 3 months
-            material = random.choice(uncompleted_materials)   
-            if random.random() < profile["completion_rate"]:
-            # Learning session
-             duration = random.randint(
-                int(profile["study_duration"] * 0.5),
-                int(profile["study_duration"] * 1.5)
-            )
-             
-            if random.random() > 0.5:
-            # Generate learning material statements
-              material_statements, end_time = self.generate_learning_session(
-                user_id, material, current_date, duration
-               )
-              statements.extend(material_statements)
+            if not uncompleted_materials:  # If all materials are completed, break
+                break
+
+            # Randomly choose a material from uncompleted ones
+            material = random.choice(list(uncompleted_materials))
             
-            if random.random() > 0.8:
-            
-               statements.append(self.generate_statement(
-                   user_id, "searched", material, current_date 
-               ))
-               
-            if random.random() > 0.5:
-            # Generate test statements
-                test_score = random.uniform(
-                profile["test_performance"] * 0.5,
-                profile["test_performance"] * 1.5
-)
-                test_score = min(1.0, test_score)  # Cap at 1.0
+            if random.random() < profile["completion_rate"]:  # User engages with the material
+                duration = random.randint(
+                    int(profile["study_duration"] * 0.5),
+                    int(profile["study_duration"] * 1.5)
+                )
+                # Generate learning material statements
+                if random.random() > 0.5:  # User spends time on the material
+                    material_statements, end_time = self.generate_learning_session(
+                        user_id, material, current_date, duration
+                    )
+                    if material not in learning_sessions:
+                         learning_sessions[material] = 1
+                         learning_sessions[material] += 0.1
+                    current_date = end_time 
+                    statements.extend(material_statements)
+                
 
-                test_statements = self.generate_test_session(
-                user_id, material, end_time, test_score)
-                statements.extend(test_statements)
+                # Occasionally add "searched" behavior
+                if random.random() < 0.4:
+                    statements.append(self.generate_statement(
+                        user_id, "searched", material, current_date
+                    ))
 
-                if test_score >= self.test_pass_threshold:
-                  uncompleted_materials.remove(material)
-                  completed_materials.add(material)
+                # Generate test statements based on user behavior
+                if random.random() > 0.5 * learning_sessions.get(material, 1):  # User takes a test
+                    test_score = random.uniform(
+                        profile["test_performance"] * 0.5,
+                        profile["test_performance"] * 1.5
+                    )
+                    test_score = min(1.0, test_score)  # Cap at 1.0
 
-            # Advance time
+                    test_statements = self.generate_test_session(
+                        user_id, material, end_time + timedelta(minutes=random.randint(10, 60)), test_score
+                    )
+                    statements.extend(test_statements)
+
+                    # Mark material as completed if the test is passed
+                    if test_score >= self.test_pass_threshold:
+                        uncompleted_materials.remove(material)
+                        completed_materials.add(material)
+
+            # Advance time based on study frequency
             days_advance = 7 / profile["study_frequency"]
             current_date += timedelta(days=days_advance)
 
         return statements
 
 
-## TODO Generate a Learnining Journey for user of type Diminished Drive  D
-## Create a Logic so in the beginning the user is very active and then the user becomes less active
+
+## TODO: Generate a Learnining Journey for user of type Diminished Drive  D
+## Create a Logic so in the beginning the user is very active and then the user becomes less active (Samy)
+
+    def generate_user_journey_of_diminished_drive_easy_quitter(self, user_id, start_date, profile):
+        """
+        Generates a learning journey for a user who starts highly motivated but whose engagement diminishes over time.
+        
+        Args:
+            user_id (str): Identifier for the user.
+            start_date (datetime): The starting date of the learning journey.
+            profile (dict): User profile containing:
+                            - "completion_rate": Probability of completing a material.
+                            - "study_duration": Average study duration per session.
+                            - "test_performance": Average performance in tests.
+                            - "study_frequency": Frequency of study sessions per week.
+                            
+        Returns:
+            list: A sequence of learning-related statements representing the user's journey.
+        """
+        statements = []
+        current_date = start_date
+        completed_materials = set()
+        learning_sessions={}
+
+        uncompleted_materials = {
+            material for subcourse in self.course_structure.values() for material in subcourse["materials"]
+        }
+
+        diminishing_factor = 1.0  # User starts with full motivation
+        diminishing_rate = 0.9  # Motivation diminishes by 10% each cycle
+
+        while current_date < start_date + timedelta(days=90):  # Simulate up to 3 months
+            if not uncompleted_materials or diminishing_factor <= 0.1:
+                # If all materials are completed or drive is too low, end simulation
+                break
+            
+            # Adjust engagement by diminishing factor
+            material = random.choice(list(uncompleted_materials))
+            if random.random() < profile["completion_rate"] * diminishing_factor:
+                # Learning session
+                duration = random.randint(
+                    int(profile["study_duration"] * 0.5 ),
+                    int(profile["study_duration"] * 1.5 )
+                )
+                
+                material_statements, end_time = self.generate_learning_session(
+                    user_id, material, current_date, duration
+                )
+                if material not in learning_sessions:
+                    learning_sessions[material] = 1
+                    learning_sessions[material] += 0.1
+                    
+                statements.extend(material_statements)
 
 
-## TODO Generate a Learnining Journey for user of type Diminished Drive C
+                if random.random() < 0.5 * learning_sessions[material]:
+                    # Test performance
+                    test_score = random.uniform(
+                        profile["test_performance"] * 0.5 * diminishing_factor,
+                        profile["test_performance"] * 1.5 * diminishing_factor
+                    )
+                    test_score = min(1.0, test_score)  # Cap at 1.0
+
+                    test_statements = self.generate_test_session(
+                        user_id, material, end_time, test_score
+                    )
+                    statements.extend(test_statements)
+
+                    if test_score >= self.test_pass_threshold:
+                        uncompleted_materials.remove(material)
+                        completed_materials.add(material)
+
+            # Advance time
+            days_advance = 7 / (profile["study_frequency"] * diminishing_factor)
+            current_date += timedelta(days=days_advance)
+
+            # Decrease motivation
+            diminishing_factor *= diminishing_rate
+
+        return statements
+
+
+          
+
+## TODO: Generate a Learnining Journey for user of type Diminished Drive C
 ## Create a Logic so in the beginning the user is very active and then the user becomes less active then the user becomes very active again
-## First 4 weeks the user is very active, then the user becomes less active for 4-6 weeks and then the user becomes very active again for the last 4-2 weeks
+## First 4 weeks the user is very active, then the user becomes less active for 4-6 weeks and then the user becomes very active again for the last 4-2 weeks (Peter)
 
 def generate_dataset(num_users=5, output_file="xapi_statements1.json"):
     """Generate complete dataset with multiple users"""
@@ -284,7 +388,7 @@ def generate_dataset(num_users=5, output_file="xapi_statements1.json"):
         start_date = datetime.now() - timedelta(days=random.randint(0, 90))
         profile = generator.generate_user_profile()
 
-        user_statements = generator.generate_user_journey(user_id, start_date, profile)
+        user_statements = generator.generate_user_journey_of_inconsistent_learner(user_id, start_date, profile)
         all_statements.extend(user_statements)
 
     # Sort by timestamp
