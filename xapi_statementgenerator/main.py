@@ -76,7 +76,7 @@ class XAPIGenerator:
     }
         }
 
-    def generate_statement(self, user_id, verb, activity, timestamp, score=None, duration=None, raiting=None):
+    def generate_statement(self, user_id, verb, activity, timestamp, score=None, duration=None, rating=None):
         """Generate a single xAPI statement"""
         statement = {
             "id": str(uuid.uuid4()),
@@ -107,10 +107,10 @@ class XAPIGenerator:
                     "max": 100
                 }
             }
-        if raiting is not None:
+        if rating is not None:
             statement["result"] = {
                 "score": {
-                    "raw": int(raiting),
+                    "raw": int(rating),
                     "min": 1,
                     "max": 5
                 }
@@ -209,7 +209,7 @@ class XAPIGenerator:
                     
                     if random.random() > 0.5:
                      statements.append(self.generate_statement(
-                      user_id, "rated", material, current_date,raiting=random.randint(1,5)))
+                      user_id, "rated", material, current_date,rating=random.randint(1,5)))
 
                 # Advance time
                 days_advance = 7 / profile["study_frequency"]
@@ -234,6 +234,7 @@ class XAPIGenerator:
         uncompleted_materials = {material for subcourse in self.course_structure.values() for material in subcourse["materials"]}
 
         while current_date < start_date + timedelta(days=90):  # Simulate up to 3 months
+            print(current_date)
             if not uncompleted_materials:  # If all materials are completed, break
                 break
 
@@ -271,6 +272,7 @@ class XAPIGenerator:
                     )
                     test_score = min(1.0, test_score)  # Cap at 1.0
 
+                    end_time = current_date + timedelta(minutes=duration)
                     test_statements = self.generate_test_session(
                         user_id, material, end_time + timedelta(minutes=random.randint(10, 60)), test_score
                     )
@@ -321,7 +323,8 @@ class XAPIGenerator:
         diminishing_rate = 0.9  # Motivation diminishes by 10% each cycle
 
         while current_date < start_date + timedelta(days=90):  # Simulate up to 3 months
-            if not uncompleted_materials or diminishing_factor <= 0.1:
+            print(uncompleted_materials)
+            if not uncompleted_materials:
                 # If all materials are completed or drive is too low, end simulation
                 break
             
