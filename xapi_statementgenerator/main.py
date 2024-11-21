@@ -271,10 +271,9 @@ class XAPIGenerator:
                         profile["test_performance"] * 1.5
                     )
                     test_score = min(1.0, test_score)  # Cap at 1.0
-
-                    end_time = current_date + timedelta(minutes=duration)
+                    current_date += timedelta(minutes=random.randint(10, 60))
                     test_statements = self.generate_test_session(
-                        user_id, material, end_time + timedelta(minutes=random.randint(10, 60)), test_score
+                        user_id, material, current_date, test_score
                     )
                     statements.extend(test_statements)
 
@@ -282,6 +281,12 @@ class XAPIGenerator:
                     if test_score >= self.test_pass_threshold:
                         uncompleted_materials.remove(material)
                         completed_materials.add(material)
+                    
+                    if random.random() < 0.4:
+                       current_date += timedelta(minutes=random.randint(3, 10))
+                       statements.append(self.generate_statement(
+                        user_id, "rated", material, current_date
+                    ))
 
             # Advance time based on study frequency
             days_advance = 7 / profile["study_frequency"]
