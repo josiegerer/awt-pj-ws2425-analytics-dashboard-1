@@ -59,10 +59,17 @@ class XAPIGenerator:
     def generate_user_profile(self):
         """Generate a random user profile with learning preferences"""
         return {
-            "study_frequency": random.randint(2, 7),  # days per week
+            "study_frequency": random.randint(2, 4),  # days per week (reduced for more spacing)
             "study_duration": random.randint(30, 180),  # minutes per session
             "completion_rate": random.uniform(0.7, 1.0),  # probability of completing an activity
             "test_performance": random.uniform(0.6, 1.0),  # base test performance
+            # New parameters for enhanced learning patterns
+            "min_sessions_before_test": random.randint(2, 3),
+            "max_sessions_before_test": random.randint(4, 6),
+            "preferred_study_time": {  # Time window when user typically studies
+                "start_hour": random.randint(8, 14),
+                "end_hour": random.randint(15, 20)
+            }
         }
     
     def add_context(self, name, mbox):
@@ -122,6 +129,102 @@ class XAPIGenerator:
 
         return statement
 
+    def calculate_test_probability(self, session_count, profile):
+        """Calculate probability of taking a test based on number of learning sessions"""
+        min_sessions = profile["min_sessions_before_test"]
+        max_sessions = profile["max_sessions_before_test"]
+
+        if session_count < min_sessions:
+            return 0.0
+        elif session_count >= max_sessions:
+            return 1.0
+        else:
+            # Linear increase in probability
+            progress = (session_count - min_sessions) / (max_sessions - min_sessions)
+            return progress * 0.8
+
+    def get_next_study_date(self, current_date, profile):
+        """Calculate the next study date based on user's frequency and preferences"""
+        days_until_next = random.randint(1, 7 // profile["study_frequency"])
+        next_date = current_date + timedelta(days=days_until_next)
+
+        # Set time within user's preferred study window
+        hour = random.randint(
+            profile["preferred_study_time"]["start_hour"],
+            profile["preferred_study_time"]["end_hour"]
+        )
+        minute = random.randint(0, 59)
+
+        return next_date.replace(hour=hour, minute=minute)
+
+    def generate_material_sessions(self, user_id, material, current_date, profile):
+        """Generate multiple learning sessions for a material until test is passed"""
+        statements = []
+        session_count = 0
+        test_passed = False
+
+        while not test_passed:
+            session_count += 1
+
+            # Learning session
+            duration = random.randint(
+                int(profile["study_duration"] * 0.8),
+                int(profile["study_duration"] * 1.2)
+            )
+
+            # Initialize material
+            statements.append(self.generate_statement(
+                user_id, "initialized", material, current_date
+            ))
+
+            # Exit material
+            exit_time = current_date + timedelta(minutes=duration)
+            statements.append(self.generate_statement(
+                user_id, "exited", material, exit_time,
+                duration=duration
+            ))
+
+            # Decide whether to take test
+            test_probability = self.calculate_test_probability(session_count, profile)
+
+            if random.random() < test_probability:
+                # Add time gap before test (same day, but later)
+                test_time = exit_time + timedelta(minutes=random.randint(60, 240))
+
+                # Calculate test score with bonus for multiple sessions
+                session_bonus = min(0.2, 0.05 * session_count)  # Max 20% bonus
+                test_score = random.uniform(
+                    profile["test_performance"] * 0.8,
+                    profile["test_performance"] * 1.1
+                ) + session_bonus
+                test_score = min(1.0, test_score)
+
+                # Generate test statements
+                statements.append(self.generate_statement(
+                    user_id, "scored", f"Test: {material}", test_time,
+                    score=test_score
+                ))
+
+                verb = "completed" if test_score >= self.test_pass_threshold else "failed"
+                statements.append(self.generate_statement(
+                    user_id, verb, f"Test: {material}",
+                    test_time + timedelta(minutes=random.randint(15, 30)),
+                    score=test_score
+                ))
+
+                if test_score >= self.test_pass_threshold:
+                    test_passed = True
+                    # Next material starts on a different day
+                    current_date = self.get_next_study_date(test_time, profile)
+                else:
+                    # Failed test - try again after a few days
+                    current_date = self.get_next_study_date(test_time, profile)
+            else:
+                # Next session on a different day
+                current_date = self.get_next_study_date(exit_time, profile)
+
+        return statements, current_date
+
     def generate_learning_session(self, user_id, material, timestamp, duration):
         """Generate statements for a complete learning material session"""
         statements = []
@@ -161,18 +264,16 @@ class XAPIGenerator:
 
         return statements
 
-    #TODO: Generates a complete learning journey for one user of type consistent leraner >>
+    #TODO: Generates a complete learning journey for one user of type consistent leraner 
     # Add more logic so the user has more than one lern sessions for a test
     # Time difference between learning session and test session should  exist
     # Time difference between two actions should exist
     # for each learning session the probability of make a test should get higher
-    
-    
+
     def generate_user_journey(self, user_id, start_date, profile):
         """Generate a complete learning journey for one user"""
         statements = []
         current_date = start_date
-        
 
         for subcourse, content in self.course_structure.items():
             # Started subcourse
@@ -182,40 +283,17 @@ class XAPIGenerator:
 
             for material in content["materials"]:
                 if random.random() < profile["completion_rate"]:
-                    # Learning session
-                    duration = random.randint(
-                        int(profile["study_duration"] * 0.8),
-                        int(profile["study_duration"] * 1.2)
-                    )
-
-                    # Generate learning material statements
-                    material_statements, end_time = self.generate_learning_session(
-                        user_id, material, current_date, duration
+                    # Generate all sessions for this material
+                    material_statements, new_date = self.generate_material_sessions(
+                        user_id, material, current_date, profile
                     )
                     statements.extend(material_statements)
-                    
+                    current_date = new_date
 
-                    # Generate test statements
-                    test_score = random.uniform(
-                        profile["test_performance"] * 0.8,
-                        profile["test_performance"] * 1.1
-                    )
-                    test_score = min(1.0, test_score)  # Cap at 1.0
+                # Add time gap between materials
+                current_date = self.get_next_study_date(current_date, profile)
 
-                    test_statements = self.generate_test_session(
-                        user_id, material, end_time, test_score
-                    )
-                    statements.extend(test_statements)
-                    
-                    if random.random() > 0.5:
-                     statements.append(self.generate_statement(
-                      user_id, "rated", material, current_date,rating=random.randint(1,5)))
-
-                # Advance time
-                days_advance = 7 / profile["study_frequency"]
-                current_date += timedelta(days=days_advance)
-
-            # Exit subcourse
+            # Completed subcourse
             statements.append(self.generate_statement(
                 user_id, "exited", subcourse, current_date
             ))
