@@ -161,7 +161,7 @@ class XAPIGenerator:
 
         return statements
 
-    #TODO: Generates a complete learning journey for one user of type consistent leraner 
+    #TODO: Generates a complete learning journey for one user of type consistent leraner >>
     # Add more logic so the user has more than one lern sessions for a test
     # Time difference between learning session and test session should  exist
     # Time difference between two actions should exist
