@@ -4,11 +4,11 @@ import json
 import uuid
 
 
-#TODO: Create a difficulty for an activity
+#TODO: Create a difficulty for an activity (Samy)
 
-#TODO: Create a context for statement construction
+#TODO: Create a context for statement construction (Samy)
 
-#TODO: Add serach and reated verb for user journey
+#TODO: Add serach and rated verb for user journey (Peter)
 
 #TODO:
 
@@ -80,7 +80,7 @@ class XAPIGenerator:
             "mbox": mbox,
             "name": name
         }
-    }
+          }
         }
 
     def generate_statement(self, user_id, verb, activity, timestamp, score=None, duration=None, rating=None):
