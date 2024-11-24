@@ -53,8 +53,47 @@ class XAPIGenerator:
                 }
             }
         }
+    
+    self.test_pass_threshold = 0.7  # 70% to pass a test
+    
+    
+    def get_difficulty_decimal(activity):
+        # Define the difficulty ranges based on the alphabet
+        difficulty_ranges = {
+            1: "ABCDEF",
+            2: "GHIJKL",
+            3: "MNOPQR",
+            4: "STUVWXYZ"
+        }
+        
+        # Difficulty percentages in decimal form
+        difficulty_decimals = {
+            1: 0.15,
+            2: 0.40,
+            3: 0.30,
+            4: 0.05,
+            0: 0.00  # Default for short names or non-alphabetic characters
+        }
+        
+        # Strip leading/trailing spaces from the activity
+        activity = activity.strip()
 
-        self.test_pass_threshold = 0.7  # 70% to pass a test
+        # Get the 7th letter (if the activity is shorter than 7 letters, assign a default difficulty)
+        if len(activity) < 7:
+            return difficulty_decimals[0]  # Default difficulty for short names
+
+        seventh_letter = activity[6].upper()  # 6 because indexing starts at 0
+
+        # Determine difficulty based on the 7th letter
+        for difficulty, letters in difficulty_ranges.items():
+            if seventh_letter in letters:
+                return difficulty_decimals[difficulty]
+
+        # Default difficulty if the 7th letter is not alphabetic
+        return difficulty_decimals[0]
+
+
+        
 
     def generate_user_profile(self):
         """Generate a random user profile with learning preferences"""
@@ -143,9 +182,9 @@ class XAPIGenerator:
             progress = (session_count - min_sessions) / (max_sessions - min_sessions)
             return progress * 0.8
 
-    def get_next_study_date(self, current_date, profile):
+    def get_next_study_date(self, current_date, profile, diminished_factor=1.0):
         """Calculate the next study date based on user's frequency and preferences"""
-        days_until_next = random.randint(1, 7 // profile["study_frequency"])
+        days_until_next = random.randint(1, 7 // profile["study_frequency"]*diminished_factor)
         next_date = current_date + timedelta(days=days_until_next)
 
         # Set time within user's preferred study window
@@ -194,8 +233,8 @@ class XAPIGenerator:
                 # Calculate test score with bonus for multiple sessions
                 session_bonus = min(0.2, 0.05 * session_count)  # Max 20% bonus
                 test_score = random.uniform(
-                    profile["test_performance"] * 0.8,
-                    profile["test_performance"] * 1.1
+                    profile["test_performance"] * 0.8 - self.get_difficulty_decimal(material),
+                    profile["test_performance"] * 1.1 - self.get_difficulty_decimal(material)
                 ) + session_bonus
                 test_score = min(1.0, test_score)
 
@@ -321,8 +360,8 @@ class XAPIGenerator:
             
             if random.random() < profile["completion_rate"]:  # User engages with the material
                 duration = random.randint(
-                    int(profile["study_duration"] * 0.5),
-                    int(profile["study_duration"] * 1.5)
+                    int(profile["study_duration"] * 0.5 - self.get_difficulty_decimal(material)),
+                    int(profile["study_duration"] * 1.5 - self.get_difficulty_decimal(material))
                 )
                 # Generate learning material statements
                 if random.random() > 0.5:  # User spends time on the material
@@ -330,8 +369,8 @@ class XAPIGenerator:
                         user_id, material, current_date, duration
                     )
                     if material not in learning_sessions:
-                         learning_sessions[material] = 1
-                         learning_sessions[material] += 0.1
+                         learning_sessions[material] = 0
+                         learning_sessions[material] += 1
                     current_date = end_time 
                     statements.extend(material_statements)
                 
@@ -343,11 +382,13 @@ class XAPIGenerator:
                     ))
 
                 # Generate test statements based on user behavior
-                if random.random() > 0.5 * learning_sessions.get(material, 1):  # User takes a test
+                if random.random() < self.calculate_test_probability(learning_sessions[material], profile):  # User takes a test
+                    session_bonus = min(0.2, 0.05 * learning_sessions[material])  # Max 20% bonus
                     test_score = random.uniform(
                         profile["test_performance"] * 0.5,
                         profile["test_performance"] * 1.5
-                    )
+                    ) + session_bonus
+                    
                     test_score = min(1.0, test_score)  # Cap at 1.0
                     current_date += timedelta(minutes=random.randint(10, 60))
                     test_statements = self.generate_test_session(
@@ -367,8 +408,8 @@ class XAPIGenerator:
                     ))
 
             # Advance time based on study frequency
-            days_advance = 7 / profile["study_frequency"]
-            current_date += timedelta(days=days_advance)
+            
+            current_date = self.get_next_study_date(current_date, profile)
 
         return statements
 
@@ -416,26 +457,28 @@ class XAPIGenerator:
             if random.random() < profile["completion_rate"] * diminishing_factor:
                 # Learning session
                 duration = random.randint(
-                    int(profile["study_duration"] * 0.5 ),
-                    int(profile["study_duration"] * 1.5 )
+                    int(profile["study_duration"] * 0.5 - self.get_difficulty_decimal(material) ),
+                    int(profile["study_duration"] * 1.5 - self.get_difficulty_decimal(material) )
                 )
                 
                 material_statements, end_time = self.generate_learning_session(
                     user_id, material, current_date, duration
                 )
                 if material not in learning_sessions:
-                    learning_sessions[material] = 1
-                    learning_sessions[material] += 0.1
+                    learning_sessions[material] = 0
+                    learning_sessions[material] += 1
                     
                 statements.extend(material_statements)
 
 
-                if random.random() < 0.5 * learning_sessions[material]:
+                if random.random() < self.calculate_test_probability(learning_sessions[material], profile):
                     # Test performance
+                    session_bonus = min(0.2, 0.05 * learning_sessions[material])
                     test_score = random.uniform(
                         profile["test_performance"] * 0.5 * diminishing_factor,
                         profile["test_performance"] * 1.5 * diminishing_factor
-                    )
+                    )+session_bonus
+                    
                     test_score = min(1.0, test_score)  # Cap at 1.0
 
                     test_statements = self.generate_test_session(
@@ -448,8 +491,7 @@ class XAPIGenerator:
                         completed_materials.add(material)
 
             # Advance time
-            days_advance = 7 / (profile["study_frequency"] * diminishing_factor)
-            current_date += timedelta(days=days_advance)
+            current_date = self.get_next_study_date(current_date, profile,diminished_factor=diminishing_factor)
 
             # Decrease motivation
             diminishing_factor *= diminishing_rate
