@@ -4,7 +4,7 @@ import json
 import uuid
 
 
-#TODO: Create a difficulty for an activity (Samy)
+#TODO: Create a difficulty for an activity (Samy) DONE
 
 #TODO: Create a context for statement construction (Samy)
 
@@ -27,7 +27,8 @@ class XAPIGenerator:
                     "Baumkrankheiten bekämpfen"
                 ],
                 "instructor": {
-                    "mbox": "mailto:instructor2@example.com"
+                    "mbox": "mailto:instructor2@example.com",
+                    "name": "instructor2"
                 }
                 
             },
@@ -39,7 +40,8 @@ class XAPIGenerator:
                     "Sicherheitsverfahren in großen Höhen befolgen"
                 ],
                 "instructor": {
-                    "mbox": "mailto:instructor1@example.com"
+                    "mbox": "mailto:instructor1@example.com",
+                    "name": "instructor1"
                 }
             },
             "Grundlagen der Instandhaltung": {
@@ -49,15 +51,113 @@ class XAPIGenerator:
                     "Bei der Baumidentifizierung assistieren"
                 ],
                 "instructor": {
-                    "mbox": "mailto:instructor3@example.com"
+                    "mbox": "mailto:instructor3@example.com",
+                    "name": "instructor3"
                 }
             }
         }
+    test_pass_threshold = 0.7  # 70% to pass a test
     
-    self.test_pass_threshold = 0.7  # 70% to pass a test
+    
+    def deep_merge(self,json1, json2):
+        """
+        Recursively merge two dictionaries.
+        """
+        for key, value in json2.items():
+            if key in json1 and isinstance(json1[key], dict) and isinstance(value, dict):
+                # Recursively merge nested dictionaries
+                json1[key] = self.deep_merge(json1[key], value)
+            else:
+                # Overwrite or add key-value pairs
+                json1[key] = value
+        return json1
+
+
+    
+    def create_context(
+    self,
+    instructor_name: str,
+    instructor_email: str,
+    team_name: str = None,
+    team_member_names: list = None,
+    activity_name: str = None,
+    activity_id: str = None,
+    parent_activity_name: str = None,
+    parent_activity_id: str = None,
+    revision: str = None,
+    platform: str = None,
+    language: str = None
+) -> dict:
+        """
+        Create a context JSON object for a learning record with customizable attributes.
+
+        Parameters:
+            instructor_name (str): Name of the instructor (required).
+            instructor_email (str): Email of the instructor (required).
+            team_name (str): Team name (optional).
+            team_member_names (list): List of team member names (optional).
+            activity_name (str): Name of the activity (optional).
+            activity_id (str): ID of the activity (optional).
+            parent_activity_name (str): Name of the parent activity (optional).
+            parent_activity_id (str): ID of the parent activity (optional).
+            revision (str): Revision identifier (optional).
+            platform (str): Platform identifier (optional).
+            language (str): Language (optional).
+
+        Returns:
+            dict: A context JSON object.
+        """
+        context = {
+            "instructor": {
+                "name": instructor_name,
+                "mbox": f"mailto:{instructor_email}"
+            }
+        }
+
+        # Add team details if provided
+        if team_name or team_member_names:
+            context["team"] = {
+                "name": team_name or "Default Team",
+                "member": [
+                    {"name": name, "objectType": "Agent"} for name in (team_member_names or [])
+                ],
+                "objectType": "Group"
+            }
+
+        # Add context activities if provided
+        context_activities = {}
+        if activity_name or activity_id:
+            context_activities["grouping"] = [
+                {
+                    "definition": {"name": {"en-US": activity_name or "Default Activity"}},
+                    "id": activity_id or "http://example.com/default-activity",
+                    "objectType": "Activity"
+                }
+            ]
+        if parent_activity_name or parent_activity_id:
+            context_activities["parent"] = [
+                {
+                    "id": parent_activity_id or "http://example.com/default-parent-activity",
+                    "definition": {
+                        "name": {"en": parent_activity_name or "Default Parent Activity"}
+                    }
+                }
+            ]
+        if context_activities:
+            context["contextActivities"] = context_activities
+
+        # Add optional attributes if provided
+        if revision:
+            context["revision"] = revision
+        if platform:
+            context["platform"] = platform
+        if language:
+            context["language"] = language
+
+        return {"context": context}
     
     
-    def get_difficulty_decimal(activity):
+    def get_difficulty_decimal(self, activity):
         # Define the difficulty ranges based on the alphabet
         difficulty_ranges = {
             1: "ABCDEF",
@@ -111,16 +211,7 @@ class XAPIGenerator:
             }
         }
     
-    def add_context(self, name, mbox):
-        """Generate a standard context structure for xAPI statements"""
-        return {
-            "context": {
-        "instructor": {
-            "mbox": mbox,
-            "name": name
-        }
-          }
-        }
+
 
     def generate_statement(self, user_id, verb, activity, timestamp, score=None, duration=None, rating=None):
         """Generate a single xAPI statement"""
@@ -232,9 +323,10 @@ class XAPIGenerator:
 
                 # Calculate test score with bonus for multiple sessions
                 session_bonus = min(0.2, 0.05 * session_count)  # Max 20% bonus
+                difficulty_decimal = self.get_difficulty_decimal(material)
                 test_score = random.uniform(
-                    profile["test_performance"] * 0.8 - self.get_difficulty_decimal(material),
-                    profile["test_performance"] * 1.1 - self.get_difficulty_decimal(material)
+                    profile["test_performance"] * 0.8 - difficulty_decimal,
+                    profile["test_performance"] * 1.1 - difficulty_decimal
                 ) + session_bonus
                 test_score = min(1.0, test_score)
 
@@ -284,23 +376,22 @@ class XAPIGenerator:
 
     def generate_test_session(self, user_id, material, timestamp, score):
         """Generate statements for a complete test session"""
-        statements = []
         test_name = f"Test: {material}"
-
-        # Score the test
-        statements.append(self.generate_statement(
-            user_id, "scored", test_name, timestamp,
-            score=score
-        ))
-
-        # Complete or fail based on threshold
-        verb = "completed" if score >= self.test_pass_threshold else "failed"
-        statements.append(self.generate_statement(
-            user_id, verb, test_name,
-            timestamp + timedelta(minutes=1),
-            score=score
-        ))
-
+        statements = [
+            self.add_instructor_context(
+                self.generate_statement(user_id, "scored", test_name, timestamp, score=score), material
+            ),
+            self.add_instructor_context(
+                self.generate_statement(
+                    user_id, 
+                    "completed" if score >= self.test_pass_threshold else "failed", 
+                    test_name, 
+                    timestamp + timedelta(minutes=1), 
+                    score=score
+                ), 
+                material
+            )
+        ]
         return statements
 
     #TODO: Generates a complete learning journey for one user of type consistent leraner 
@@ -359,18 +450,21 @@ class XAPIGenerator:
             material = random.choice(list(uncompleted_materials))
             
             if random.random() < profile["completion_rate"]:  # User engages with the material
+               
                 duration = random.randint(
-                    int(profile["study_duration"] * 0.5 - self.get_difficulty_decimal(material)),
-                    int(profile["study_duration"] * 1.5 - self.get_difficulty_decimal(material))
+                   int(profile["study_duration"] * 0.5 ),
+                   int(profile["study_duration"] * 1.5 )
                 )
+                if material not in learning_sessions:
+                         learning_sessions[material] = 0
+                         
                 # Generate learning material statements
                 if random.random() > 0.5:  # User spends time on the material
                     material_statements, end_time = self.generate_learning_session(
                         user_id, material, current_date, duration
                     )
-                    if material not in learning_sessions:
-                         learning_sessions[material] = 0
-                         learning_sessions[material] += 1
+                    
+                    learning_sessions[material] += 1
                     current_date = end_time 
                     statements.extend(material_statements)
                 
@@ -382,11 +476,12 @@ class XAPIGenerator:
                     ))
 
                 # Generate test statements based on user behavior
-                if random.random() < self.calculate_test_probability(learning_sessions[material], profile):  # User takes a test
+                if random.random() < self.calculate_test_probability(learning_sessions[material],profile):  # User takes a test
                     session_bonus = min(0.2, 0.05 * learning_sessions[material])  # Max 20% bonus
+                    difficulty_decimal = self.get_difficulty_decimal(material)
                     test_score = random.uniform(
-                        profile["test_performance"] * 0.5,
-                        profile["test_performance"] * 1.5
+                        profile["test_performance"] * 0.5 -difficulty_decimal,
+                        profile["test_performance"] * 1.5 - difficulty_decimal
                     ) + session_bonus
                     
                     test_score = min(1.0, test_score)  # Cap at 1.0
@@ -412,7 +507,20 @@ class XAPIGenerator:
             current_date = self.get_next_study_date(current_date, profile)
 
         return statements
-
+    def add_instructor_context(self, statement, material):
+        """Add instructor context to a statement based on the material."""
+        for subcourse, info in self.course_structure.items():
+            if material in info["materials"]:
+                instructor_info = info["instructor"]
+                instructor_context = self.create_context(
+                    instructor_name=instructor_info["name"],
+                    instructor_email=instructor_info["mbox"].replace("mailto:", ""),
+                    parent_activity_name=subcourse,
+                    parent_activity_id=f"http://example.com/activities/{subcourse.replace(' ', '_')}"
+                )
+                self.deep_merge(statement, instructor_context)
+                break
+        return statement
 
 
 ## TODO: Generate a Learnining Journey for user of type Diminished Drive  D
@@ -454,11 +562,12 @@ class XAPIGenerator:
             
             # Adjust engagement by diminishing factor
             material = random.choice(list(uncompleted_materials))
+            difficulty_decimal = self.get_difficulty_decimal(material)
             if random.random() < profile["completion_rate"] * diminishing_factor:
                 # Learning session
                 duration = random.randint(
-                    int(profile["study_duration"] * 0.5 - self.get_difficulty_decimal(material) ),
-                    int(profile["study_duration"] * 1.5 - self.get_difficulty_decimal(material) )
+                     int(profile["study_duration"] * 0.5 ),
+                   int(profile["study_duration"] * 1.5 )
                 )
                 
                 material_statements, end_time = self.generate_learning_session(
@@ -474,9 +583,11 @@ class XAPIGenerator:
                 if random.random() < self.calculate_test_probability(learning_sessions[material], profile):
                     # Test performance
                     session_bonus = min(0.2, 0.05 * learning_sessions[material])
+                    difficulty_decimal = self.get_difficulty_decimal(material)
+                    
                     test_score = random.uniform(
-                        profile["test_performance"] * 0.5 * diminishing_factor,
-                        profile["test_performance"] * 1.5 * diminishing_factor
+                        (profile["test_performance"] * 0.5 * diminishing_factor)-difficulty_decimal,
+                        (profile["test_performance"] * 1.5 * diminishing_factor)- difficulty_decimal
                     )+session_bonus
                     
                     test_score = min(1.0, test_score)  # Cap at 1.0
