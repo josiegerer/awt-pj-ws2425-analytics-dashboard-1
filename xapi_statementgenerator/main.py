@@ -394,24 +394,31 @@ class XAPIGenerator:
         ]
         return statements
 
-    #TODO: Generates a complete learning journey for one user of type consistent leraner 
-    # Add more logic so the user has more than one lern sessions for a test
-    # Time difference between learning session and test session should  exist
-    # Time difference between two actions should exist
-    # for each learning session the probability of make a test should get higher
-
-    def generate_user_journey(self, user_id, start_date, profile):
-        """Generate a complete learning journey for one user"""
+    def generate_user_journey_consistent(self, user_id, start_date, profile):
+        """Generate a complete learning journey for one user with semi-random sequence"""
         statements = []
         current_date = start_date
 
+        # Get materials grouped by subcourse for semi-random ordering
+        materials_by_subcourse = {}
         for subcourse, content in self.course_structure.items():
-            # Started subcourse
-            statements.append(self.generate_statement(
-                user_id, "initialized", subcourse, current_date
-            ))
+            materials_by_subcourse[subcourse] = content["materials"].copy()
 
-            for material in content["materials"]:
+        # Process materials with some randomness but maintaining some course structure
+        while materials_by_subcourse:
+            # Randomly select a subcourse that still has materials
+            available_subcourses = [s for s, m in materials_by_subcourse.items() if m]
+            if not available_subcourses:
+                break
+
+            subcourse = random.choice(available_subcourses)
+
+            # Take 1-3 materials from this subcourse
+            num_materials = min(random.randint(1, 3), len(materials_by_subcourse[subcourse]))
+            for _ in range(num_materials):
+                material = random.choice(materials_by_subcourse[subcourse])
+                materials_by_subcourse[subcourse].remove(material)
+
                 if random.random() < profile["completion_rate"]:
                     # Generate all sessions for this material
                     material_statements, new_date = self.generate_material_sessions(
@@ -423,10 +430,115 @@ class XAPIGenerator:
                 # Add time gap between materials
                 current_date = self.get_next_study_date(current_date, profile)
 
-            # Completed subcourse
-            statements.append(self.generate_statement(
-                user_id, "exited", subcourse, current_date
-            ))
+            # Remove subcourse if empty
+            if not materials_by_subcourse[subcourse]:
+                del materials_by_subcourse[subcourse]
+
+        return statements
+    
+    def generate_user_journey_of_ushaped_learner(self, user_id, start_date, profile):
+        """Generate a learning journey for a U-shaped learner (starts strong, declines, recovers)"""
+        statements = []
+        current_date = start_date
+        # Get only the learning materials without subcourse structure
+        uncompleted_materials = {material for subcourse in self.course_structure.values() for material in
+                                 subcourse["materials"]}
+        completed_materials = set()
+        learning_sessions = {}
+
+        # Calculate phase boundaries (3 phases over 90 days)
+        phase_duration = timedelta(days=30)
+        phase1_end = start_date + phase_duration
+        phase2_end = phase1_end + phase_duration
+        end_date = start_date + timedelta(days=90)
+
+        while current_date < end_date and uncompleted_materials:
+            # Determine current phase and adjust engagement
+            if current_date < phase1_end:  # High engagement phase
+                engagement_multiplier = 1.2
+                study_frequency_modifier = 1
+            elif current_date < phase2_end:  # Low engagement phase
+                engagement_multiplier = 0.6
+                study_frequency_modifier = 0.5
+            else:  # Recovery phase
+                engagement_multiplier = 1.3
+                study_frequency_modifier = 1.2
+
+            # Select material
+            material = random.choice(list(uncompleted_materials))
+
+            # Initialize learning sessions counter if needed
+            if material not in learning_sessions:
+                learning_sessions[material] = 0
+
+            # Adjust engagement probability based on phase
+            phase_engagement_rate = min(1.0, profile["completion_rate"] * engagement_multiplier)
+
+            if random.random() < phase_engagement_rate:
+                # Adjust study duration based on phase
+                base_duration = profile["study_duration"]
+                duration = random.randint(
+                    int(base_duration * 0.5 * engagement_multiplier),
+                    int(base_duration * 1.5 * engagement_multiplier)
+                )
+
+                # Learning session
+                if random.random() < engagement_multiplier:
+                    material_statements, end_time = self.generate_learning_session(
+                        user_id, material, current_date, duration
+                    )
+                    learning_sessions[material] += 1
+                    statements.extend(material_statements)
+                    current_date = end_time
+
+                    # Add search behavior more frequently during high engagement phases
+                    if random.random() < (0.4 * engagement_multiplier):
+                        statements.append(self.generate_statement(
+                            user_id, "searched", material, current_date
+                        ))
+
+                    # Test taking probability increases with sessions and engagement
+                    test_probability = self.calculate_test_probability(learning_sessions[material],
+                                                                       profile) * engagement_multiplier
+
+                    if random.random() < test_probability:
+                        # Calculate test score based on sessions and phase
+                        session_bonus = min(0.2, 0.05 * learning_sessions[material])
+                        difficulty_decimal = self.get_difficulty_decimal(material)
+                        base_performance = profile["test_performance"] * engagement_multiplier
+
+                        test_score = random.uniform(
+                            base_performance * 0.8 - difficulty_decimal,
+                            base_performance * 1.2 - difficulty_decimal
+                        ) + session_bonus
+                        test_score = min(1.0, test_score)
+
+                        # Generate test statements
+                        current_date += timedelta(minutes=random.randint(10, 60))
+                        test_statements = self.generate_test_session(
+                            user_id, material, current_date, test_score
+                        )
+                        statements.extend(test_statements)
+
+                        # Handle test completion
+                        if test_score >= self.test_pass_threshold:
+                            uncompleted_materials.remove(material)
+                            completed_materials.add(material)
+
+                        # Add rating behavior
+                        if random.random() < (0.4 * engagement_multiplier):
+                            current_date += timedelta(minutes=random.randint(3, 10))
+                            statements.append(self.generate_statement(
+                                user_id, "rated", material, current_date
+                            ))
+
+            # Adjust time advancement based on phase
+            base_advance = 7 / profile["study_frequency"]
+            phase_advance = base_advance / study_frequency_modifier
+            current_date = self.get_next_study_date(
+                current_date + timedelta(days=random.uniform(0.5 * phase_advance, 1.5 * phase_advance)),
+                profile
+            )
 
         return statements
     
