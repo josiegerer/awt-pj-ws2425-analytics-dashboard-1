@@ -352,13 +352,6 @@ class XAPIGenerator:
                     score=test_score
                 ))
 
-                # Possibly add rating after test
-                if random.random() < 0.4:  # 40% chance to rate test
-                    rate_time = test_completion_time + timedelta(minutes=random.randint(1, 5))
-                    statements.append(self.generate_statement(
-                        user_id, "rated", test_name, rate_time
-                ))
-
                 verb = "completed" if test_score >= self.test_pass_threshold else "failed"
                 statements.append(self.generate_statement(
                     user_id, verb, f"Test: {material}",
@@ -486,6 +479,14 @@ class XAPIGenerator:
             else:  # Recovery phase
                 engagement_multiplier = 1.3
                 study_frequency_modifier = 1.2
+
+            # Randomly search for any material (including completed ones)
+            if random.random() < (0.4 * engagement_multiplier):
+                search_material = random.choice(list(uncompleted_materials | completed_materials))
+                statements.append(self.generate_statement(
+                    user_id, "searched", search_material, current_date
+            ))
+            current_date += timedelta(minutes=random.randint(2, 5))
 
             # Select material
             material = random.choice(list(uncompleted_materials))
