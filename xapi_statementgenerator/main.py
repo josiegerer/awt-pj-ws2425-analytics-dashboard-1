@@ -296,6 +296,14 @@ class XAPIGenerator:
         while not test_passed:
             session_count += 1
 
+
+            # Possibly add search behavior before learning session
+            if random.random() < 0.4:  # 40% chance to search
+                statements.append(self.generate_statement(
+                    user_id, "searched", material, current_date
+            ))
+            current_date += timedelta(minutes=random.randint(2, 5))
+
             # Learning session
             duration = random.randint(
                 int(profile["study_duration"] * 0.8),
@@ -313,6 +321,14 @@ class XAPIGenerator:
                 user_id, "exited", material, exit_time,
                 duration=duration
             ))
+
+            # Possibly add rating after learning session
+            if random.random() < 0.3:  # 30% chance to rate learning material
+                rate_time = exit_time + timedelta(minutes=random.randint(1, 5))
+                statements.append(self.generate_statement(
+                    user_id, "rated", material, rate_time
+            ))
+            exit_time = rate_time
 
             # Decide whether to take test
             test_probability = self.calculate_test_probability(session_count, profile)
@@ -334,6 +350,13 @@ class XAPIGenerator:
                 statements.append(self.generate_statement(
                     user_id, "scored", f"Test: {material}", test_time,
                     score=test_score
+                ))
+
+                # Possibly add rating after test
+                if random.random() < 0.4:  # 40% chance to rate test
+                    rate_time = test_completion_time + timedelta(minutes=random.randint(1, 5))
+                    statements.append(self.generate_statement(
+                        user_id, "rated", test_name, rate_time
                 ))
 
                 verb = "completed" if test_score >= self.test_pass_threshold else "failed"
