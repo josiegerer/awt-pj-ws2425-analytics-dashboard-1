@@ -275,13 +275,14 @@ class XAPIGenerator:
 
     def get_next_study_date(self, current_date, profile, diminished_factor=1.0):
         """Calculate the next study date based on user's frequency and preferences"""
-        days_until_next = random.randint(1, 7 // profile["study_frequency"]*diminished_factor)
+        # Convert to integer using floor division
+        days_until_next = random.randint(1, int(7 // profile["study_frequency"] * diminished_factor) or 1)
         next_date = current_date + timedelta(days=days_until_next)
 
         # Set time within user's preferred study window
         hour = random.randint(
-            profile["preferred_study_time"]["start_hour"],
-            profile["preferred_study_time"]["end_hour"]
+        profile["preferred_study_time"]["start_hour"],
+        profile["preferred_study_time"]["end_hour"]
         )
         minute = random.randint(0, 59)
 
