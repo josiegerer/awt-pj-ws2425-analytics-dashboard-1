@@ -1,7 +1,3 @@
-Certainly! Here's a more refined version of the provided text:
-
----
-
 # AWT Project WS24/25: Adaptive Learning Analytics Dashboard
 
 ## Project Overview
