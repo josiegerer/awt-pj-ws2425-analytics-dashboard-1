@@ -211,7 +211,8 @@ class XAPIGenerator:
             }
         }
     
-
+    def generate_statement_with_context(self,user_id, verb, activity, timestamp, score=None, duration=None, rating=None):
+        return self.add_instructor_context(self.generate_statement(user_id, verb, activity, timestamp, score, duration, rating), activity)
 
     def generate_statement(self, user_id, verb, activity, timestamp, score=None, duration=None, rating=None):
         """Generate a single xAPI statement"""
@@ -277,7 +278,10 @@ class XAPIGenerator:
         """Calculate the next study date based on user's frequency and preferences"""
         # Convert to integer using floor division
         days_until_next = random.randint(1, int(7 // profile["study_frequency"] * diminished_factor) or 1)
-        next_date = current_date + timedelta(days=days_until_next)
+        try:
+            next_date = current_date + timedelta(days=days_until_next)
+        except OverflowError:
+            next_date = datetime.max
 
         # Set time within user's preferred study window
         hour = random.randint(
@@ -297,10 +301,9 @@ class XAPIGenerator:
         while not test_passed:
             session_count += 1
 
-
             # Possibly add search behavior before learning session
             if random.random() < 0.4:  # 40% chance to search
-                statements.append(self.generate_statement(
+                statements.append(self.generate_statement_with_context(
                     user_id, "searched", material, current_date
             ))
             current_date += timedelta(minutes=random.randint(2, 5))
@@ -312,13 +315,13 @@ class XAPIGenerator:
             )
 
             # Initialize material
-            statements.append(self.generate_statement(
+            statements.append(self.generate_statement_with_context(
                 user_id, "initialized", material, current_date
             ))
 
             # Exit material
             exit_time = current_date + timedelta(minutes=duration)
-            statements.append(self.generate_statement(
+            statements.append(self.generate_statement_with_context(
                 user_id, "exited", material, exit_time,
                 duration=duration
             ))
@@ -326,10 +329,9 @@ class XAPIGenerator:
             # Possibly add rating after learning session
             if random.random() < 0.3:  # 30% chance to rate learning material
                 rate_time = exit_time + timedelta(minutes=random.randint(1, 5))
-                statements.append(self.generate_statement(
-                    user_id, "rated", material, rate_time
-            ))
-            exit_time = rate_time
+                statements.append(self.generate_statement_with_context(
+                    user_id, "rated", material, rate_time))
+                exit_time = rate_time
 
             # Decide whether to take test
             test_probability = self.calculate_test_probability(session_count, profile)
@@ -348,13 +350,13 @@ class XAPIGenerator:
                 test_score = min(1.0, test_score)
 
                 # Generate test statements
-                statements.append(self.generate_statement(
+                statements.append(self.generate_statement_with_context(
                     user_id, "scored", f"Test: {material}", test_time,
                     score=test_score
                 ))
 
                 verb = "completed" if test_score >= self.test_pass_threshold else "failed"
-                statements.append(self.generate_statement(
+                statements.append(self.generate_statement_with_context(
                     user_id, verb, f"Test: {material}",
                     test_time + timedelta(minutes=random.randint(15, 30)),
                     score=test_score
@@ -378,13 +380,13 @@ class XAPIGenerator:
         statements = []
 
         # Initialize learning material
-        statements.append(self.generate_statement(
+        statements.append(self.generate_statement_with_context(
             user_id, "initialized", material, timestamp
         ))
 
         # Exit learning material
         exit_time = timestamp + timedelta(minutes=duration)
-        statements.append(self.generate_statement(
+        statements.append(self.generate_statement_with_context(
             user_id, "exited", material, exit_time,
             duration=duration
         ))
@@ -484,7 +486,8 @@ class XAPIGenerator:
             # Randomly search for any material (including completed ones)
             if random.random() < (0.4 * engagement_multiplier):
                 search_material = random.choice(list(uncompleted_materials | completed_materials))
-                statements.append(self.generate_statement(
+                current_date += timedelta(minutes=random.randint(1, 10))
+                statements.append(self.generate_statement_with_context(
                     user_id, "searched", search_material, current_date
             ))
             current_date += timedelta(minutes=random.randint(2, 5))
@@ -518,7 +521,8 @@ class XAPIGenerator:
 
                     # Add search behavior more frequently during high engagement phases
                     if random.random() < (0.4 * engagement_multiplier):
-                        statements.append(self.generate_statement(
+                        current_date += timedelta(minutes=random.randint(3, 10))
+                        statements.append(self.generate_statement_with_context(
                             user_id, "searched", material, current_date
                         ))
 
@@ -553,8 +557,8 @@ class XAPIGenerator:
                         # Add rating behavior
                         if random.random() < (0.4 * engagement_multiplier):
                             current_date += timedelta(minutes=random.randint(3, 10))
-                            statements.append(self.generate_statement(
-                                user_id, "rated", material, current_date
+                            statements.append(self.generate_statement_with_context(
+                                user_id, "rated", material, current_date,rating=random.randint(1, 5)
                             ))
 
             # Adjust time advancement based on phase
@@ -604,11 +608,19 @@ class XAPIGenerator:
                     learning_sessions[material] += 1
                     current_date = end_time 
                     statements.extend(material_statements)
+                    
+                    if random.random() < 0.05:
+                       current_date += timedelta(minutes=random.randint(3, 10))
+                       statements.append(self.generate_statement_with_context(
+                        user_id, "rated", material, current_date,rating=random.randint(1, 5)
+                    ))
+                    
                 
 
                 # Occasionally add "searched" behavior
                 if random.random() < 0.4:
-                    statements.append(self.generate_statement(
+                    current_date += timedelta(minutes=random.randint(3, 10))
+                    statements.append(self.generate_statement_with_context(
                         user_id, "searched", material, current_date
                     ))
 
@@ -635,8 +647,8 @@ class XAPIGenerator:
                     
                     if random.random() < 0.4:
                        current_date += timedelta(minutes=random.randint(3, 10))
-                       statements.append(self.generate_statement(
-                        user_id, "rated", material, current_date
+                       statements.append(self.generate_statement_with_context(
+                        user_id, "rated", material, current_date,rating=random.randint(1, 5)
                     ))
 
             # Advance time based on study frequency
@@ -692,7 +704,6 @@ class XAPIGenerator:
         diminishing_rate = 0.9  # Motivation diminishes by 10% each cycle
 
         while current_date < start_date + timedelta(days=90):  # Simulate up to 3 months
-            print(uncompleted_materials)
             if not uncompleted_materials:
                 # If all materials are completed or drive is too low, end simulation
                 break
@@ -715,6 +726,18 @@ class XAPIGenerator:
                     learning_sessions[material] += 1
                     
                 statements.extend(material_statements)
+                
+                if random.random() > 0.4 * diminishing_factor:
+                    current_date += timedelta(minutes=random.randint(3, 10))
+                    statements.append(self.generate_statement_with_context(
+                        user_id, "rated", material, current_date, rating=random.randint(1, 5)
+                    ))
+                
+                if random.random() > 0.4 * diminishing_factor:
+                    current_date += timedelta(minutes=random.randint(3, 10))
+                    statements.append(self.generate_statement_with_context(
+                        user_id, "searched", material, current_date
+                    ))
 
 
                 if random.random() < self.calculate_test_probability(learning_sessions[material], profile):
@@ -733,6 +756,12 @@ class XAPIGenerator:
                         user_id, material, end_time, test_score
                     )
                     statements.extend(test_statements)
+                    
+                    if random.random() > 0.4 * diminishing_factor:
+                        current_date += timedelta(minutes=random.randint(3, 10))
+                        statements.append(self.generate_statement_with_context(
+                            user_id, "rated", material, current_date, rating=random.randint(1, 5)
+                        ))
 
                     if test_score >= self.test_pass_threshold:
                         uncompleted_materials.remove(material)
@@ -764,7 +793,7 @@ def generate_dataset(num_users=5, output_file="xapi_statements1.json"):
         start_date = datetime.now() - timedelta(days=random.randint(0, 90))
         profile = generator.generate_user_profile()
 
-        user_statements = generator.generate_user_journey_of_inconsistent_learner(user_id, start_date, profile)
+        user_statements = generator.generate_user_journey_of_ushaped_learner(user_id, start_date, profile)
         all_statements.extend(user_statements)
 
     # Sort by timestamp
