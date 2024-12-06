@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'lti_provider',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,26 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LTI_TOOL_CONFIGURATION = {
+    'title': '<your lti provider title>',
+    'description': '<your description>',
+    'launch_url': 'lti/',
+    'embed_url': '<the view endpoint for an embed tool>' or '',
+    'embed_icon_url': '<the icon url to use for an embed tool>' or '',
+    'embed_tool_id': '<the embed tool id>' or '',
+    'landing_url': '<the view landing page>',
+    'course_aware': False,
+    'course_navigation': True,
+    'new_tab': True,
+    'frame_width': 100,
+    'frame_height': 200,
+    'custom_fields': {} ,
+    'allow_ta_access': False,
+    'assignments': {
+        '<name>': '<landing_url>',
+        '<name>': '<landing_url>',
+        '<name>': '<landing_url>',
+    },
+}

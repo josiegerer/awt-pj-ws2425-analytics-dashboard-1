@@ -9,3 +9,4 @@ psycopg2
 Pillow
 django-allauth
 requests
+django-lti-provider

@@ -40,7 +40,7 @@ services:
       - ${PWD}/analyticDashboardDjangoApp:/analyticDashboardDjangoApp  
     command: >
       bash -c "python3 /analyticDashboardDjangoApp/manage.py runserver 0.0.0.0:${DJANGO_INSIDE_PORT}"
-
+  #Adding Frontend service
 volumes:
   pgdata:
   node_modules:
