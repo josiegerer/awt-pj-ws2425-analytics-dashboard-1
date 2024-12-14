@@ -1,5 +1,5 @@
 """
-URL configuration for analyticDashboardDjangoApp project.
+URL configuration for analyticDashboardDjangoApp project
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -14,6 +14,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
+## Adding Function so the administator of LMS can configure the LRS tool
+## Two options are available: Using our own LRS or using an external LRS
+
+## Creating endpoints for own LRS get and post requests 
+
+
+
 from django.contrib import admin
 from django.urls import include, path
 

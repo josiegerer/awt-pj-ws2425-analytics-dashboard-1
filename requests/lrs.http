@@ -1,0 +1,120 @@
+## Download extension to use this file : "httpYac - Rest Client" in Visual Studio Code
+## The LRS database https://github.com/yetanalytics/lrsql
+
+### Authorization by token: Retrieve and save token
+POST http://localhost:8080/admin/account/login
+Content-Type: application/json
+
+{
+    "username": "my_username",
+    "password": "my_password"
+}
+> {%
+    client.global.set("json_web_token", response.body["json-web-token"]);
+%}
+
+### IF the token does not work, try to get a new one
+### get api-key and secret-key and set scope
+### You can also login to the admin console and create a new token at  http://localhost:8080
+POST http://localhost:8080/admin/creds
+Content-Type: application/json
+Authorization: Bearer {{json_web_token}}
+
+{
+  "scopes": [
+    "all",
+    "statements/write",
+    "statements/read",
+    "all/read",
+    "state",
+    "activities_profile",
+    "agents_profile",
+    "statements/read/mine"
+  ]
+}
+
+{
+  "scopes": [
+    "all",
+    "statements/write",
+    "statements/read",
+    "all/read",
+    "state",
+    "activities_profile",
+    "agents_profile",
+    "statements/read/mine"
+  ]
+}
+> {%
+    // Get API keys from the response body
+    const apiKey = response.body["api-key"];
+    const secretKey = response.body["secret-key"];
+
+    console.log("API Key: " + apiKey);
+    console.log("Secret Key: " + secretKey);
+
+    // Combine them and Base64 encode
+    const token = btoa(apiKey + ":" + secretKey);
+
+    // Store the token globally
+    client.global.set("xapi_token", token);
+
+    // Debugging: Log the generated token
+    console.log("Encoded Token: " + token);
+%}
+
+### Create a new statement Dokumentation: https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Communication.md#212-post-statements
+POST http://localhost:8080/xapi/statements
+Content-Type: application/json
+Authorization: Basic {{xapi_token}}
+X-Experience-API-Version: 1.0.3
+{
+  "id": "8564c948-693e-492f-b544-f875f43f6178",
+  "actor": {
+    "objectType": "Agent",
+    "name": "User_1",
+    "mbox": "mailto:user_1@example.com"
+  },
+  "verb": {
+    "id": "http://adlnet.gov/expapi/verbs/initialized",
+    "display": {
+      "en": "initialized",
+      "de-DE": "initialized"
+    }
+  },
+  "object": {
+    "id": "http://example.com/activities/Krankheits-_und_Schädlingsbekämpfung_durchführen",
+    "definition": {
+      "name": {
+        "en": "Disease and Pest Control",
+        "de-DE": "Krankheits- und Schädlingsbekämpfung durchführen"
+      }
+    }
+  },
+  "timestamp": "2024-11-10T02:27:23.411Z",
+  "context": {
+    "instructor": {
+      "name": "instructor2",
+      "mbox": "mailto:instructor2@example.com"
+    },
+    "contextActivities": {
+      "parent": [
+        {
+          "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+          "definition": {
+            "name": {
+              "en": "Basics of Tree Care",
+              "de-DE": "Grundlagen der Baumpflege"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+### Retrieve statements Dokumentation: https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Communication.md#213-get-statements
+GET http://localhost:8080/xapi/statements?agent={"mbox":"mailto:user_1@example.com"}
+Content-Type: application/json
+Authorization: Basic {{xapi_token}}
+X-Experience-API-Version: 1.0.3
