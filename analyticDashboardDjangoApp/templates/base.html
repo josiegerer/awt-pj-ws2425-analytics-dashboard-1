@@ -1,0 +1,31 @@
+{% load django_bootstrap5 static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>djangoltiproviderexample: {% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="djangoltiproviderexample">
+    <meta name="author" content="Columbia University CTL">
+
+    {% bootstrap_css %}
+
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
+    {% block css %}{% endblock %}
+</head>
+<body class="{% block bodyclass %}{% endblock %}" id="{% block bodyid %}{% endblock %}">
+
+    <div class="container" id="outer-container">
+
+    <div style="margin-top: 20px; margin-bottom: 20px; border-bottom: 1px solid gray">
+        <img style="width: 300px" src="{% static 'img/logo-ctl-black.png' %}" />
+    </div>
+
+    {% block content %}
+    {% endblock %}
+
+    {% bootstrap_javascript %}
+
+    {% block js %}{% endblock %}
+</body>
+</html>

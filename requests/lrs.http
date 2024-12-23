@@ -13,25 +13,12 @@ Content-Type: application/json
     client.global.set("json_web_token", response.body["json-web-token"]);
 %}
 
-### IF the token does not work, try to get a new one
 ### get api-key and secret-key and set scope
 ### You can also login to the admin console and create a new token at  http://localhost:8080
+
 POST http://localhost:8080/admin/creds
 Content-Type: application/json
 Authorization: Bearer {{json_web_token}}
-
-{
-  "scopes": [
-    "all",
-    "statements/write",
-    "statements/read",
-    "all/read",
-    "state",
-    "activities_profile",
-    "agents_profile",
-    "statements/read/mine"
-  ]
-}
 
 {
   "scopes": [

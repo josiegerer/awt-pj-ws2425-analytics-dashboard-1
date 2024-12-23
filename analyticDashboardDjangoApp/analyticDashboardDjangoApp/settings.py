@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from datetime import timedelta
 import os
 from pathlib import Path
 
@@ -25,29 +26,51 @@ SECRET_KEY = 'django-insecure-_vpe_zb%6i09*rd6+7mq4y%ug=*!hhauf3w8=@_u)z8yknj!#y
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*", "https://sandbox.moodledemo.net", "http://localhost", "localhost"]
 
-
+CSRF_TRUSTED_ORIGINS = ["https://sandbox.moodledemo.net", "http://localhost"]
 # Application definition
+CORS_ALLOWED_ORIGINS = [
+    "https://sandbox.moodledemo.net",
+    "http://localhost",
+]
+X_FRAME_OPTIONS = 'ALLOWALL'
 
+CORS_ALLOW_CREDENTIALS = True
+
+LTI_ISSUER = "http://localhost"
+
+
+CORS_ALLOW_HEADERS = [
+    'content-type',
+]
+
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'DELETE',
+    'OPTIONS',
+]
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
     'django.contrib.staticfiles',
-    'lti_provider',
+    'django.contrib.messages',
+    'django.contrib.admin',
+    'rest_framework_simplejwt.token_blacklist',
+    'lti_provider'
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'analyticDashboardDjangoApp.urls'
@@ -55,18 +78,30 @@ ROOT_URLCONF = 'analyticDashboardDjangoApp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, "templates"),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.template.context_processors.request',
+                'django.contrib.messages.context_processors.messages'
             ],
         },
     },
 ]
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # If you have a custom static folder
+]
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # For collecting static files in production
+
 
 WSGI_APPLICATION = 'analyticDashboardDjangoApp.wsgi.application'
 
@@ -81,7 +116,7 @@ DATABASES = {
         "NAME": "database",
         "USER": "postgres",
         "PASSWORD": "postgres",
-        "HOST": "postgresdb",
+        "HOST": "localhost", #use postgresdb if you are using docker or use localhost if you are running locally
         "PORT": "5432",
     },
 }
@@ -105,6 +140,43 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=180),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=50),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': False,
+
+    'ALGORITHM': 'HS256',
+
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+    'JWK_URL': None,
+    'LEEWAY': 0,
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+    'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
+
+    'JTI_CLAIM': 'jti',
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+}
+
+AUTHENTICATION_BACKENDS = [
+  'django.contrib.auth.backends.ModelBackend',
+  'lti_provider.auth.LTIBackend',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -131,23 +203,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 LTI_TOOL_CONFIGURATION = {
-    'title': '<your lti provider title>',
-    'description': '<your description>',
-    'launch_url': 'lti/',
-    'embed_url': '<the view endpoint for an embed tool>' or '',
-    'embed_icon_url': '<the icon url to use for an embed tool>' or '',
-    'embed_tool_id': '<the embed tool id>' or '',
-    'landing_url': '<the view landing page>',
+    'title': 'Learning Analytics Dashboard',
+    'description': 'This is a dashboard for learning analytics.',
+    'launch_url': 'lti/launch/',  # URL to launch the LTI tool
+    'embed_url': 'https://www.bootspruefung.de/',  # URL where the Vue app is hosted (or a static URL in case of serving from Django)
+    'embed_icon_url': '<icon-url>',  # Optionally, add an icon
+    'landing_url': 'https://www.bootspruefung.de/',  # URL to the landing page of your Vue app
     'course_aware': False,
     'course_navigation': True,
-    'new_tab': True,
+    'new_tab': False,
     'frame_width': 100,
     'frame_height': 200,
-    'custom_fields': {} ,
+    'custom_fields': {},
     'allow_ta_access': False,
     'assignments': {
-        '<name>': '<landing_url>',
-        '<name>': '<landing_url>',
-        '<name>': '<landing_url>',
+        'Assignment 1': 'http://your-vue-app-url/assignment1',
+        'Assignment 2': 'http://your-vue-app-url/assignment2',
     },
 }

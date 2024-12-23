@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytic Dashboard</title>
+    <link href="{% static 'css/main.1498a069.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- Example JavaScript to set the token in cookies -->
+    <script>
+        // Function to set a cookie
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/; Secure; SameSite=Lax";
+        }
+
+        // Get the token passed from Django's context
+        const token = "{{ token }}";  // This will inject the token value into the JS
+        
+        // Set the token in the cookies
+        setCookie("auth_token", token, 7);  // Token will expire in 7 days
+    </script>
+
+    <!-- Load JS -->
+    <script src="{% static 'js/main.a7047cd2.js' %}"></script>
+</body>
+</html>

@@ -9,4 +9,5 @@ psycopg2
 Pillow
 django-allauth
 requests
-django-lti-provider
+django-lti-provider @ git+https://github.com/ccnmtl/django-lti-provider@main
+djangorestframework-simplejwt

@@ -24,9 +24,14 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
+from lti import views
+from authentification.views import refresh_token_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('lti/launch/', views.launch),
+    path('lti/login/', views.login, name='lti-login'),
     path('lti/', include('lti_provider.urls')),
+    path('token/refresh/', refresh_token_view, name='token_refresh'),
 
 ]
