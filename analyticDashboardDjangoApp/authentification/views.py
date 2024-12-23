@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import json
 import jwt
 from django.http import JsonResponse
 
@@ -8,7 +9,6 @@ from django.views.decorators.http import require_POST
 from django.conf import settings
 from functools import wraps
 
-@csrf_exempt
 @require_POST
 def refresh_token_view(request):
     """
@@ -16,7 +16,8 @@ def refresh_token_view(request):
     """
     try:
         # Parse the refresh token from the request body
-        refresh_token = request.POST.get('refresh_token')
+        refresh_token = request.POST.get('refresh_token') or json.loads(request.body.decode('utf-8')).get('refresh_token')
+        print("Received refresh token:", refresh_token)
         decoded_refresh_token = jwt.decode(refresh_token, settings.SECRET_KEY, algorithms=['HS256'])
 
         # Verify the token is not expired
