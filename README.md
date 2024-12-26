@@ -45,19 +45,27 @@ The project can be run using **WSL (Windows Subsystem for Linux)** or **Ubuntu**
      ```bash  
      docker-compose -f docker-compose-without-django.yml up  
      ```  
-   - Start the Django service separately in a terminal:  
-     ```bash  
-     python3 manage.py runserver 0.0.0.0:8000  
-     ```  
-     *Note:* You may need to update the database settings in `settings.py` to use the host `"localhost"`.  
 
-2. **Apply Migrations:**  
+2. **Install Django Dependencies:**  
+   Navigate to the Django application directory (e.g., `analyticDashboardDjangoApp`) and install the required dependencies:  
+   ```bash  
+   pip install -r requirements.txt  
+   ```  
+
+3. **Start the Django Service:**  
+   Run the Django development server:  
+   ```bash  
+   python3 manage.py runserver 0.0.0.0:8000  
+   ```  
+   *Note:* You may need to update the database settings in `settings.py` to use the host `"localhost"`.  
+
+4. **Apply Migrations:**  
    Run the following command to ensure the database schema is up-to-date:  
    ```bash  
    python manage.py migrate  
    ```  
 
-3. **Start the LMS (Moodle):**  
+5. **Start the LMS (Moodle):**  
    - Navigate to the LMS folder and start Moodle with:  
      ```bash  
      docker-compose up  
@@ -67,7 +75,7 @@ The project can be run using **WSL (Windows Subsystem for Linux)** or **Ubuntu**
        - **Username:** `user`  
        - **Password:** `bitnami`  
 
-4. **Configure LTI Tool in Moodle:**  
+6. **Configure LTI Tool in Moodle:**  
    - Go to **Site Administration** > **Plugins** > **Manage Tools**.  
    - Select **Configure a Tool Manually** and enter the following:  
      - **Tool Name:** Adaptive Analytic Dashboard  
@@ -90,7 +98,7 @@ The project can be run using **WSL (Windows Subsystem for Linux)** or **Ubuntu**
 
    - Save the configuration.  
 
-5. **Create and Test a Course in Moodle:**  
+7. **Create and Test a Course in Moodle:**  
    - Go to **My Courses** and create a course.  
    - Enable **Edit Mode** and navigate to **More** > **LTI External Tools**.  
    - Ensure the tool is visible in the activity chooser by activating: **Show in Activity Chooser**.  
