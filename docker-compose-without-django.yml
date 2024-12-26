@@ -23,29 +23,29 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     
 
-  djangoapp:
-    container_name: analytic_dashboard_djangoapp
-    build:
-      context: ${PWD}/analyticDashboardDjangoApp
-      dockerfile: Dockerfile
-      target: dev
-      args:
-        PATH_WEBCENTRAL_SRC: ${PWD}
-        DJANGO_UNPRIVILEGED_USER: ${DJANGO_UNPRIVILEGED_USER}
-    ports:
-      - ${DJANGO_OUTSIDE_PORT}:${DJANGO_INSIDE_PORT}
-    depends_on:
-      postgresdb:
-        condition: service_healthy
-    env_file:
-      - .env
-    environment:
-      - TZ=Europe/Berlin
-      - DJANGO_LISTEN_PORT=${DJANGO_INSIDE_PORT}
-    volumes:
-      - ${PWD}/analyticDashboardDjangoApp:/analyticDashboardDjangoApp  
-    command: >
-      bash -c "python3 /analyticDashboardDjangoApp/manage.py runserver 0.0.0.0:${DJANGO_INSIDE_PORT}"
+  # djangoapp:
+  #   container_name: analytic_dashboard_djangoapp
+  #   build:
+  #     context: ${PWD}/analyticDashboardDjangoApp
+  #     dockerfile: Dockerfile
+  #     target: dev
+  #     args:
+  #       PATH_WEBCENTRAL_SRC: ${PWD}
+  #       DJANGO_UNPRIVILEGED_USER: ${DJANGO_UNPRIVILEGED_USER}
+  #   ports:
+  #     - ${DJANGO_OUTSIDE_PORT}:${DJANGO_INSIDE_PORT}
+  #   depends_on:
+  #     postgresdb:
+  #       condition: service_healthy
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - TZ=Europe/Berlin
+  #     - DJANGO_LISTEN_PORT=${DJANGO_INSIDE_PORT}
+  #   volumes:
+  #     - ${PWD}/analyticDashboardDjangoApp:/analyticDashboardDjangoApp  
+  #   command: >
+  #     bash -c "python3 /analyticDashboardDjangoApp/manage.py runserver 0.0.0.0:${DJANGO_INSIDE_PORT}"
 
   yetanalytics_lrsql:
     image: yetanalytics/lrsql:latest

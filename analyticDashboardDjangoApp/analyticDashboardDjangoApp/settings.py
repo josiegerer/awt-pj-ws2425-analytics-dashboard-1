@@ -61,7 +61,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.messages',
     'django.contrib.admin',
-    'rest_framework_simplejwt.token_blacklist',
     'lti_provider'
 ]
 

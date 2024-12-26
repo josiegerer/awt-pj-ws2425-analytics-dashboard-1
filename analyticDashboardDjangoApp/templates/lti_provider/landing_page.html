@@ -10,7 +10,7 @@
 <body>
     <div id="root"></div>
 
-    <!-- Example JavaScript to set the token in cookies -->
+    <!-- Example JavaScript to set the tokens in cookies -->
     <script>
         // Function to set a cookie
         function setCookie(name, value, days) {
@@ -23,11 +23,13 @@
             document.cookie = name + "=" + (value || "") + expires + "; path=/; Secure; SameSite=Lax";
         }
 
-        // Get the token passed from Django's context
-        const token = "{{ token }}";  // This will inject the token value into the JS
+        // Get the tokens passed from Django's context
+        const accessToken = "{{ access_token }}";  // Inject the access token
+        const refreshToken = "{{ refresh_token }}";  // Inject the refresh token
         
-        // Set the token in the cookies
-        setCookie("auth_token", token, 7);  // Token will expire in 7 days
+        // Set the tokens in the cookies
+        setCookie("auth_token", accessToken, 1);  // Access token expires in 1 day
+        setCookie("refresh_token", refreshToken, 30);  // Refresh token expires in 30 days
     </script>
 
     <!-- Load JS -->
