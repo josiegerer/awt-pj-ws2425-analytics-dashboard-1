@@ -153,5 +153,3 @@ To start or interact with the backend, use:
 ```  
 
 ---
-
-This version now includes troubleshooting steps for addressing specific LTI tool configuration errors. Let me know if there’s anything else you’d like to add!  
