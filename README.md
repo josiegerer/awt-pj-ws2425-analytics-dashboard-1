@@ -98,6 +98,46 @@ The project can be run using **WSL (Windows Subsystem for Linux)** or **Ubuntu**
 
 ---
 
+### **Troubleshooting LTI Tool Errors**  
+
+If the tool fails to work and an error like the following appears:  
+
+> **Exception at /lti/login/**  
+> **iss http://localhost:8081 [client_id=aX2hJ5kFnsptQgj] not found in settings**  
+
+Follow these steps to resolve the issue:  
+
+1. Open the configuration file located at:  
+   ```
+   analyticDashboardDjangoApp/configs/config.json  
+   ```  
+
+2. Locate the section for the tool settings, which looks like this:  
+   ```json  
+   "http://localhost:8081": [{  
+       "default": false,  
+       "client_id": "aX2hJ5kFnsptQj",  
+       "auth_login_url": "http://localhost:8081/mod/lti/auth.php",  
+       "auth_token_url": "http://localhost:8081/mod/lti/token.php",  
+       "key_set_url": "http://localhost:8081/mod/lti/certs.php",  
+       "key_set": null,  
+       "private_key_file": "private.key",  
+       "public_key_file": "public.key",  
+       "deployment_ids": ["2"]  
+   }]  
+   ```  
+
+3. Update the **`client_id`** or **`deployment_ids`** to match the correct values from Moodle.  
+
+4. Save the file and restart the Django service:  
+   ```bash  
+   python3 manage.py runserver 0.0.0.0:8000  
+   ```  
+
+5. Retry the integration.  
+
+---
+
 ### **Database Commands**  
 
 Use the following commands to interact with the database:  
@@ -114,4 +154,4 @@ To start or interact with the backend, use:
 
 ---
 
-This version now includes the database migration step under **Testing LTI Integration** for clarity and completeness. Let me know if you need further refinements!  
+This version now includes troubleshooting steps for addressing specific LTI tool configuration errors. Let me know if there’s anything else you’d like to add!  
