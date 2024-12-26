@@ -137,12 +137,7 @@ Follow these steps to resolve the issue:
 
 3. Update the **`client_id`** or **`deployment_ids`** to match the correct values from Moodle.  
 
-4. Save the file and restart the Django service:  
-   ```bash  
-   python3 manage.py runserver 0.0.0.0:8000  
-   ```  
-
-5. Retry the integration.  
+4. Save the file 
 
 ---
 
