@@ -1,16 +1,17 @@
 {% load static %}
+<link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analytic Dashboard</title>
-    <link href="{% static 'css/main.1498a069.css' %}" rel="stylesheet">
+    <!-- Make sure the app CSS is included -->
+    <link href="{% static 'css/app.043bea51.css' %}" rel="stylesheet">
 </head>
 <body>
-    <div id="root"></div>
+    <div id="app"></div> <!-- Vue.js Root -->
 
-    <!-- Example JavaScript to set the tokens in cookies -->
     <script>
         // Function to set a cookie
         function setCookie(name, value, days) {
@@ -32,7 +33,9 @@
         setCookie("refresh_token", refreshToken, 30);  // Refresh token expires in 30 days
     </script>
 
-    <!-- Load JS -->
-    <script src="{% static 'js/main.a7047cd2.js' %}"></script>
+    <!-- Include chunk-vendors.js and app.js files -->
+    <script src="{% static 'js/chunk-vendors.5e517246.js' %}"></script>
+    <script src="{% static 'js/app.acaeda05.js' %}"></script>
 </body>
 </html>
+
