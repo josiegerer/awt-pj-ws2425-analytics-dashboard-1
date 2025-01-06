@@ -50,17 +50,25 @@ Authorization: Bearer {{json_web_token}}
     console.log("Encoded Token: " + token);
 %}
 
+### get api-key and secret-key and set scope
+### You can also login to the admin console and create a new token at  http://localhost:8080
+
+GET http://localhost:8080/admin/creds
+Content-Type: application/json
+Authorization: Bearer {{json_web_token}}
+
+
 ### Create a new statement Dokumentation: https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Communication.md#212-post-statements
 POST http://localhost:8080/xapi/statements
 Content-Type: application/json
 Authorization: Basic {{xapi_token}}
 X-Experience-API-Version: 1.0.3
 {
-  "id": "8564c948-693e-492f-b544-f875f43f6178",
+  "id": "9564c948-693e-492f-b544-f875f43f6178",
   "actor": {
     "objectType": "Agent",
-    "name": "User_1",
-    "mbox": "mailto:user_1@example.com"
+    "name": "Rasmy",
+    "mbox": "mailto:rasmy822@gmail.com"
   },
   "verb": {
     "id": "http://adlnet.gov/expapi/verbs/initialized",
@@ -101,7 +109,26 @@ X-Experience-API-Version: 1.0.3
 }
 
 ### Retrieve statements Dokumentation: https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Communication.md#213-get-statements
-GET http://localhost:8080/xapi/statements?agent={"mbox":"mailto:user_1@example.com"}
-Content-Type: application/json
-Authorization: Basic {{xapi_token}}
-X-Experience-API-Version: 1.0.3
+GET http://localhost:8000/lrs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwicm9sZXMiOlsiaHR0cDovL3B1cmwuaW1zZ2xvYmFsLm9yZy92b2NhYi9saXMvdjIvaW5zdGl0dXRpb24vcGVyc29uI0FkbWluaXN0cmF0b3IiLCJodHRwOi8vcHVybC5pbXNnbG9iYWwub3JnL3ZvY2FiL2xpcy92Mi9tZW1iZXJzaGlwI0luc3RydWN0b3IiLCJodHRwOi8vcHVybC5pbXNnbG9iYWwub3JnL3ZvY2FiL2xpcy92Mi9zeXN0ZW0vcGVyc29uI0FkbWluaXN0cmF0b3IiXSwiY29udGV4dF9pZCI6IjIiLCJleHAiOjE3MzYxMjUwODAsIm5hbWUiOiJBZG1pbiBVc2VyIiwiZW1haWwiOiJ1c2VyQGV4YW1wbGUuY29tIn0.HYclQQTVHFjFKfHMBwWhlZTG0v6JL8uCTlPgQCtFrFo
+GET http://localhost:8000/lrs??limit=1&from=01942d06-d8e3-895c-a0ad-e0395dd2e2bd
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwicm9sZXMiOlsiaHR0cDovL3B1cmwuaW1zZ2xvYmFsLm9yZy92b2NhYi9saXMvdjIvaW5zdGl0dXRpb24vcGVyc29uI0FkbWluaXN0cmF0b3IiLCJodHRwOi8vcHVybC5pbXNnbG9iYWwub3JnL3ZvY2FiL2xpcy92Mi9tZW1iZXJzaGlwI0luc3RydWN0b3IiLCJodHRwOi8vcHVybC5pbXNnbG9iYWwub3JnL3ZvY2FiL2xpcy92Mi9zeXN0ZW0vcGVyc29uI0FkbWluaXN0cmF0b3IiXSwiY29udGV4dF9pZCI6IjIiLCJleHAiOjE3MzYxMjUwODAsIm5hbWUiOiJBZG1pbiBVc2VyIiwiZW1haWwiOiJ1c2VyQGV4YW1wbGUuY29tIn0.HYclQQTVHFjFKfHMBwWhlZTG0v6JL8uCTlPgQCtFrFo
+
+GET http://localhost:8000/lrs/lastdays/90
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwicm9sZXMiOlsiaHR0cDovL3B1cmwuaW1zZ2xvYmFsLm9yZy92b2NhYi9saXMvdjIvaW5zdGl0dXRpb24vcGVyc29uI0FkbWluaXN0cmF0b3IiLCJodHRwOi8vcHVybC5pbXNnbG9iYWwub3JnL3ZvY2FiL2xpcy92Mi9tZW1iZXJzaGlwI0luc3RydWN0b3IiLCJodHRwOi8vcHVybC5pbXNnbG9iYWwub3JnL3ZvY2FiL2xpcy92Mi9zeXN0ZW0vcGVyc29uI0FkbWluaXN0cmF0b3IiXSwiY29udGV4dF9pZCI6IjIiLCJleHAiOjE3MzYxMjUwODAsIm5hbWUiOiJBZG1pbiBVc2VyIiwiZW1haWwiOiJ1c2VyQGV4YW1wbGUuY29tIn0.HYclQQTVHFjFKfHMBwWhlZTG0v6JL8uCTlPgQCtFrFo
+
+
+GET http://localhost:8000/lrs/attributes/actor
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwicm9sZXMiOlsiaHR0cDovL3B1cmwuaW1zZ2xvYmFsLm9yZy92b2NhYi9saXMvdjIvaW5zdGl0dXRpb24vcGVyc29uI0FkbWluaXN0cmF0b3IiLCJodHRwOi8vcHVybC5pbXNnbG9iYWwub3JnL3ZvY2FiL2xpcy92Mi9tZW1iZXJzaGlwI0luc3RydWN0b3IiLCJodHRwOi8vcHVybC5pbXNnbG9iYWwub3JnL3ZvY2FiL2xpcy92Mi9zeXN0ZW0vcGVyc29uI0FkbWluaXN0cmF0b3IiXSwiY29udGV4dF9pZCI6IjIiLCJleHAiOjE3MzYxMjUwODAsIm5hbWUiOiJBZG1pbiBVc2VyIiwiZW1haWwiOiJ1c2VyQGV4YW1wbGUuY29tIn0.HYclQQTVHFjFKfHMBwWhlZTG0v6JL8uCTlPgQCtFrFo
+
+GET http://localhost:8000/lrs/attributes/object
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwicm9sZXMiOlsiaHR0cDovL3B1cmwuaW1zZ2xvYmFsLm9yZy92b2NhYi9saXMvdjIvaW5zdGl0dXRpb24vcGVyc29uI0FkbWluaXN0cmF0b3IiLCJodHRwOi8vcHVybC5pbXNnbG9iYWwub3JnL3ZvY2FiL2xpcy92Mi9tZW1iZXJzaGlwI0luc3RydWN0b3IiLCJodHRwOi8vcHVybC5pbXNnbG9iYWwub3JnL3ZvY2FiL2xpcy92Mi9zeXN0ZW0vcGVyc29uI0FkbWluaXN0cmF0b3IiXSwiY29udGV4dF9pZCI6IjIiLCJleHAiOjE3MzYxMjUwODAsIm5hbWUiOiJBZG1pbiBVc2VyIiwiZW1haWwiOiJ1c2VyQGV4YW1wbGUuY29tIn0.HYclQQTVHFjFKfHMBwWhlZTG0v6JL8uCTlPgQCtFrFo
+
+GET http://localhost:8000/lrs/attributes/verb
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwicm9sZXMiOlsiaHR0cDovL3B1cmwuaW1zZ2xvYmFsLm9yZy92b2NhYi9saXMvdjIvaW5zdGl0dXRpb24vcGVyc29uI0FkbWluaXN0cmF0b3IiLCJodHRwOi8vcHVybC5pbXNnbG9iYWwub3JnL3ZvY2FiL2xpcy92Mi9tZW1iZXJzaGlwI0luc3RydWN0b3IiLCJodHRwOi8vcHVybC5pbXNnbG9iYWwub3JnL3ZvY2FiL2xpcy92Mi9zeXN0ZW0vcGVyc29uI0FkbWluaXN0cmF0b3IiXSwiY29udGV4dF9pZCI6IjIiLCJleHAiOjE3MzYxMjUwODAsIm5hbWUiOiJBZG1pbiBVc2VyIiwiZW1haWwiOiJ1c2VyQGV4YW1wbGUuY29tIn0.HYclQQTVHFjFKfHMBwWhlZTG0v6JL8uCTlPgQCtFrFo
+
+GET http://localhost:8000/lrs/learner/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwicm9sZXMiOlsiaHR0cDovL3B1cmwuaW1zZ2xvYmFsLm9yZy92b2NhYi9saXMvdjIvbWVtYmVyc2hpcCNMZWFybmVyIl0sImNvbnRleHRfaWQiOiIyIiwiZXhwIjoxNzM2MDQ3MzcxLCJuYW1lIjoiUmFzIG15IiwiZW1haWwiOiJyYXNteTgyMkBnbWFpbC5jb20ifQ.Xz5-KsDmyJwdNgpoI8p2S8amBwXpyLmFgsFjb2xszqg
+
+GET http://localhost:8000/lrs/instructor/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Iiwicm9sZXMiOlsiaHR0cDovL3B1cmwuaW1zZ2xvYmFsLm9yZy92b2NhYi9saXMvdjIvbWVtYmVyc2hpcCNJbnN0cnVjdG9yIl0sImNvbnRleHRfaWQiOiIyIiwiZXhwIjoxNzM2MTE5MzQ5LCJuYW1lIjoiSW5zdHJ1Y3RvciBUZXN0IiwiZW1haWwiOiJpbnN0cnVjdG9yQGdtYWlsLmNvbSJ9.V0ui92bR2MOzY66VlzjpFmIM065cL331JsdSPFiRZBw

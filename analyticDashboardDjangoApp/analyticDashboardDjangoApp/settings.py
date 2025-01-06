@@ -144,6 +144,9 @@ AUTHENTICATION_BACKENDS = [
   'django.contrib.auth.backends.ModelBackend',
   'lti_provider.auth.LTIBackend',
 ]
+LRS_URL= "http://localhost:8080"
+LRS_ADMIN_USERNAME="my_username"
+LRS_ADMIN_PASSWORD="my_password"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
