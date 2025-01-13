@@ -1,6 +1,6 @@
 ### **LTI Integration Testing Guide**
 
-You can test the LTI integration with Moodle either by **using Docker locally** or by **connecting to an external Moodle instance**. Below are the step-by-step instructions for both methods:
+You can test the LTI integration with Moodle either by **using Docker locally** or by **connecting to an external Moodle instance**. Below are the updated steps for both methods:
 
 ---
 
@@ -8,11 +8,12 @@ You can test the LTI integration with Moodle either by **using Docker locally** 
 
 If you'd like to run Moodle locally using Docker, follow the steps below:
 
-1. **Start Services:**
-   Launch the required services (PostgreSQL database and Learning Record Store) by running the following command:
+1. **Start Services (Moodle and Dependencies):**
+   Launch the necessary services, including the PostgreSQL database and Learning Record Store, using the following command:
    ```bash
    docker-compose -f docker-compose-with-local-docker-LMS.yml up
    ```
+   This will start Moodle and all required services, excluding Django.
 
 2. **Install Django Dependencies:**
    Navigate to your Django application directory (e.g., `analyticDashboardDjangoApp`) and install the required dependencies:
@@ -21,7 +22,7 @@ If you'd like to run Moodle locally using Docker, follow the steps below:
    ```
 
 3. **Start the Django Development Server:**
-   In a new terminal window, run the Django server:
+   In a new terminal window, start the Django server:
    ```bash
    python3 manage.py runserver 0.0.0.0:8000
    ```
@@ -33,19 +34,15 @@ If you'd like to run Moodle locally using Docker, follow the steps below:
    python manage.py migrate
    ```
 
-5. **Start Moodle:**
-   Navigate to the Moodle directory and start the Moodle container with the command:
-   ```bash
-   docker-compose up
-   ```
-   Access Moodle at: [http://localhost:8081](http://localhost:8081)
+5. **Access Moodle:**
+   Moodle is already running as part of the `docker-compose` setup. You can access Moodle at: [http://localhost:8081](http://localhost:8081)
 
    **Login credentials:**
    - **Username:** `user`
    - **Password:** `bitnami`
 
 6. **Configure the LTI Tool in Moodle:**
-   - In Moodle, go to **Site Administration** > **Plugins** > **Manage Tools**.
+   - Go to **Site Administration** > **Plugins** > **Manage Tools**.
    - Select **Configure a Tool Manually** and enter the following details:
      - **Tool Name:** Adaptive Analytic Dashboard
      - **Tool URL:** `http://localhost:8000/lti/launch/`
@@ -64,11 +61,12 @@ If you'd like to run Moodle locally using Docker, follow the steps below:
 
 7. **Create and Test a Course in Moodle:**
    - Go to **My Courses**, create a new course, and enable **Edit Mode**.
-   - Under **More** > **LTI External Tools**, check that the Adaptive Analytics Dashboard tool is listed in the activity chooser.
+   - Under **More** > **LTI External Tools**, verify that the Adaptive Analytics Dashboard tool is visible in the activity chooser.
    - Add the tool as an activity/resource in your course.
 
 8. **Verify Deployment ID and Client ID:**
-   - In Moodle, go to **Manage Tools** and click on **Tool Configuration Details** to view the **Client ID** and **Deployment ID**.
+   - Go to **Manage Tools** in Moodle.
+   - Click on **Tool Configuration Details** to view the **Client ID** and **Deployment ID**.
    - Open the configuration file located at:
      ```bash
      analyticDashboardDjangoApp/configs/config.json
@@ -96,7 +94,7 @@ If you'd like to run Moodle locally using Docker, follow the steps below:
 For testing with an external Moodle instance (not using Docker locally), follow these steps:
 
 1. **Start the Django Server:**
-   Run the necessary backend services by executing `docker-compose up` (if not using Docker, set up the necessary services manually). Ensure the database settings in `settings.py` are configured to use `"postgresdb"` as the host.
+   Run the necessary backend services by executing `docker-compose up` (if not using Docker, set up the required services manually). Ensure that the database settings in `settings.py` are configured to use `"postgresdb"` as the host.
 
 2. **Set Up the Database and Initialize Django:**
    If necessary, configure the backend and create the required database tables by executing the following command:
@@ -124,10 +122,8 @@ For testing with an external Moodle instance (not using Docker locally), follow 
 
 ### **Frontend Testing**
 
-For frontend testing, make sure that the user interface (UI) elements load properly and that interactions between the LTI tool and the Moodle instance are working as expected. Specifically, check the following:
+For frontend testing, ensure that the user interface (UI) elements load properly and that interactions between the LTI tool and the Moodle instance are working as expected. Specifically, check the following:
 
 - The LTI tool should launch correctly when accessed from within a Moodle course.
 - Users should be correctly redirected to the appropriate dashboard.
 - Course and user data should display in the dashboard if configured to do so.
-
-This will ensure that the integration works seamlessly for users and administrators alike.
