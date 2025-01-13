@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  postgresdb:
+    image: postgres
+    container_name: postgresdb
+    ports:
+      - ${DATABASE_OUTSIDE_PORT}:${DATABASE_INSIDE_PORT}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d:ro  # Mount the init script here
+    env_file:
+      - .env
+    healthcheck:
+      test: pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+      interval: 10s
+      retries: 5
+      start_period: 3s
+      timeout: 5s
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    
+
+  # djangoapp:
+  #   container_name: analytic_dashboard_djangoapp
+  #   build:
+  #     context: ${PWD}/analyticDashboardDjangoApp
+  #     dockerfile: Dockerfile
+  #     target: dev
+  #     args:
+  #       PATH_WEBCENTRAL_SRC: ${PWD}
+  #       DJANGO_UNPRIVILEGED_USER: ${DJANGO_UNPRIVILEGED_USER}
+  #   ports:
+  #     - ${DJANGO_OUTSIDE_PORT}:${DJANGO_INSIDE_PORT}
+  #   depends_on:
+  #     postgresdb:
+  #       condition: service_healthy
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - TZ=Europe/Berlin
+  #     - DJANGO_LISTEN_PORT=${DJANGO_INSIDE_PORT}
+  #   volumes:
+  #     - ${PWD}/analyticDashboardDjangoApp:/analyticDashboardDjangoApp  
+  #   command: >
+  #     bash -c "python3 /analyticDashboardDjangoApp/manage.py runserver 0.0.0.0:${DJANGO_INSIDE_PORT}"
+
+  yetanalytics_lrsql:
+    image: yetanalytics/lrsql:latest
+    container_name: yetanalytics_lrsql
+    command:
+      - /lrsql/bin/run_postgres.sh
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgresdb:
+        condition: service_healthy
+    environment:
+      LRSQL_DB_TYPE: postgres
+      LRSQL_API_KEY_DEFAULT: my_key
+      LRSQL_API_SECRET_DEFAULT: my_secret
+      LRSQL_ADMIN_USER_DEFAULT: my_username
+      LRSQL_ADMIN_PASS_DEFAULT: my_password
+      LRSQL_DB_HOST: postgresdb  # Connect to the postgresdb service
+      LRSQL_DB_PORT: 5432
+      LRSQL_DB_NAME:  ${POSTGRES_DB}
+      LRSQL_DB_USER:  ${POSTGRES_USER}
+      LRSQL_DB_PASSWORD:  ${POSTGRES_PASSWORD}
+      LRSQL_POOL_INITIALIZATION_FAIL_TIMEOUT: 10000
+      LRSQL_ALLOW_ALL_ORIGINS: true
+      LRSQL_ENABLE_CLAMAV: true
+      LRSQL_CLAMAV_HOST: clamav
+  
+
+volumes:
+  pgdata:
+  node_modules:
+
+networks:
+  shared_network:
+    external: true
