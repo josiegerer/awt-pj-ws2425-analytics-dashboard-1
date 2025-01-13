@@ -1,5 +1,0 @@
-POST http://localhost:8000/token/refresh/
-Content-Type: application/json
-{
-    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzM3NTE0NTY5fQ.Fs1O2uR5rAb4U8Q-bZBtkACkWDwyQAR1RoTuC5TXCKw"
-}
