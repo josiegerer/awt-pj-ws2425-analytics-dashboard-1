@@ -1,0 +1,13 @@
+django
+djangorestframework
+django-cors-headers
+django-filter
+django-postman
+# django-cms
+dj-rest-auth
+psycopg2
+Pillow
+django-allauth
+requests
+django-lti-provider @ git+https://github.com/ccnmtl/django-lti-provider@main
+djangorestframework-simplejwt
