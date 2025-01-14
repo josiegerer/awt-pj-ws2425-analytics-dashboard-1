@@ -4,10 +4,18 @@
       <!-- Time Spent Daily -->
       <div class="grid-item time-spent-daily">
         <TimeSpentDaily :data="timeSpentDailyData" />
-      </div>  
+      </div>
+      <!-- Learning Effectiveness Chart -->
+      <div class="grid-item learning-effectiveness">
+        <LearningEffectivenessChart :data="learningEffectivenessData" />
+      </div>
       <!-- Daily Streak -->
       <div class="grid-item daily-streak">
         <DailyStreak :streak="dailyStreak" />
+      </div>
+      <!-- Recommendation Box -->
+      <div class="grid-item recommendation-box">
+        <RecommendationBox />
       </div>
       <!-- Course Completion Chart -->
       <div class="grid-item course-completion-chart">
@@ -18,16 +26,21 @@
 </template>
 
 <script>
-import TimeSpentDaily from '../components/TimeSpentDaily.vue';
-import CourseCompletionChart from '../components/CourseCompletionChart.vue';
-import DailyStreak from '../components/DailyStreak.vue';
+import TimeSpentDaily from "../components/TimeSpentDaily.vue";
+import CourseCompletionChart from "../components/CourseCompletionChart.vue";
+import DailyStreak from "../components/DailyStreak.vue";
+import LearningEffectivenessChart from "../components/LearningEffectivenessChart.vue";
+import RecommendationBox from "../components/RecommendationBox.vue";
+
 
 export default {
-  name: 'OverallView',
+  name: "OverallView",
   components: {
     TimeSpentDaily,
     CourseCompletionChart,
     DailyStreak,
+    LearningEffectivenessChart,
+    RecommendationBox
   },
   data() {
     return {
@@ -99,10 +112,12 @@ export default {
         },
       ],
       dailyStreak: 3,
-      lastAssessmentAttemptsData: [
-        { id: 1, subcourse: "Subcourse 1", assessment: "Assessment 1", date: "2023-12-01", score: 85, status: "passed" },
-        { id: 2, subcourse: "Subcourse 2", assessment: "Assessment 2", date: "2023-12-02", score: 70, status: "not passed" },
-      ]
+      learningEffectivenessData: [
+        { x: 10, y: 20 },
+        { x: 20, y: 30 },
+        { x: 30, y: 10 },
+        { x: 40, y: 50 },
+      ],
     };
   },
 };
@@ -115,6 +130,10 @@ export default {
   grid-template-rows: repeat(12, auto); /* Define flexible rows */
   grid-template-columns: repeat(12, 1fr); /* 12 equal columns */
   grid-gap: 20px; /* Space between items */
+  grid-template-areas:
+    "time-spent-daily learning-effectiveness daily-streak recommendation-box"
+    "time-spent-daily learning-effectiveness daily-streak recommendation-box"
+    "course-completion-chart course-completion-chart course-completion-chart course-completion-chart";
 }
 
 .grid-item {
@@ -126,37 +145,37 @@ export default {
 
 /* Layout Definition */
 .time-spent-daily {
-  grid-column: span 9; /* Spans 9 columns */
-  grid-row: span 2; /* Spans 2 rows */
+  grid-column: span 4;
+  grid-row: span 3;
 }
 
-.last-assessment-attempts {
-  grid-column: span 3; /* Spans 3 columns */
-  grid-row: span 2; /* Spans 2 rows */
-}
-
-.course-completion-chart {
-  grid-column: span 9; /* Spans 12 columns */
-  grid-row: span 2; /* Spans 2 rows */
+.learning-effectiveness {
+  grid-column: span 4;
+  grid-row: span 3;
 }
 
 .daily-streak {
-  grid-column: span 3; /* Spans 3 columns */
-  grid-row: span 1; /* Spans 1 row */
-  height: span 1;
+  grid-column: span 4;
+  grid-row: span 1;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .grid-container {
-    grid-template-columns: repeat(6, 1fr); /* Adjust to 6 columns */
-  }
-
-  .time-spent-daily,
-  .course-completion-chart,
-  .daily-streak,
-  .last-assessment-attempts {
-    grid-column: span 6; /* Full width for smaller screens */
-  }
+.recommendation-box {
+  grid-column: span 4;
+  grid-row: span 2;
+  background-image: linear-gradient(to right, #ff6c00, #c40d1e);
+  padding: 20px;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  display: flex;
+  justify-content: center; 
+  align-items: center;    
+  text-align: center;
 }
+
+.course-completion-chart {
+  grid-column: span 12; /* Full width */
+  grid-row: span 12; 
+}
+
 </style>

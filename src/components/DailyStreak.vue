@@ -50,12 +50,12 @@ export default {
 .streak-visual {
   display: flex;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 30px;
   gap: 10px; /* Space between the bubbles */
 }
 
 .streak-day {
-  width: 40px; /* Set a base width */
+  width: 50px; /* Set a base width */
   aspect-ratio: 1 / 1; /* Maintain a 1:1 aspect ratio */
   background: #e0e0e0; /* Default background for inactive days */
   border-radius: 50%; /* Circle shape */
