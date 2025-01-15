@@ -2,16 +2,17 @@
   <div class="login-container">
     <h2>Login</h2>
     <form @submit.prevent="login">
-      <div>
-        <label for="username">Username:</label>
-        <input type="text" v-model="username" required />
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" v-model="username" id="username" required />
       </div>
-      <div>
-        <label for="password">Password:</label>
-        <input type="password" v-model="password" required />
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" v-model="password" id="password" required />
       </div>
       <button type="submit">Login</button>
     </form>
+    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
   </div>
 </template>
 
@@ -22,6 +23,7 @@ export default {
     return {
       username: '',
       password: '',
+      errorMessage: ''
     };
   },
   methods: {
@@ -54,5 +56,4 @@ export default {
 </script>
 
 <style scoped>
-/* Add your styles here */
-</style>
+/* Add your styles here */</style>

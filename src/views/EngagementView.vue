@@ -25,7 +25,7 @@
       <!-- Second Row -->
       <!-- Time Spent -->
       <div class="grid-item time-spent">
-        <TimeSpent :data="timeSpentData" />
+        <TimeSpent :data="timeSpentData" @button-click="handleTimeSpentClick" />
       </div>
 
       <!-- Last Rating -->
@@ -73,14 +73,17 @@ export default {
       dailyStreak: 3,
     };
   },
+  methods: {
+    handleTimeSpentClick() {
+      console.log('Time Spent button clicked');
+      // Add your logic here
+    }
+  }
 };
 </script>
 
 <style scoped>
-.dashboard {
-  padding: 20px;
-  background-color: #f8f9fa;
-}
+
 
 .grid-container {
   display: grid;

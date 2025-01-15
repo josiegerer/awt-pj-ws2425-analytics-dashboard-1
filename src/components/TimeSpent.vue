@@ -72,48 +72,61 @@ export default {
       ];
     },
     chartOptions() {
-  return {
-    chart: {
-      type: 'bar',
-      height: 350,
+      return {
+        chart: {
+          type: 'bar',
+          height: 350,
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '55%',
+            endingShape: 'rounded'
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ['transparent']
+        },
+        xaxis: {
+          categories: this.data.map(item => item.activity),
+        },
+        yaxis: {
+          title: {
+            text: 'Minutes'
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return `${val} minutes`;
+            }
+          }
+        },
+        colors: ['lightgrey', 'grey'], 
+      };
+    }
+  },
+  methods: {
+    toggleTable() {
+      this.showTable = !this.showTable;
+      this.$emit('button-click');
     },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: '55%',
-        endingShape: 'rounded'
-      },
+    getComparison(item) {
+      const percentage = ((item.current - item.previous) / item.previous) * 100;
+      return `${percentage.toFixed(2)}%`;
     },
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ['transparent']
-    },
-    xaxis: {
-      categories: this.data.map(item => item.activity),
-    },
-    yaxis: {
-      title: {
-        text: 'Minutes'
-      }
-    },
-    fill: {
-      opacity: 1
-    },
-    tooltip: {
-      y: {
-        formatter: function (val) {
-          return `${val} minutes`;
-        }
-      }
-    },
-    colors: ['lightgrey', 'grey'], 
-  };
- }
-}
+    getComparisonClass(item) {
+      return ((item.current - item.previous) / item.previous) * 100 >= 0 ? 'positive' : 'negative';
+    }
+  }
 }
 </script>
 
