@@ -16,6 +16,8 @@
       <button @click="navigateTo('/overall')">Overall</button>
       <button @click="navigateTo('/performance')">Performance</button>
       <button @click="navigateTo('/engagement')">Engagement</button>
+      <button @click="navigateTo('/admin-dashboard')">Admin</button>
+      <button @click="navigateTo('/educator-dashboard')">Educator</button>
     </nav>
   </header>
 

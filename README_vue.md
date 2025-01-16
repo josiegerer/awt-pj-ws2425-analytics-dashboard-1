@@ -1,8 +1,9 @@
 # vue-dashboard
 
-## Project setup
+## Project setup & install node_modules
 ```
 npm install
+npm install @vue/cli-service 
 ```
 
 ### Compiles and hot-reloads for development
