@@ -905,13 +905,85 @@ def analyze_statements(statements):
         avg_score = sum(stats['scores']) / len(stats['scores'])
         print(f"\nAverage Score: {avg_score:.2f}")
 
+
+def generate_multi_duration_dataset(output_file="xapi_statements_combined.json"):
+    """Generate dataset with multiple instances of each user type at different durations"""
+    generator = XAPIGenerator()
+    all_statements = []
+    
+    # User types and durations (in weeks)
+    user_types = ["consistent", "inconsistent", "u_shaped", "diminished"]
+    durations = [4, 8, 12]
+    
+    for user_type in user_types:
+        for duration in durations:
+            # Generate unique user ID using UUID
+            user_id = f"test_{user_type}_{duration}w_{str(uuid.uuid4())[:8]}"
+            
+            # Calculate start date based on duration
+            start_date = datetime.now() - timedelta(weeks=duration)
+            
+            # Generate user profile
+            profile = generator.generate_user_profile()
+            
+            # Generate statements based on user type
+            if user_type == "consistent":
+                statements = generator.generate_user_journey_consistent(user_id, start_date, profile)
+            elif user_type == "inconsistent":
+                statements = generator.generate_user_journey_of_inconsistent_learner(user_id, start_date, profile)
+            elif user_type == "u_shaped":
+                statements = generator.generate_user_journey_of_ushaped_learner(user_id, start_date, profile)
+            elif user_type == "diminished":
+                statements = generator.generate_user_journey_of_diminished_drive_easy_quitter(user_id, start_date, profile)
+            
+            all_statements.extend(statements)
+            print(f"Generated {len(statements)} statements for {user_type} learner ({duration} weeks)")
+    
+    # Sort all statements by timestamp
+    all_statements.sort(key=lambda x: x["timestamp"])
+    
+    # Save to file in a directory relative to the script location
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_dir = os.path.join(script_dir, "generated_data")
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    
+    output_path = os.path.join(output_dir, output_file)
+    with open(output_path, 'w', encoding='utf-8') as f:
+        json.dump(all_statements, f, ensure_ascii=False, indent=2)
+    
+    print(f"\nTotal statements generated: {len(all_statements)}")
+    print(f"Saved to: {output_path}")
+    
+    # Generate summary statistics
+    user_stats = {}
+    for stmt in all_statements:
+        user_id = stmt["actor"]["name"]
+        if user_id not in user_stats:
+            user_stats[user_id] = {
+                "statements": 0,
+                "first_timestamp": stmt["timestamp"],
+                "last_timestamp": stmt["timestamp"]
+            }
+        user_stats[user_id]["statements"] += 1
+        user_stats[user_id]["last_timestamp"] = stmt["timestamp"]
+    
+    print("\nPer-user statistics:")
+    for user_id, stats in user_stats.items():
+        print(f"\n{user_id}:")
+        print(f"  Statements: {stats['statements']}")
+        print(f"  Duration: {stats['first_timestamp']} to {stats['last_timestamp']}")
+    
+    return all_statements
+
 if __name__ == "__main__":
     # Test each type individually
-    user_types = ["consistent", "inconsistent", "u_shaped", "diminished"]
+    # user_types = ["consistent", "inconsistent", "u_shaped", "diminished"]
 
-    for utype in user_types:
-        print(f"\nTesting {utype} learner:")
-        statements = test_single_user_type(utype)
-        analyze_statements(statements)
+    # for utype in user_types:
+    #     print(f"\nTesting {utype} learner:")
+    #     statements = test_single_user_type(ut
+    
+    statements = generate_multi_duration_dataset()
     
     
