@@ -2,15 +2,8 @@ import random
 from datetime import datetime, timedelta
 import json
 import uuid
-
-
-#TODO: Create a difficulty for an activity (Samy) DONE
-
-#TODO: Create a context for statement construction (Samy)
-
-#TODO: Add serach and rated verb for user journey (Peter)
-
-#TODO:
+from collections import defaultdict
+import os
 
 class XAPIGenerator:
     def __init__(self):
@@ -216,6 +209,8 @@ class XAPIGenerator:
 
     def generate_statement(self, user_id, verb, activity, timestamp, score=None, duration=None, rating=None):
         """Generate a single xAPI statement"""
+        
+
         statement = {
             "id": str(uuid.uuid4()),
             "actor": {
@@ -233,7 +228,7 @@ class XAPIGenerator:
                     "name": {"de-DE": activity}
                 }
             },
-            "timestamp": timestamp.isoformat()
+            "timestamp": timestamp.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
         }
 
         if score is not None:
@@ -292,20 +287,22 @@ class XAPIGenerator:
 
         return next_date.replace(hour=hour, minute=minute)
 
+
     def generate_material_sessions(self, user_id, material, current_date, profile):
-        """Generate multiple learning sessions for a material until test is passed"""
+        """Generate multiple learning sessions for a material until test is passed or max attempts reached"""
         statements = []
         session_count = 0
         test_passed = False
-
-        while not test_passed:
+        MAX_SESSIONS = 10  # Maximum number of sessions before giving up
+        
+        while not test_passed and session_count < MAX_SESSIONS:
             session_count += 1
 
             # Possibly add search behavior before learning session
             if random.random() < 0.4:  # 40% chance to search
                 statements.append(self.generate_statement_with_context(
                     user_id, "searched", material, current_date
-            ))
+                ))
             current_date += timedelta(minutes=random.randint(2, 5))
 
             # Learning session
@@ -327,10 +324,12 @@ class XAPIGenerator:
             ))
 
             # Possibly add rating after learning session
-            if random.random() < 0.3:  # 30% chance to rate learning material
+            if random.random() < 0.3:  # 30% chance to rate
                 rate_time = exit_time + timedelta(minutes=random.randint(1, 5))
                 statements.append(self.generate_statement_with_context(
-                    user_id, "rated", material, rate_time))
+                    user_id, "rated", material, rate_time,
+                    rating=random.randint(1, 5)  # Added rating parameter
+                ))
                 exit_time = rate_time
 
             # Decide whether to take test
@@ -343,11 +342,11 @@ class XAPIGenerator:
                 # Calculate test score with bonus for multiple sessions
                 session_bonus = min(0.2, 0.05 * session_count)  # Max 20% bonus
                 difficulty_decimal = self.get_difficulty_decimal(material)
-                test_score = random.uniform(
-                    profile["test_performance"] * 0.8 - difficulty_decimal,
-                    profile["test_performance"] * 1.1 - difficulty_decimal
-                ) + session_bonus
-                test_score = min(1.0, test_score)
+                base_score = random.uniform(
+                    profile["test_performance"] * 0.8,
+                    profile["test_performance"] * 1.1
+                )
+                test_score = min(1.0, base_score - difficulty_decimal + session_bonus)
 
                 # Generate test statements
                 statements.append(self.generate_statement_with_context(
@@ -364,14 +363,28 @@ class XAPIGenerator:
 
                 if test_score >= self.test_pass_threshold:
                     test_passed = True
-                    # Next material starts on a different day
                     current_date = self.get_next_study_date(test_time, profile)
                 else:
                     # Failed test - try again after a few days
-                    current_date = self.get_next_study_date(test_time, profile)
+                    current_date = self.get_next_study_date(test_time, profile, diminished_factor=1.0)
             else:
                 # Next session on a different day
                 current_date = self.get_next_study_date(exit_time, profile)
+
+            # If max sessions reached without passing, force completion
+            if session_count == MAX_SESSIONS and not test_passed:
+                final_test_time = current_date + timedelta(minutes=random.randint(60, 240))
+                final_score = self.test_pass_threshold  # Ensure passing score
+                statements.append(self.generate_statement_with_context(
+                    user_id, "scored", f"Test: {material}", final_test_time,
+                    score=final_score
+                ))
+                statements.append(self.generate_statement_with_context(
+                    user_id, "completed", f"Test: {material}",
+                    final_test_time + timedelta(minutes=random.randint(15, 30)),
+                    score=final_score
+                ))
+                test_passed = True
 
         return statements, current_date
 
@@ -413,6 +426,8 @@ class XAPIGenerator:
         ]
         return statements
 
+    
+
     def generate_user_journey_consistent(self, user_id, start_date, profile):
         """Generate a complete learning journey for one user with semi-random sequence"""
         statements = []
@@ -422,6 +437,7 @@ class XAPIGenerator:
         materials_by_subcourse = {}
         for subcourse, content in self.course_structure.items():
             materials_by_subcourse[subcourse] = content["materials"].copy()
+    	
 
         # Process materials with some randomness but maintaining some course structure
         while materials_by_subcourse:
@@ -534,7 +550,7 @@ class XAPIGenerator:
                         # Calculate test score based on sessions and phase
                         session_bonus = min(0.2, 0.05 * learning_sessions[material])
                         difficulty_decimal = self.get_difficulty_decimal(material)
-                        base_performance = profile["test_performance"] * engagement_multiplier
+                        base_performance = profile["test_performance"] * engagement_multiplier 
 
                         test_score = random.uniform(
                             base_performance * 0.8 - difficulty_decimal,
@@ -583,7 +599,7 @@ class XAPIGenerator:
         uncompleted_materials = {material for subcourse in self.course_structure.values() for material in subcourse["materials"]}
 
         while current_date < start_date + timedelta(days=90):  # Simulate up to 3 months
-            print(current_date)
+            #print(current_date)
             if not uncompleted_materials:  # If all materials are completed, break
                 break
 
@@ -774,6 +790,7 @@ class XAPIGenerator:
             diminishing_factor *= diminishing_rate
 
         return statements
+    
 
 
           
@@ -782,33 +799,119 @@ class XAPIGenerator:
 ## Create a Logic so in the beginning the user is very active and then the user becomes less active then the user becomes very active again
 ## First 4 weeks the user is very active, then the user becomes less active for 4-6 weeks and then the user becomes very active again for the last 4-2 weeks (Peter)
 
-def generate_dataset(num_users=5, output_file="xapi_statements1.json"):
-    """Generate complete dataset with multiple users"""
+# def generate_dataset(num_users=5, output_file="xapi_statements1.json"):
+#     """Generate complete dataset with multiple users"""
+#     generator = XAPIGenerator()
+#     all_statements = []
+
+#     # Generate data for each user
+#     for user_id in range(1, num_users + 1):
+#         # Random start date within last 3 months
+#         start_date = datetime.now() - timedelta(days=random.randint(0, 90))
+#         profile = generator.generate_user_profile()
+
+#         user_statements = generator.generate_user_journey_of_ushaped_learner(user_id, start_date, profile)
+#         all_statements.extend(user_statements)
+
+#     # Sort by timestamp
+#     all_statements.sort(key=lambda x: x["timestamp"])
+
+#     # Save to file
+#     with open(output_file, 'w', encoding='utf-8') as f:
+#         json.dump(all_statements, f, ensure_ascii=False, indent=2)
+
+#     return all_statements
+
+
+# if __name__ == "__main__":
+#     # Generate data for 5 users
+#     statements = generate_dataset(num_users=1)
+#     print(f"Generated {len(statements)} xAPI statements")
+
+
+def test_single_user_type(user_type):
+    """Generate statements for a single user of specified type"""
     generator = XAPIGenerator()
-    all_statements = []
-
-    # Generate data for each user
-    for user_id in range(1, num_users + 1):
-        # Random start date within last 3 months
-        start_date = datetime.now() - timedelta(days=random.randint(0, 90))
-        profile = generator.generate_user_profile()
-
-        user_statements = generator.generate_user_journey_of_ushaped_learner(user_id, start_date, profile)
-        all_statements.extend(user_statements)
-
-    # Sort by timestamp
-    all_statements.sort(key=lambda x: x["timestamp"])
-
+    start_date = datetime.now() - timedelta(weeks=12)  # Start 12 weeks ago
+    profile = generator.generate_user_profile()
+    user_id = f"test_{user_type}_1"
+    
+    if user_type == "consistent":
+        statements = generator.generate_user_journey_consistent(user_id, start_date, profile)
+    elif user_type == "inconsistent":
+        statements = generator.generate_user_journey_of_inconsistent_learner(user_id, start_date, profile)
+    elif user_type == "u_shaped":
+        statements = generator.generate_user_journey_of_ushaped_learner(user_id, start_date, profile)
+    elif user_type == "diminished":
+        statements = generator.generate_user_journey_of_diminished_drive_easy_quitter(user_id, start_date, profile)
+    
     # Save to file
+    # output_file = f"xapi_statements_{user_type}.json"
+    # with open(output_file, 'w', encoding='utf-8') as f:
+    #     json.dump(statements, f, ensure_ascii=False, indent=2)
+    
+    # print(f"Generated {len(statements)} statements for {user_type} learner")
+    # return statements
+
+    # Save to file in a directory relative to the script location
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_dir = os.path.join(script_dir, "generated_data")
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+        
+    output_file = os.path.join(output_dir, f"xapi_statements_{user_type}.json")
     with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(all_statements, f, ensure_ascii=False, indent=2)
+        json.dump(statements, f, ensure_ascii=False, indent=2)
+    
+    print(f"Generated {len(statements)} statements for {user_type} learner")
+    print(f"Saved to: {output_file}")
+    return statements
 
-    return all_statements
-
+def analyze_statements(statements):
+    """Quick analysis of xAPI statements"""
+    # Initialize analysis dict
+    stats = {
+        'total_statements': len(statements),
+        'verbs': defaultdict(int),
+        'scores': [],
+        'materials': set()
+    }
+    
+    # Analyze each statement
+    for stmt in statements:
+        # Count verbs
+        verb = stmt['verb']['display']['de-DE']
+        stats['verbs'][verb] += 1
+        
+        # Track materials
+        material = stmt['object']['definition']['name']['de-DE']
+        stats['materials'].add(material)
+        
+        # Collect scores
+        if 'result' in stmt and 'score' in stmt['result']:
+            score = stmt['result']['score'].get('scaled', 
+                   stmt['result']['score'].get('raw', None))
+            if score is not None:
+                stats['scores'].append(score)
+    
+    # Print analysis
+    print("\nQuick Analysis:")
+    print(f"Total Statements: {stats['total_statements']}")
+    print(f"Unique Materials: {len(stats['materials'])}")
+    print("\nVerb Distribution:")
+    for verb, count in stats['verbs'].items():
+        print(f"  {verb}: {count}")
+    if stats['scores']:
+        avg_score = sum(stats['scores']) / len(stats['scores'])
+        print(f"\nAverage Score: {avg_score:.2f}")
 
 if __name__ == "__main__":
-    # Generate data for 5 users
-    statements = generate_dataset(num_users=1)
-    print(f"Generated {len(statements)} xAPI statements")
+    # Test each type individually
+    user_types = ["consistent", "inconsistent", "u_shaped", "diminished"]
+
+    for utype in user_types:
+        print(f"\nTesting {utype} learner:")
+        statements = test_single_user_type(utype)
+        analyze_statements(statements)
     
     

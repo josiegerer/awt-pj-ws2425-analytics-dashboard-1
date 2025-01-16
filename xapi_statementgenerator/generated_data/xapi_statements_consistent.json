@@ -1,0 +1,5753 @@
+[
+  {
+    "id": "2c999c6a-629d-47a8-b341-aa94299ad6b0",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "timestamp": "2024-10-24T15:26:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Instandhaltung"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "6611684b-0c66-4793-a5cb-9f0669caae27",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "timestamp": "2024-10-24T18:31:16.640Z",
+    "result": {
+      "duration": "PT185M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Instandhaltung"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "02a95ed2-863f-43f9-bc8e-843eee733ec0",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "timestamp": "2024-10-25T14:13:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Instandhaltung"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "566e8563-8ee3-40ee-aadc-41b08dff2db2",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "timestamp": "2024-10-25T14:17:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Instandhaltung"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "20bc44be-80c2-4a3e-80b2-5f5fd0f8465e",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "timestamp": "2024-10-25T16:50:16.640Z",
+    "result": {
+      "duration": "PT153M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Instandhaltung"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "e1b4f4f8-d22e-4c4f-97aa-822556df3c61",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "timestamp": "2024-10-26T13:02:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Instandhaltung"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "5dcdc27e-d0fc-4ad2-8c46-85136fc1bd1a",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "timestamp": "2024-10-26T13:06:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Instandhaltung"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "f465b45f-d4b7-48e2-a465-b7f89b789d7d",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "timestamp": "2024-10-26T16:03:16.640Z",
+    "result": {
+      "duration": "PT177M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Instandhaltung"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "adbeba7a-f8b4-4c27-8af1-136e1f32e092",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "timestamp": "2024-10-27T20:23:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Instandhaltung"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "46af7a7d-d87d-41ba-8e79-716a19ded603",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "timestamp": "2024-10-27T22:52:16.640Z",
+    "result": {
+      "duration": "PT149M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Instandhaltung"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "d473d651-88e1-44c5-97c0-603b53181757",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/scored",
+      "display": {
+        "de-DE": "scored"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Kettensäge bedienen"
+        }
+      }
+    },
+    "timestamp": "2024-10-28T00:18:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 1.0,
+        "raw": 100,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "eb91680d-8838-4596-b7bb-1cd558530b37",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/completed",
+      "display": {
+        "de-DE": "completed"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Kettensäge bedienen"
+        }
+      }
+    },
+    "timestamp": "2024-10-28T00:45:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 1.0,
+        "raw": 100,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "3eafabbb-1905-4aa9-9aaf-47572fa03e5a",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_ausdünnen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume ausdünnen"
+        }
+      }
+    },
+    "timestamp": "2024-11-01T18:42:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "2f8cd29d-a38c-45cf-8239-a34232138ffb",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_ausdünnen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume ausdünnen"
+        }
+      }
+    },
+    "timestamp": "2024-11-01T21:24:16.640Z",
+    "result": {
+      "duration": "PT162M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "bd933779-ecf6-4e98-a15a-1939e90f7355",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_ausdünnen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume ausdünnen"
+        }
+      }
+    },
+    "timestamp": "2024-11-02T18:15:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "e05be498-ebb6-4f35-be85-d86ccd1fefc8",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_ausdünnen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume ausdünnen"
+        }
+      }
+    },
+    "timestamp": "2024-11-02T20:26:16.640Z",
+    "result": {
+      "duration": "PT131M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "80df29b7-59c5-4dda-b67f-e50ce0fcfaba",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_ausdünnen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume ausdünnen"
+        }
+      }
+    },
+    "timestamp": "2024-11-02T20:27:16.640Z",
+    "result": {
+      "score": {
+        "raw": 4,
+        "min": 1,
+        "max": 5
+      }
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "8cb17ca3-4df5-4180-9e6f-801dfe49b431",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_ausdünnen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume ausdünnen"
+        }
+      }
+    },
+    "timestamp": "2024-11-03T20:42:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "7ccaaaf5-52b2-43cd-b7ba-18eb5da70325",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_ausdünnen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume ausdünnen"
+        }
+      }
+    },
+    "timestamp": "2024-11-03T23:20:16.640Z",
+    "result": {
+      "duration": "PT158M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "500315b5-8d4c-4b81-8267-eb82dad2cadc",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_ausdünnen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume ausdünnen"
+        }
+      }
+    },
+    "timestamp": "2024-11-03T23:23:16.640Z",
+    "result": {
+      "score": {
+        "raw": 4,
+        "min": 1,
+        "max": 5
+      }
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "20356ba2-c28e-451c-8d33-4ed5aea5ecf3",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_ausdünnen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume ausdünnen"
+        }
+      }
+    },
+    "timestamp": "2024-11-04T17:34:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "f06fe169-1329-4af9-9c2b-9bda5d34bdff",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_ausdünnen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume ausdünnen"
+        }
+      }
+    },
+    "timestamp": "2024-11-04T20:22:16.640Z",
+    "result": {
+      "duration": "PT168M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "9c84cf8b-9a96-43d3-bc9d-b84fad44a3ee",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_ausdünnen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume ausdünnen"
+        }
+      }
+    },
+    "timestamp": "2024-11-04T20:23:16.640Z",
+    "result": {
+      "score": {
+        "raw": 3,
+        "min": 1,
+        "max": 5
+      }
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "3fe518e9-642a-4982-b6a5-5044291df845",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/scored",
+      "display": {
+        "de-DE": "scored"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Bäume_ausdünnen",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Bäume ausdünnen"
+        }
+      }
+    },
+    "timestamp": "2024-11-05T00:08:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.911539215580794,
+        "raw": 91,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "e667168c-5bec-4f9d-a0b7-e217bb219a27",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/completed",
+      "display": {
+        "de-DE": "completed"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Bäume_ausdünnen",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Bäume ausdünnen"
+        }
+      }
+    },
+    "timestamp": "2024-11-05T00:24:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.911539215580794,
+        "raw": 91,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "a952bd6f-4b0e-4eb9-b818-b3764f0b9550",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-08T15:33:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "9b82bfe2-2968-43b1-aeab-ec96377cdf84",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-08T17:56:16.640Z",
+    "result": {
+      "duration": "PT143M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "ec69c1e9-ee42-4852-a139-48e21a135467",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-09T16:48:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "4fe735a1-09d1-43d8-b6b1-99346cb05466",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-09T19:55:16.640Z",
+    "result": {
+      "duration": "PT187M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "ceb7306d-ccba-42da-ad17-844b2ee79a71",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-09T19:59:16.640Z",
+    "result": {
+      "score": {
+        "raw": 3,
+        "min": 1,
+        "max": 5
+      }
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "cca5340f-b1fc-48aa-8729-739fac8a1ea5",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-10T13:25:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "c46c8367-138f-4b8a-84b4-8df83adc757b",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-10T13:29:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "fbd20fa2-969e-4185-8294-f87fcf4de3bb",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-10T16:09:16.640Z",
+    "result": {
+      "duration": "PT160M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "96b98dc4-e624-4105-843c-3f760999ae05",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-11T15:29:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "8a1719a2-0bca-4f13-9019-ede68494ed8d",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-11T15:33:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "3dc041bc-94e5-427e-84aa-83f1bbb1025b",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-11T18:38:16.640Z",
+    "result": {
+      "duration": "PT185M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "b931e1f3-c2c5-4799-977c-36a569d203fb",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/scored",
+      "display": {
+        "de-DE": "scored"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-11T20:29:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.6323914708713833,
+        "raw": 63,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "3d898a6c-1b30-4e78-bc6b-518eeb250407",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/failed",
+      "display": {
+        "de-DE": "failed"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-11T20:49:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.6323914708713833,
+        "raw": 63,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "4fea02be-be55-4bbd-aa9a-02f16069077b",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-12T15:38:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "5f81083b-894c-4974-86d4-b0dcf3229b98",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-12T18:39:16.640Z",
+    "result": {
+      "duration": "PT181M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "f5099d39-5563-4380-b612-aeb1ac92f78a",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/scored",
+      "display": {
+        "de-DE": "scored"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-12T22:14:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.8097004955929754,
+        "raw": 80,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "46dc0f6d-a261-4e56-ae9c-6fea167edeb8",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/completed",
+      "display": {
+        "de-DE": "completed"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Baumkonservierung"
+        }
+      }
+    },
+    "timestamp": "2024-11-12T22:37:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.8097004955929754,
+        "raw": 80,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "7aebd8e9-38ad-4f9a-ae94-db7330a87aee",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-14T18:51:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "59facd84-9f9f-4493-afc1-ad7a707c3cc5",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-14T18:54:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "39916ca3-51e4-41b1-b712-e61581fb43ef",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-14T21:18:16.640Z",
+    "result": {
+      "duration": "PT144M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "d1e5e662-46c0-42df-bf73-c004f83802a0",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-14T21:23:16.640Z",
+    "result": {
+      "score": {
+        "raw": 3,
+        "min": 1,
+        "max": 5
+      }
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "44b6860c-03d0-46cb-8b2d-5f3a22ddd64b",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-15T13:36:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "5c156c81-10c4-4cd8-90e2-a2e9b4dcde82",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-15T13:39:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "13bb0fe7-7aef-4603-89fb-68f4c16a85b2",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-15T16:16:16.640Z",
+    "result": {
+      "duration": "PT157M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "b4f15448-f66a-401b-9128-82b7179275e0",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-16T14:15:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "b93b557f-6c24-4bbe-92ca-1bb8bfe17988",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-16T14:19:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "8186f097-33b6-4f5d-b109-67fd2a56f62a",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-16T17:10:16.640Z",
+    "result": {
+      "duration": "PT171M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "2f19c70a-335d-41a2-a8b8-f2dc9f29e1df",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-17T14:10:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "ec30f508-6394-4670-a815-cf52b8e6b756",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-17T14:15:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "4559e915-38ed-41f0-8a38-6aab7b6298d1",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-17T16:46:16.640Z",
+    "result": {
+      "duration": "PT151M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "8cfbaf18-0e9a-4d23-ab47-e98a1e6e347f",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-17T16:51:16.640Z",
+    "result": {
+      "score": {
+        "raw": 4,
+        "min": 1,
+        "max": 5
+      }
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "953a4074-f42f-47c3-8563-f6b5f4aa846c",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/scored",
+      "display": {
+        "de-DE": "scored"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-17T18:58:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.6612791914933526,
+        "raw": 66,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "100c615b-8e1d-428a-8b38-181566eb5587",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/failed",
+      "display": {
+        "de-DE": "failed"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-17T19:27:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.6612791914933526,
+        "raw": 66,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "bd1575c9-942e-469c-9265-502062b06642",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-18T14:07:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "cc4b54b7-f9bc-426f-858d-ff50f80561cc",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-18T17:18:16.640Z",
+    "result": {
+      "duration": "PT191M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "6d282cf3-ef5c-48ba-9dd7-c4530eb06c6f",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/scored",
+      "display": {
+        "de-DE": "scored"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-18T20:26:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.8932355697583823,
+        "raw": 89,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "09839166-9515-4108-8cb5-0f17d24cfb97",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/completed",
+      "display": {
+        "de-DE": "completed"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Beratung_zu_Fragen_rund_um_Bäume",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Beratung zu Fragen rund um Bäume"
+        }
+      }
+    },
+    "timestamp": "2024-11-18T20:55:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.8932355697583823,
+        "raw": 89,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "1a9a70ab-dd27-4d27-bf7d-b9292c2e31eb",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkrankheiten_bekämpfen",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkrankheiten bekämpfen"
+        }
+      }
+    },
+    "timestamp": "2024-11-20T18:16:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "897c91d1-f13e-4d82-8f84-67c639f3bcbf",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkrankheiten_bekämpfen",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkrankheiten bekämpfen"
+        }
+      }
+    },
+    "timestamp": "2024-11-20T20:56:16.640Z",
+    "result": {
+      "duration": "PT160M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "a32d3f46-c21f-4a31-88cf-1450febabfe5",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkrankheiten_bekämpfen",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkrankheiten bekämpfen"
+        }
+      }
+    },
+    "timestamp": "2024-11-20T20:59:16.640Z",
+    "result": {
+      "score": {
+        "raw": 3,
+        "min": 1,
+        "max": 5
+      }
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "e1bb17c0-48d4-41d8-95c7-3e4aa6ce4513",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkrankheiten_bekämpfen",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkrankheiten bekämpfen"
+        }
+      }
+    },
+    "timestamp": "2024-11-21T14:16:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "823be1e7-ade4-496b-b560-7cf11651b72a",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkrankheiten_bekämpfen",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkrankheiten bekämpfen"
+        }
+      }
+    },
+    "timestamp": "2024-11-21T14:20:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "26b4e583-ae77-4e97-b72d-b596715e1b32",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkrankheiten_bekämpfen",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkrankheiten bekämpfen"
+        }
+      }
+    },
+    "timestamp": "2024-11-21T17:24:16.640Z",
+    "result": {
+      "duration": "PT184M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "8b46051c-e79b-4282-9fd6-396c36e2d19b",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkrankheiten_bekämpfen",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkrankheiten bekämpfen"
+        }
+      }
+    },
+    "timestamp": "2024-11-22T16:58:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "8f494599-a26c-4220-9a09-601aee403a10",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkrankheiten_bekämpfen",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkrankheiten bekämpfen"
+        }
+      }
+    },
+    "timestamp": "2024-11-22T17:03:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "2b8ceb6f-3ea0-4833-9ecf-4b3119f2c3a0",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkrankheiten_bekämpfen",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkrankheiten bekämpfen"
+        }
+      }
+    },
+    "timestamp": "2024-11-22T20:11:16.640Z",
+    "result": {
+      "duration": "PT188M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "7e21a0e3-eebe-40f7-a471-030521dc8b46",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkrankheiten_bekämpfen",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkrankheiten bekämpfen"
+        }
+      }
+    },
+    "timestamp": "2024-11-22T20:13:16.640Z",
+    "result": {
+      "score": {
+        "raw": 3,
+        "min": 1,
+        "max": 5
+      }
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "075e912e-3059-4e11-89bd-378fc46b3746",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkrankheiten_bekämpfen",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkrankheiten bekämpfen"
+        }
+      }
+    },
+    "timestamp": "2024-11-23T19:35:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "245182a5-e346-4b27-93bb-9d11867aa409",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkrankheiten_bekämpfen",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkrankheiten bekämpfen"
+        }
+      }
+    },
+    "timestamp": "2024-11-23T19:38:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "ebeec6f5-149a-487c-a995-606f63d84202",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkrankheiten_bekämpfen",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkrankheiten bekämpfen"
+        }
+      }
+    },
+    "timestamp": "2024-11-23T22:18:16.640Z",
+    "result": {
+      "duration": "PT160M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "f0129250-6f52-4328-a9ad-c07311725da0",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/scored",
+      "display": {
+        "de-DE": "scored"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Baumkrankheiten_bekämpfen",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Baumkrankheiten bekämpfen"
+        }
+      }
+    },
+    "timestamp": "2024-11-24T01:57:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.8980269795025226,
+        "raw": 89,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "e5d20cef-dd41-4f99-8068-3fd5686ede18",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/completed",
+      "display": {
+        "de-DE": "completed"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Baumkrankheiten_bekämpfen",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Baumkrankheiten bekämpfen"
+        }
+      }
+    },
+    "timestamp": "2024-11-24T02:21:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.8980269795025226,
+        "raw": 89,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "3b554d10-3ba2-4b06-87df-0ce29c62f87c",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_kappen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume kappen"
+        }
+      }
+    },
+    "timestamp": "2024-11-26T13:29:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "d9dcca3f-54a5-4fd1-bd02-6271b5bc0762",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_kappen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume kappen"
+        }
+      }
+    },
+    "timestamp": "2024-11-26T16:37:16.640Z",
+    "result": {
+      "duration": "PT188M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "830e8f01-06ff-4a69-afca-8e3381bec2b9",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_kappen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume kappen"
+        }
+      }
+    },
+    "timestamp": "2024-11-27T19:21:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "bffb4c5d-ccf1-4337-bf0b-cb7ee65bab34",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_kappen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume kappen"
+        }
+      }
+    },
+    "timestamp": "2024-11-27T19:24:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "3ec86538-ba6c-47b0-9c03-58a0b5e71d8e",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_kappen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume kappen"
+        }
+      }
+    },
+    "timestamp": "2024-11-27T21:53:16.640Z",
+    "result": {
+      "duration": "PT149M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "a6b93b01-fbf6-4a5a-b5af-23c98d56c668",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_kappen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume kappen"
+        }
+      }
+    },
+    "timestamp": "2024-11-27T21:58:16.640Z",
+    "result": {
+      "score": {
+        "raw": 3,
+        "min": 1,
+        "max": 5
+      }
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "2a64be53-e4ba-4f9f-8e8d-0791cf93163f",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_kappen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume kappen"
+        }
+      }
+    },
+    "timestamp": "2024-11-28T20:18:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "1954ea54-9783-4884-8dab-559d15db5539",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_kappen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume kappen"
+        }
+      }
+    },
+    "timestamp": "2024-11-28T23:24:16.640Z",
+    "result": {
+      "duration": "PT186M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "a579118f-93e8-4269-92f5-1c877118fb6e",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_kappen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume kappen"
+        }
+      }
+    },
+    "timestamp": "2024-11-29T16:13:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "a75ab377-81f6-4623-8cdf-4076da3076d0",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_kappen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume kappen"
+        }
+      }
+    },
+    "timestamp": "2024-11-29T19:20:16.640Z",
+    "result": {
+      "duration": "PT187M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "0a14676b-3295-4769-81ae-d6cca71e45a0",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/scored",
+      "display": {
+        "de-DE": "scored"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Bäume_kappen",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Bäume kappen"
+        }
+      }
+    },
+    "timestamp": "2024-11-29T20:46:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.7506517336421836,
+        "raw": 75,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "aaacf150-d61d-4f57-b82b-a088d0b05f16",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/completed",
+      "display": {
+        "de-DE": "completed"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Bäume_kappen",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Bäume kappen"
+        }
+      }
+    },
+    "timestamp": "2024-11-29T21:05:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.7506517336421836,
+        "raw": 75,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "bbab8873-4107-4fe3-b8d3-27f3ce39ed8d",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Grünpflanzen_pflanzen",
+      "definition": {
+        "name": {
+          "de-DE": "Grünpflanzen pflanzen"
+        }
+      }
+    },
+    "timestamp": "2024-12-02T20:25:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "66ca8a50-8571-4e3e-8346-c5c278d35f2c",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Grünpflanzen_pflanzen",
+      "definition": {
+        "name": {
+          "de-DE": "Grünpflanzen pflanzen"
+        }
+      }
+    },
+    "timestamp": "2024-12-02T22:58:16.640Z",
+    "result": {
+      "duration": "PT153M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "133fbeda-3746-415c-bf90-6f65c8b25613",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Grünpflanzen_pflanzen",
+      "definition": {
+        "name": {
+          "de-DE": "Grünpflanzen pflanzen"
+        }
+      }
+    },
+    "timestamp": "2024-12-03T18:26:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "2d371f6a-40de-4bfe-8beb-ee5c8e9c1e4b",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Grünpflanzen_pflanzen",
+      "definition": {
+        "name": {
+          "de-DE": "Grünpflanzen pflanzen"
+        }
+      }
+    },
+    "timestamp": "2024-12-03T18:29:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "f5ecef52-0889-41eb-9a1e-5b6b476bfbd1",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Grünpflanzen_pflanzen",
+      "definition": {
+        "name": {
+          "de-DE": "Grünpflanzen pflanzen"
+        }
+      }
+    },
+    "timestamp": "2024-12-03T21:31:16.640Z",
+    "result": {
+      "duration": "PT182M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "3d3970e4-c987-43fd-afdc-68fd3cf2c19b",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Grünpflanzen_pflanzen",
+      "definition": {
+        "name": {
+          "de-DE": "Grünpflanzen pflanzen"
+        }
+      }
+    },
+    "timestamp": "2024-12-04T19:20:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "e4d3615a-9bad-4cc4-8557-968a7827a9cb",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Grünpflanzen_pflanzen",
+      "definition": {
+        "name": {
+          "de-DE": "Grünpflanzen pflanzen"
+        }
+      }
+    },
+    "timestamp": "2024-12-04T22:30:16.640Z",
+    "result": {
+      "duration": "PT190M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "9774e7fa-97d3-4a16-88af-bf3da9711d7a",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Grünpflanzen_pflanzen",
+      "definition": {
+        "name": {
+          "de-DE": "Grünpflanzen pflanzen"
+        }
+      }
+    },
+    "timestamp": "2024-12-05T17:11:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "ece497b0-34ee-452d-b582-a5a240ca1e5d",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Grünpflanzen_pflanzen",
+      "definition": {
+        "name": {
+          "de-DE": "Grünpflanzen pflanzen"
+        }
+      }
+    },
+    "timestamp": "2024-12-05T19:35:16.640Z",
+    "result": {
+      "duration": "PT144M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "4fe4c1a6-7873-400f-b41d-aede3cc26454",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/scored",
+      "display": {
+        "de-DE": "scored"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Grünpflanzen_pflanzen",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Grünpflanzen pflanzen"
+        }
+      }
+    },
+    "timestamp": "2024-12-05T21:42:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.7772343757848366,
+        "raw": 77,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "9389b0f5-6549-4958-bdaa-d0c22c45f9fe",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/completed",
+      "display": {
+        "de-DE": "completed"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Grünpflanzen_pflanzen",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Grünpflanzen pflanzen"
+        }
+      }
+    },
+    "timestamp": "2024-12-05T22:06:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.7772343757848366,
+        "raw": 77,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "a3238fd8-a77a-4d60-b551-a2f9e5439b25",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_schützen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume schützen"
+        }
+      }
+    },
+    "timestamp": "2024-12-07T14:11:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "d0c09973-a055-4325-ab5d-7256376ec397",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_schützen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume schützen"
+        }
+      }
+    },
+    "timestamp": "2024-12-07T14:15:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "3ab3c2d3-6090-4bac-b2db-70eca1a76dca",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_schützen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume schützen"
+        }
+      }
+    },
+    "timestamp": "2024-12-07T16:49:16.640Z",
+    "result": {
+      "duration": "PT154M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "70ef571b-e034-4489-a2ea-da968c280caa",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_schützen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume schützen"
+        }
+      }
+    },
+    "timestamp": "2024-12-08T13:42:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "90d25625-8cea-47c0-88eb-c1ef19fa12b2",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_schützen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume schützen"
+        }
+      }
+    },
+    "timestamp": "2024-12-08T16:20:16.640Z",
+    "result": {
+      "duration": "PT158M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "8236560a-2886-45d5-819a-91b8dbb4e871",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_schützen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume schützen"
+        }
+      }
+    },
+    "timestamp": "2024-12-09T19:11:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "ae983a1e-cf9a-45cd-be64-f3506039c372",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_schützen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume schützen"
+        }
+      }
+    },
+    "timestamp": "2024-12-09T19:16:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "cb7671d1-d2b7-419b-bda3-d4651b11c596",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_schützen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume schützen"
+        }
+      }
+    },
+    "timestamp": "2024-12-09T21:53:16.640Z",
+    "result": {
+      "duration": "PT157M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "86527376-38a8-49a6-8d2f-3b45006d2f13",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_schützen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume schützen"
+        }
+      }
+    },
+    "timestamp": "2024-12-10T13:48:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "3dfd6ca6-88af-4df2-8b13-b4fdda189687",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Bäume_schützen",
+      "definition": {
+        "name": {
+          "de-DE": "Bäume schützen"
+        }
+      }
+    },
+    "timestamp": "2024-12-10T16:44:16.640Z",
+    "result": {
+      "duration": "PT176M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "en": "Grundlagen der Baumpflege"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "e12a6143-af3c-4123-8988-64b9cfcc9476",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/scored",
+      "display": {
+        "de-DE": "scored"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Bäume_schützen",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Bäume schützen"
+        }
+      }
+    },
+    "timestamp": "2024-12-10T18:48:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 1.0,
+        "raw": 100,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "b48d4eaf-e649-4d36-82d8-9215a0670d5c",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/completed",
+      "display": {
+        "de-DE": "completed"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Bäume_schützen",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Bäume schützen"
+        }
+      }
+    },
+    "timestamp": "2024-12-10T19:10:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 1.0,
+        "raw": 100,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "43d49be2-42e7-4906-97ec-54ee7b0f0f78",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "timestamp": "2024-12-12T17:14:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "ca57619b-0e28-4b69-8a0f-ca24418817ba",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "timestamp": "2024-12-12T17:17:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "2b50a092-2aeb-424b-8f93-a4a1ab75ca5a",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "timestamp": "2024-12-12T20:33:16.640Z",
+    "result": {
+      "duration": "PT196M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "271b1e8e-828b-4d63-bf9b-d9920bf4821d",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "timestamp": "2024-12-13T17:43:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "f14c582c-a965-491e-b219-1073424ee81b",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "timestamp": "2024-12-13T17:47:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "fb459a00-7278-4811-9651-847d81bec64a",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "timestamp": "2024-12-13T20:30:16.640Z",
+    "result": {
+      "duration": "PT163M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "bcfadba5-b2c2-4d99-90a9-d0feff703d50",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "timestamp": "2024-12-13T20:31:16.640Z",
+    "result": {
+      "score": {
+        "raw": 4,
+        "min": 1,
+        "max": 5
+      }
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "fc1a5308-d4e6-4a6a-bfdf-7c8fe78934c5",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "timestamp": "2024-12-14T17:31:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "8bf7c3ed-d4bb-47c0-ab52-ad3e6312cd77",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "timestamp": "2024-12-14T17:33:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "f940677b-9a9a-4281-87d1-d37b25923f5c",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "timestamp": "2024-12-14T20:16:16.640Z",
+    "result": {
+      "duration": "PT163M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "5dd22127-accb-4823-a7c8-27bd470a901c",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "timestamp": "2024-12-14T20:20:16.640Z",
+    "result": {
+      "score": {
+        "raw": 3,
+        "min": 1,
+        "max": 5
+      }
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "d276cdbe-21b7-414b-a2aa-7e9470477a55",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "timestamp": "2024-12-15T13:00:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "688fd009-c49c-47e1-9c50-561f64c9d708",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "timestamp": "2024-12-15T13:04:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "23344372-47e7-45d6-8bb9-10c4b7baa3c0",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "timestamp": "2024-12-15T15:34:16.640Z",
+    "result": {
+      "duration": "PT150M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "c195edf3-810f-4de0-8cf9-d04e850e7b03",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/scored",
+      "display": {
+        "de-DE": "scored"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Auf Bäume klettern"
+        }
+      }
+    },
+    "timestamp": "2024-12-15T17:03:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 1.0,
+        "raw": 100,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "1a1282db-054c-4855-8a90-e3625c5eca0a",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/completed",
+      "display": {
+        "de-DE": "completed"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Auf Bäume klettern"
+        }
+      }
+    },
+    "timestamp": "2024-12-15T17:32:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 1.0,
+        "raw": 100,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "7cde6081-a24f-4c4f-86be-2da8091988f7",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Gefahren_im_Umgang_mit_Bäumen_mindern",
+      "definition": {
+        "name": {
+          "de-DE": "Gefahren im Umgang mit Bäumen mindern"
+        }
+      }
+    },
+    "timestamp": "2024-12-17T13:11:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "572de608-4112-445b-8236-5872a00067ce",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Gefahren_im_Umgang_mit_Bäumen_mindern",
+      "definition": {
+        "name": {
+          "de-DE": "Gefahren im Umgang mit Bäumen mindern"
+        }
+      }
+    },
+    "timestamp": "2024-12-17T13:14:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "8c8db7c5-8ede-41d4-ab76-9df2017e67b8",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Gefahren_im_Umgang_mit_Bäumen_mindern",
+      "definition": {
+        "name": {
+          "de-DE": "Gefahren im Umgang mit Bäumen mindern"
+        }
+      }
+    },
+    "timestamp": "2024-12-17T15:57:16.640Z",
+    "result": {
+      "duration": "PT163M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "af73755e-a798-45e8-bac5-ec83d16e4739",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Gefahren_im_Umgang_mit_Bäumen_mindern",
+      "definition": {
+        "name": {
+          "de-DE": "Gefahren im Umgang mit Bäumen mindern"
+        }
+      }
+    },
+    "timestamp": "2024-12-18T18:35:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "cbc4fd61-7dff-4442-8a0e-0193265a79d2",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Gefahren_im_Umgang_mit_Bäumen_mindern",
+      "definition": {
+        "name": {
+          "de-DE": "Gefahren im Umgang mit Bäumen mindern"
+        }
+      }
+    },
+    "timestamp": "2024-12-18T18:37:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "c57d1674-1def-4072-9044-3d6a335f1c6f",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Gefahren_im_Umgang_mit_Bäumen_mindern",
+      "definition": {
+        "name": {
+          "de-DE": "Gefahren im Umgang mit Bäumen mindern"
+        }
+      }
+    },
+    "timestamp": "2024-12-18T20:54:16.640Z",
+    "result": {
+      "duration": "PT137M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "c6b19d41-b769-4c36-b90f-5cb6561ae39f",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Gefahren_im_Umgang_mit_Bäumen_mindern",
+      "definition": {
+        "name": {
+          "de-DE": "Gefahren im Umgang mit Bäumen mindern"
+        }
+      }
+    },
+    "timestamp": "2024-12-19T17:30:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "ab09ec3b-46cb-4eeb-9537-77d35affb4ee",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Gefahren_im_Umgang_mit_Bäumen_mindern",
+      "definition": {
+        "name": {
+          "de-DE": "Gefahren im Umgang mit Bäumen mindern"
+        }
+      }
+    },
+    "timestamp": "2024-12-19T20:34:16.640Z",
+    "result": {
+      "duration": "PT184M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "b2466fc3-24c8-43a1-b9b6-7eec8d81d680",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Gefahren_im_Umgang_mit_Bäumen_mindern",
+      "definition": {
+        "name": {
+          "de-DE": "Gefahren im Umgang mit Bäumen mindern"
+        }
+      }
+    },
+    "timestamp": "2024-12-20T18:42:16.640Z",
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "06e0a360-c26a-4a6d-ba10-3b049ee89d66",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Gefahren_im_Umgang_mit_Bäumen_mindern",
+      "definition": {
+        "name": {
+          "de-DE": "Gefahren im Umgang mit Bäumen mindern"
+        }
+      }
+    },
+    "timestamp": "2024-12-20T21:15:16.640Z",
+    "result": {
+      "duration": "PT153M"
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "ae3ef9d6-39fa-47d3-9f67-8b8c7e467339",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Gefahren_im_Umgang_mit_Bäumen_mindern",
+      "definition": {
+        "name": {
+          "de-DE": "Gefahren im Umgang mit Bäumen mindern"
+        }
+      }
+    },
+    "timestamp": "2024-12-20T21:16:16.640Z",
+    "result": {
+      "score": {
+        "raw": 1,
+        "min": 1,
+        "max": 5
+      }
+    },
+    "context": {
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "en": "Grundlagen des Kletterns"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "f1944fe7-f1d0-4504-a560-c5fef9c81966",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/scored",
+      "display": {
+        "de-DE": "scored"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Gefahren_im_Umgang_mit_Bäumen_mindern",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Gefahren im Umgang mit Bäumen mindern"
+        }
+      }
+    },
+    "timestamp": "2024-12-21T00:28:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.8649774831072463,
+        "raw": 86,
+        "min": 0,
+        "max": 100
+      }
+    }
+  },
+  {
+    "id": "6f46762d-bc90-4677-be3e-2ce8f9624ddc",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_consistent_1",
+      "mbox": "mailto:user_test_consistent_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/completed",
+      "display": {
+        "de-DE": "completed"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Test:_Gefahren_im_Umgang_mit_Bäumen_mindern",
+      "definition": {
+        "name": {
+          "de-DE": "Test: Gefahren im Umgang mit Bäumen mindern"
+        }
+      }
+    },
+    "timestamp": "2024-12-21T00:50:16.640Z",
+    "result": {
+      "score": {
+        "scaled": 0.8649774831072463,
+        "raw": 86,
+        "min": 0,
+        "max": 100
+      }
+    }
+  }
+]
