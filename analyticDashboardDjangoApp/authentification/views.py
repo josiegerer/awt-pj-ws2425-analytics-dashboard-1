@@ -9,6 +9,24 @@ from django.views.decorators.http import require_POST
 from django.conf import settings
 from functools import wraps
 
+list_of_admin_ids = [
+'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Administrator',
+'http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator',
+'http://purl.imsglobal.org/vocab/lis/v2/system/person#Administrator',
+'http://purl.imsglobal.org/vocab/lis/v2/system/person#AccountAdmin']
+
+list_of_instructor_ids = [
+'http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor',
+'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Instructor',
+     
+]
+
+list_of_learner_ids = [
+    'http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor',
+    'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Learner'
+]
+
+
 @require_POST
 def refresh_token_view(request):
     """
@@ -56,7 +74,7 @@ def verify_learner_token_annotation(view_func):
                 return JsonResponse({'error': 'Token expired'}, status=401)
         
             roles = decoded_token.get('roles', [])
-            if 'http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor' not in roles:
+            if not any(role in list_of_learner_ids for role in roles):
                 return JsonResponse({'error': 'Instructor privileges required'}, status=403)
             request.user = decoded_token  # Attach the token data to the request
             request.email = decoded_token.get('email')  # Attach the email to the request
@@ -83,7 +101,7 @@ def verify_admin_token_annotation(view_func):
                 return JsonResponse({'error': 'Token expired'}, status=401)
             # Check if the user is an admin
             roles = decoded_token.get('roles', [])
-            if 'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Administrator' not in roles:
+            if not any(role in list_of_admin_ids for role in roles):
                 return JsonResponse({'error': 'Admin privileges required'}, status=403)
             request.user = decoded_token  # Attach the token data to the request
             request.email = decoded_token.get('email')  # Attach the email to the request
@@ -95,6 +113,33 @@ def verify_admin_token_annotation(view_func):
 
     return _wrapped_view
 
+
+def verify_instructor_or_admin_token_annotation(view_func):
+    """
+    Decorator to verify if an instructor or admin token is valid before allowing access to the view.
+    """
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+        token = token.replace(" ", "")
+        try:
+            decoded_token = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+            # Check if token is expired
+            if datetime.utcnow() > datetime.fromtimestamp(decoded_token['exp']):
+                return JsonResponse({'error': 'Token expired'}, status=401)
+            # Check if the user is an instructor or admin
+            roles = decoded_token.get('roles', [])
+            if not any(role in list_of_instructor_ids + list_of_admin_ids for role in roles):
+                return JsonResponse({'error': 'Instructor or Admin privileges required'}, status=403)
+            request.user = decoded_token  # Attach the token data to the request
+            request.email = decoded_token.get('email')  # Attach the email to the request
+            return view_func(request, *args, **kwargs)
+        except jwt.ExpiredSignatureError:
+            return JsonResponse({'error': 'Token expired'}, status=401)
+        except jwt.InvalidTokenError:
+            return JsonResponse({'error': 'Invalid token'}, status=401)
+
+    return _wrapped_view
 def verify_instructor_token_annotation(view_func):
     """
     Decorator to verify if an instructor token is valid before allowing access to the view.
@@ -110,7 +155,7 @@ def verify_instructor_token_annotation(view_func):
                 return JsonResponse({'error': 'Token expired'}, status=401)
             # Check if the user is an instructor
             roles = decoded_token.get('roles', [])
-            if 'http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor' not in roles:
+            if not any(role in list_of_instructor_ids for role in roles):
                 return JsonResponse({'error': 'Instructor privileges required'}, status=403)
             request.user = decoded_token  # Attach the token data to the request
             request.email = decoded_token.get('email')  # Attach the email to the request
@@ -121,4 +166,4 @@ def verify_instructor_token_annotation(view_func):
         except jwt.InvalidTokenError:
             return JsonResponse({'error': 'Invalid token'}, status=401)
 
-    return _wrapped_view
+    return _wrapped_view  

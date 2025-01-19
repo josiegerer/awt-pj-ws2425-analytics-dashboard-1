@@ -1,6 +1,5 @@
 import requests
 from requests.auth import HTTPBasicAuth
-from django.http import JsonResponse
 from django.conf import settings
 
 def login_and_get_token():
@@ -103,4 +102,22 @@ def get_xapi_statements(query_params={}, path="xapi/statements"):
     api_key, secret_key = get_api_and_secret_keys_with_all_or_read_scope(json_web_token)
     statements = fetch_xapi_statements(api_key, secret_key, query_params, path)
     return statements
+
+def get_all_xapi_statements():
+    """
+    Fetches all xAPI statements.
+    """
+
+    statements = []
+    more = True
     
+    path="xapi/statements"     
+    # Fetch all statements
+    while more:
+        response = get_xapi_statements(path=path)
+        statements.extend(response.get('statements', []))
+        path = response.get('more', '')
+        if path == '':
+            more = False
+    
+    return statements

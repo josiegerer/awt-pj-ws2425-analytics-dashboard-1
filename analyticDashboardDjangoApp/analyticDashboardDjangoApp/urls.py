@@ -24,7 +24,6 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
-from xapi.views import  get_all_objects_of_attribute, get_all_statement_for_learner,  get_all_statements, get_all_statements_for_instructor, get_statements_of_last_days_by_timestamp
 from lti import views
 from authentification.views import refresh_token_view
 
@@ -34,9 +33,8 @@ urlpatterns = [
     path('lti/login/', views.login, name='lti-login'),
     path('lti/', include('lti_provider.urls')),
     path('token/refresh/', refresh_token_view, name='token_refresh'),
-    path('lrs', get_all_statements, name='get_all_statements'),
-    path('lrs/lastdays/<int:lastdays>/', get_statements_of_last_days_by_timestamp, name='get_statements_of_last_30days'),
-    path('lrs/attributes/<str:attribute>/', get_all_objects_of_attribute, name='get_all_attributes'),
-    path('lrs/learner/', get_all_statement_for_learner, name='get_all_statements_for_learner'),
-    path('lrs/instructor/', get_all_statements_for_instructor)
+    #path('/popularityOfResources/<str:keyword>'),
+    #path('/activeUser/<int:days>').
+    #path('/totalCourses'),
+    #path
 ]

@@ -127,3 +127,13 @@ For frontend testing, ensure that the user interface (UI) elements load properly
 - The LTI tool should launch correctly when accessed from within a Moodle course.
 - Users should be correctly redirected to the appropriate dashboard.
 - Course and user data should display in the dashboard if configured to do so.
+
+## Conditions for using the Tool
+
+You have to min. send one time each sub course as an xapi statement and give each xapi statement the parent class as context. With this you can track the progress of the cours. You have to send these xapi statements to the LRS. There are different methods for this (link).
+
+To use the function for Instructors you have to send the instructor email as context.
+
+Structure can update with new subcourses but subcourses can be just removed under the condition to delete each xapi statement in the lrs with the corresponding subcours. if not cours can be 100% in the analytics.
+
+Problem where is information of whole Course
