@@ -5,79 +5,106 @@
     </div>
   </template>
   
-  <script>
-  import { Line } from 'vue-chartjs';
-  import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js';
-  
-  // Register required chart.js components
-  ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement);
-  
-  export default {
-    name: 'AssessmentPointsChart',
-    components: {
-      LineChart: Line
-    },
-    data() {
-      return {
-        chartData: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], // Months
-          datasets: [
-            {
-              label: 'Points Achieved',
-              data: [10, 25, 40, 55, 60, 63, 75, 88], // Static data for points achieved each month
-              borderColor: '#42A5F5', // Line color
-              backgroundColor: 'rgba(66, 165, 245, 0.2)', // Fill color under the line
-              fill: true, // Fill the area under the line
-              tension: 0.4 // Smooth line
-            }
-          ]
-        },
-        chartOptions: {
-          responsive: true,
-          maintainAspectRatio: true,
-          plugins: {
-            tooltip: {
-              callbacks: {
-                label: function (context) {
-                  return `Points: ${context.raw}`;
-                }
-              }
-            },
-            legend: {
-            display: true, // Ensure the legend is displayed
-            position: 'bottom', // Position legend at the bottom
-            labels: {
-              color: '#000', // Change legend label color
-              font: {
-                size: 12, // Adjust font size of legend labels
-              },
-            },
+<script>
+import { Line } from 'vue-chartjs';
+import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js';
+
+// Registriere die Chart.js-Komponenten
+ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement);
+
+export default {
+  name: 'AssessmentPointsChart',
+  components: {
+    LineChart: Line
+  },
+  data() {
+    const now = new Date();
+    const currentDay = now.getDate(); // Aktueller Tag im Monat
+
+    // Definiere das maximale Datum, das angezeigt werden soll (z. B. nur bis zum 20. Tag)
+    const maxDays = Math.min(currentDay, 20); 
+
+    // Erzeuge eine Liste der Tage 1 - maxDays
+    const dayLabels = Array.from({ length: maxDays }, (_, i) => i + 1);
+
+    // Beispielhafte Punktedaten für die Tage 1 - maxDays (dies könnte mit echten Daten ersetzt werden)
+    const randomData = dayLabels.map(() => Math.floor(Math.random() * 100)); 
+
+    // Berechne den Durchschnittswert
+    const averageValue = randomData.reduce((acc, val) => acc + val, 0) / randomData.length;
+    const averageData = Array(maxDays).fill(averageValue); // Konstante Linie für den Durchschnitt
+
+    return {
+      chartData: {
+        labels: dayLabels, // X-Achse zeigt die Tage bis zum aktuellen Tag oder max 20 Tage
+        datasets: [
+          {
+            label: 'Punkte erreicht',
+            data: randomData, // Tageswerte
+            borderColor: '#42A5F5',
+            backgroundColor: 'rgba(66, 165, 245, 0.2)',
+            fill: true,
+            tension: 0.4
           },
-        },
-          
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Months'
+          {
+            label: 'Durchschnitt',
+            data: averageData, // Durchschnittswerte für eine horizontale Linie
+            borderColor: 'red',
+            borderWidth: 2,
+            borderDash: [5, 5], // Gepunktete Linie für Durchschnitt
+            pointRadius: 0, // Keine Punkte für diese Linie
+            fill: false
+          }
+        ]
+      },
+      chartOptions: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                return `Punkte: ${context.raw}`;
               }
-            },
-            y: {
-              title: {
-                display: true,
-                text: 'Assessment Points',
-              },
-              beginAtZero: true,
-              min: 0,
-              max: 100,
+            }
+          },
+          legend: {
+            display: true,
+            position: 'bottom',
+            labels: {
+              color: '#000',
+              font: { size: 12 }
             }
           }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Tage im Monat'
+            },
+            ticks: {
+              autoSkip: true, // Automatische Reduzierung der Labels, wenn zu viele vorhanden sind
+              maxTicksLimit: 10 // Maximal 10 Labels auf der Achse
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Assessment Punkte'
+            },
+            beginAtZero: true,
+            min: 0,
+            max: 100
+          }
         }
-      };
-    }
-  };
-  </script>
-  
+      }
+    };
+  }
+};
+</script>
+
+
   <style scoped>
   h3 {
     text-align: left;
