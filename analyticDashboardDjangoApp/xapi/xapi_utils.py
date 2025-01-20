@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-
+from datetime import timezone
 
 
 def filter_statements_by_verb_id(statements, verb_id):
@@ -10,7 +10,12 @@ def filter_statements_by_verb_id(statements, verb_id):
     :param verb_id: The verb ID to filter by.
     :return: List of filtered xAPI statements.
     """
-    filtered_statements = [statement for statement in statements if statement.get("verb", {}).get("id") == verb_id]
+    
+    
+    filtered_statements = []
+    for statement in statements:
+        if statement.get("statement_payload",{}).get("verb", {}).get("id") == verb_id:
+            filtered_statements.append(statement)
     return filtered_statements
 
 def construct_verb_id(verb_name):
@@ -31,7 +36,7 @@ def filter_statements_by_course_id(statements, subcourse_id):
     :param subcourse_id: The subcourse ID to filter by.
     :return: List of filtered xAPI statements.
     """
-    filtered_statements = [statement for statement in statements if statement.get("context", {}).get("contextActivities", {}).get("parent", [{}])[0].get("id") == subcourse_id]
+    filtered_statements = [statement for statement in statements if statement.get("statement_payload",{}).get("context", {}).get("contextActivities", {}).get("parent", [{}])[0].get("id") == subcourse_id]
     return filtered_statements
 
 def construct_activity_id(activity_name):
@@ -51,7 +56,7 @@ def filter_statements_by_object_id(statements, object_id):
     :param object_id: The object ID to filter by.
     :return: List of filtered xAPI statements.
     """
-    filtered_statements = [statement for statement in statements if statement.get("object", {}).get("id") == object_id]
+    filtered_statements = [statement for statement in statements if statement.get("statement_payload",{}).get("object", {}).get("id") == object_id]
     return filtered_statements
 
 def filter_statements_by_instructor_email(statements, email):
@@ -62,7 +67,7 @@ def filter_statements_by_instructor_email(statements, email):
     :param email: The email of the instructor to filter by.
     :return: List of filtered xAPI statements.
     """
-    filtered_statements = [statement for statement in statements if statement.get("context", {}).get("instructor", {}).get("mbox") == f"mailto:{email}"]
+    filtered_statements = [statement for statement in statements if statement.get("statement_payload",{}).get("context", {}).get("instructor", {}).get("mbox") == f"mailto:{email}"]
     return filtered_statements
 
 def get_statements_in_last_days(statements, days):
@@ -73,14 +78,16 @@ def get_statements_in_last_days(statements, days):
     :param days: The number of days to filter by.
     :return: List of filtered xAPI statements.
     """
+    
     filtered_statements = []
-    current_time = datetime.utcnow()
-    time_threshold = current_time - timedelta(days=days)
-
+    
+    current_time = datetime.now(timezone.utc)
+    time_threshold = current_time - timedelta(days=int(days))
+   
     for statement in statements:
         timestamp_str = statement.get("timestamp")
         if timestamp_str:
-            timestamp = datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%M:%S.%fZ")
+            timestamp = timestamp_str.replace(tzinfo=timezone.utc)
             if timestamp >= time_threshold:
                 filtered_statements.append(statement)
 
@@ -102,7 +109,7 @@ def get_statements_with_specific_hour(statements, hour):
     for statement in statements:
         timestamp_str = statement.get("timestamp")
         if timestamp_str:
-            timestamp = datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%M:%S.%fZ")
+            timestamp = timestamp_str
             if timestamp.hour == hour:
                 filtered_statements.append(statement)
 
@@ -173,8 +180,8 @@ def get_duration_of_activities(statements):
     test_start = None
     sorted_statements=sort_statements_by_timestamp(statements)
     for statement in sorted_statements:
-        verb_id = statement.get("verb", {}).get("id")
-        activity_id = statement.get("object", {}).get("id")
+        verb_id = statement.get("statement_payload",{}).get("verb", {}).get("id")
+        activity_id = statement.get("statement_payload",{}).get("object", {}).get("id")
         if verb_id == construct_verb_id("initialized"):
             test_start = datetime.strptime(statement.get("timestamp"), "%Y-%m-%dT%H:%M:%S.%fZ")
         elif verb_id in [construct_verb_id("exited")]:
@@ -194,7 +201,7 @@ def get_duration_of_activities(statements):
 def get_all_user_names(statements):
  unique_users = set()
  for statement in statements:
-        unique_users.add(statement['actor']['name'])
+        unique_users.add(statement['statement_payload']['actor']['name'])
  return list(unique_users)   
 
 def get_all_verbs_ids_used(statements):
@@ -207,7 +214,7 @@ def get_all_verbs_ids_used(statements):
     verbs = set()
     
     for statement in statements:
-        verb_id = statement.get("verb", {}).get("id")
+        verb_id = statement.get("statement_payload",{}).get("verb", {}).get("id")
         if verb_id:
             verbs.add(verb_id)
     
@@ -223,7 +230,7 @@ def get_all_objects_ids_used(statements):
     objects = set()
     
     for statement in statements:
-        object_id = statement.get("object", {}).get("id")
+        object_id = statement.get("statement_payload",{}).get("object", {}).get("id")
         if object_id:
             objects.add(object_id)
     
@@ -239,7 +246,7 @@ def get_all_actors_emails_used(statements):
     emails = set()
     
     for statement in statements:
-        mbox = statement.get("actor", {}).get("mbox")
+        mbox = statement.get("statement_payload",{}).get("actor", {}).get("mbox")
         if mbox:
             email = mbox.replace("mailto:", "")
             emails.add(email)
@@ -256,7 +263,7 @@ def get_all_courses(statements):
     courses = set()
     
     for statement in statements:
-        course_id = statement.get("context", {}).get("contextActivities", {}).get("parent", [{}])[0].get("id")
+        course_id = statement.get("statement_payload",{}).get("context", {}).get("contextActivities", {}).get("parent", [{}])[0].get("id")
         if course_id:
             courses.add(course_id)
     
@@ -274,8 +281,8 @@ def get_open_activities(statements):
     scored_activity_ids = set()
     
     for statement in statements:
-        verb_id = statement.get("verb", {}).get("id")
-        activity_id = statement.get("object", {}).get("id")
+        verb_id = statement.get("statement_payload",{}).get("verb", {}).get("id")
+        activity_id = statement.get("statement_payload",{}).get("object", {}).get("id")
         
         if verb_id == construct_verb_id("initialized"):
             if activity_id not in scored_activity_ids:

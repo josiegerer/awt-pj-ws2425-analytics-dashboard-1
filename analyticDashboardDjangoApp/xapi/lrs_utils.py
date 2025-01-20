@@ -1,6 +1,8 @@
 import requests
 from requests.auth import HTTPBasicAuth
 from django.conf import settings
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
 def login_and_get_token():
     """
@@ -76,7 +78,8 @@ def fetch_xapi_statements(api_key, secret_key, query_params={},path="xapi/statem
     Fetches xAPI statements using the provided API and Secret keys.
     """
     base_url = settings.LRS_URL
-    xapi_endpoint  = f"{base_url}/{path}"
+    xapi_endpoint  = f"{base_url}{path}"
+    print(xapi_endpoint)
     xapi_version = "1.0.3"
 
     headers = {
@@ -93,7 +96,7 @@ def fetch_xapi_statements(api_key, secret_key, query_params={},path="xapi/statem
 
     return response.json()
 
-def get_xapi_statements(query_params={}, path="xapi/statements"):
+def get_xapi_statements(query_params={}, path="/xapi/statements"):
     """
     A Django view to automate retrieval of keys/secrets and fetch xAPI statements.
     """
@@ -111,13 +114,51 @@ def get_all_xapi_statements():
     statements = []
     more = True
     
-    path="xapi/statements"     
+    path="/xapi/statements?limit=2000000"     
     # Fetch all statements
     while more:
         response = get_xapi_statements(path=path)
         statements.extend(response.get('statements', []))
         path = response.get('more', '')
+        if "limit=50" in path:
+            path = path.replace("limit=50", "limit=2000000")
         if path == '':
             more = False
     
     return statements
+def fetch_xapi_statements_from_db(query_params={}):
+    """
+    Fetches xAPI statements from a PostgreSQL database using the provided query parameters.
+    """
+    conn = psycopg2.connect(
+        dbname="database",
+        user="postgres",
+        password="postgres",
+        host="localhost",
+        port="5432"
+    )
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+
+    query = """
+    SELECT 
+    xs.id AS statement_id,
+    xs.timestamp,
+    xs.payload AS statement_payload FROM 
+    xapi_statement xs
+
+
+ """
+    params = []
+
+    for key, value in query_params.items():
+        query += f" AND {key} = %s"
+        params.append(value)
+
+    cursor.execute(query, params)
+    statements = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return statements
+

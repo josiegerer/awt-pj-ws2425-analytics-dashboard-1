@@ -22,7 +22,7 @@ list_of_instructor_ids = [
 ]
 
 list_of_learner_ids = [
-    'http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor',
+    'http://purl.imsglobal.org/vocab/lis/v2/membership#Learner',
     'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Learner'
 ]
 
@@ -56,7 +56,6 @@ def refresh_token_view(request):
         return JsonResponse({'error': 'Refresh token expired'}, status=401)
     except jwt.InvalidTokenError:
         return JsonResponse({'error': 'Invalid refresh token'}, status=401)
-
 
 
 def verify_learner_token_annotation(view_func):

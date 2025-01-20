@@ -24,6 +24,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
+from dashboard.views import get_active_users_count_for_timeslot, get_all_activities_count, get_all_courses_count, get_all_user_count, get_all_user_for_hour, get_average_score_for_activities
 from lti import views
 from authentification.views import refresh_token_view
 
@@ -34,7 +35,12 @@ urlpatterns = [
     path('lti/', include('lti_provider.urls')),
     path('token/refresh/', refresh_token_view, name='token_refresh'),
     #path('/popularityOfResources/<str:keyword>'),
-    #path('/activeUser/<int:days>').
+    path('activeUser/<int:days>',get_active_users_count_for_timeslot),
+    path('totalCourses',get_all_courses_count),
+    path('totalActivities',get_all_activities_count),
+    path('totalUsers',get_all_user_count),
+    path('popularTimes/<int:hour>',get_all_user_for_hour),
+    path('assessmentPerformance',get_average_score_for_activities)
     #path('/totalCourses'),
     #path
 ]
