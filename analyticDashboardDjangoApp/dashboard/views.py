@@ -1,12 +1,14 @@
 
 #Number of searches conducted on specific keyword
 from django.http import JsonResponse
-from dashboard.xapi_service import XAPIService
-from xapi.lrs_utils import  fetch_xapi_statements_from_db, fetch_xapi_statements_from_db
+from dashboard.xapi_services import UserXAPIService, XAPIService
+from xapi.lrs_utils import  fetch_xapi_statements_from_db_for_user, fetch_xapi_statements_from_db, fetch_xapi_statements_from_db
 from xapi.xapi_utils import construct_activity_id, construct_verb_id, filter_statements_by_instructor_email, filter_statements_by_object_id, filter_statements_by_course_id, get_all_actors_emails_used, get_all_courses, get_all_objects_ids_used, get_all_user_names, get_all_verbs_ids_used, get_duration_of_activities, get_durations_of_tests_for_user, get_open_activities, get_statements_in_last_days, filter_statements_by_verb_id, get_statements_of_specfic_user_by_email, get_statements_with_specific_hour, sort_statements_by_timestamp
 from datetime import datetime, timedelta
 
 xapi_service = XAPIService(cache_duration=300) 
+user_xapi_service=UserXAPIService(cache_duration=300) 
+
 
 def get_popularity_of_resources(request, **kwargs):
     try:
@@ -31,7 +33,7 @@ def get_active_users_count_for_timeslot(request, **kwargs):
     try:
         statements = xapi_service.fetch_statements()
         # Save statements to a JSON file
-        
+        print(statements)
         days = str(kwargs.get('days', 30))
         # Filter statements by time period
         statements_filtered_by_time = get_statements_in_last_days(statements, days)
@@ -247,7 +249,7 @@ def get_list_of_activities_of_instructor(request):
 
 def get_list_of_activities_of_learner(request):
     email = request.email
-    statements = xapi_service.fetch_statements()
+    statements = user_xapi_service.fetch_statements_for_user(email)
     statements_of_learner = get_statements_of_specfic_user_by_email(statements, email)
     all_objects = get_all_objects_ids_used(statements_of_learner)
     responseJson = {"activities": all_objects}
@@ -256,12 +258,10 @@ def get_list_of_activities_of_learner(request):
 def get_activity_completion_and_assigned_for_learner(request):
     email= request.email
     activity_id = request.GET.get('activityId')
-    statements = xapi_service.fetch_statements()
-    statements_of_learner=get_statements_of_specfic_user_by_email(statements, email)
+    statements = user_xapi_service.fetch_statements_for_user(email)
     
-    
-    statements_filtered_by_object = filter_statements_by_object_id(statements_of_learner,activity_id)
-    all_users_of_filtered_statements = get_email_of_all_users(statements_filtered_by_object)
+    statements_filtered_by_object = filter_statements_by_object_id(statements,activity_id)
+    all_users_of_filtered_statements = get_all_actors_emails_used(statements_filtered_by_object)
     statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object, construct_verb_id("completed"))
     responseJson = {"assigned": len(all_users_of_filtered_statements),
                     "completed": len(statements_filtered_by_verb)}
@@ -272,10 +272,8 @@ def get_scoring_progress_array(request):
     
     # Macht keinen Sinn
     email= request.email
-    statements = xapi_service.fetch_statements()
-    statements_of_learner=get_statements_of_specfic_user_by_email(statements, email)
-    
-    statements_filtered_by_verb = filter_statements_by_verb_id(statements_of_learner, construct_verb_id("scored"))
+    statements = user_xapi_service.fetch_statements_for_user(email)
+    statements_filtered_by_verb = filter_statements_by_verb_id(statements, construct_verb_id("scored"))
     scores_by_day = {}
     responseJson = {"score": []}
     
@@ -296,9 +294,8 @@ def get_scoring_progress_array(request):
 def is_activity_completed_for_learner(request):
     email= request.email
     activity_id = request.GET.get('activityId')
-    statements = xapi_service.fetch_statements()
-    statements_of_learner=get_statements_of_specfic_user_by_email(statements, email)
-    statements_filtered_by_object = filter_statements_by_object_id(statements_of_learner,activity_id)
+    statements = user_xapi_service.fetch_statements_for_user(email)
+    statements_filtered_by_object = filter_statements_by_object_id(statements,activity_id)
     statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object, construct_verb_id("completed"))
     responseJson = {"passed": len(statements_filtered_by_verb) > 0}
     return JsonResponse(responseJson, safe=False)
@@ -306,9 +303,8 @@ def is_activity_completed_for_learner(request):
 def get_attempts_until_passed_for_learner(request):
     email = request.email
     activity_id = request.GET.get('activityId')
-    statements = xapi_service.fetch_statements()
-    statements_of_learner = get_statements_of_specfic_user_by_email(statements, email)
-    statements_filtered_by_object = filter_statements_by_object_id(statements_of_learner, activity_id)
+    statements = user_xapi_service.fetch_statements_for_user(email)
+    statements_filtered_by_object = filter_statements_by_object_id(statements, activity_id)
     sorted_statements = sort_statements_by_timestamp(statements_filtered_by_object)
 
     attempts = 0
@@ -345,10 +341,8 @@ def count_each_verb_for_learner(request):
 
 def time_spent_on_each_activity_for_learner(request):
     email = request.email
-    statements = xapi_service.fetch_statements()
-    statements_of_learner = get_statements_of_specfic_user_by_email(statements, email)
-    sorted_statements = sort_statements_by_timestamp(statements_of_learner)
-    durations = get_duration_of_activities(sorted_statements)
+    statements = user_xapi_service.fetch_statements_for_user(email)
+    durations = get_duration_of_activities(statements)
     total_time = sum(duration["duration"] for duration in durations.values())
     
     responseJson = {
@@ -360,11 +354,9 @@ def time_spent_on_each_activity_for_learner(request):
 
 def get_passed_and_failed_tests_for_learner(request):
     email = request.email
-    statements = xapi_service.fetch_statements()
-    statements_of_learner = get_statements_of_specfic_user_by_email(statements, email)
-    sorted_statements = sort_statements_by_timestamp(statements_of_learner)
-    open_statements= get_open_activities(statements_of_learner)
-    durations = get_durations_of_tests_for_user(sorted_statements)
+    statements = user_xapi_service.fetch_statements_for_user(email)
+    open_statements= get_open_activities(statements)
+    durations = get_durations_of_tests_for_user(statements)
     passed = sum(duration["result"] == "completed" for duration in durations.values())
     failed = sum(duration["result"] == "failed" for duration in durations.values())
     open_activities = len(open_statements)
@@ -379,7 +371,7 @@ def get_passed_and_failed_tests_for_learner(request):
 def get_passed_and_failed_tests_for_instructor(request):
     instructor_email = request.email
     statements = xapi_service.fetch_statements()
-    all_user_emails = get_email_of_all_users(statements)
+    all_user_emails = get_all_actors_emails_used(statements)
     statements_of_instructor = filter_statements_by_instructor_email(statements, instructor_email)
     user_results = {}
 
@@ -406,9 +398,8 @@ def get_passed_and_failed_tests_for_instructor(request):
 def get_rating_of_activity_for_learner(request):
     email = request.email
     activity_id = request.GET.get('activityId')
-    statements = xapi_service.fetch_statements()
-    statements_of_learner = get_statements_of_specfic_user_by_email(statements, email)
-    statements_filtered_by_object = filter_statements_by_object_id(statements_of_learner, activity_id)
+    statements = user_xapi_service.fetch_statements_for_user(email)
+    statements_filtered_by_object = filter_statements_by_object_id(statements , activity_id)
     statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object, construct_verb_id("rated"))
     statement_sort=sort_statements_by_timestamp(statements_filtered_by_verb)
     
@@ -445,9 +436,8 @@ def get_rating_of_all_users_for_instructor(request):
 def learning_efficiency_for_learner(request):
     email = request.email
     activity_id = request.GET.get('activityId')
-    statements = xapi_service.fetch_statements()
-    statements_of_learner = get_statements_of_specfic_user_by_email(statements, email)
-    statements_filtered_by_object = filter_statements_by_object_id(statements_of_learner, activity_id)
+    statements = user_xapi_service.fetch_statements_for_user(email)
+    statements_filtered_by_object = filter_statements_by_object_id(statements, activity_id)
     sorted_statements = sort_statements_by_timestamp(statements_filtered_by_object)
     durations = get_durations_of_tests_for_user(sorted_statements)
     scores=[]
@@ -463,9 +453,8 @@ def learning_efficiency_for_learner(request):
     return JsonResponse(responseJson, safe=False)
 
 def active_hours_in_the_current_week_for_learner(request):
-    statements = xapi_service.fetch_statements()
     email = request.user.email  # Corrected to access email from authenticated user
-    statements_of_learner = get_statements_of_specfic_user_by_email(statements, email)
+    statements_of_learner =  user_xapi_service.fetch_statements_for_user(email)
     
     current_date = datetime.now()
     start_of_week = current_date - timedelta(days=current_date.weekday())

@@ -1,3 +1,4 @@
+import json
 import requests
 from requests.auth import HTTPBasicAuth
 from django.conf import settings
@@ -130,6 +131,7 @@ def fetch_xapi_statements_from_db(query_params={}):
     """
     Fetches xAPI statements from a PostgreSQL database using the provided query parameters.
     """
+    #TODO:use environment variables for database connection 
     conn = psycopg2.connect(
         dbname="database",
         user="postgres",
@@ -161,4 +163,71 @@ def fetch_xapi_statements_from_db(query_params={}):
     conn.close()
 
     return statements
+
+def fetch_xapi_statements_from_db_for_user(email_of_user, query_params={}):
+    """
+    Fetches xAPI statements from a PostgreSQL database using the provided query parameters.
+    """
+    #TODO:use environment variables for database connection 
+    conn = psycopg2.connect(
+        dbname="database",
+        user="postgres",
+        password="postgres",
+        host="localhost",
+        port="5432"
+    )
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+
+    query = """
+    SELECT * FROM statement_to_actor 
+    JOIN xapi_statement xs ON xs.statement_id = statement_to_actor.statement_id
+    WHERE actor_ifi = %s;
+    """
+    params = [f"mbox::mailto:{email_of_user}"]
+
+    for key, value in query_params.items():
+        query += f" AND {key} = %s"
+        params.append(value)
+
+    cursor.execute(query, params)
+    statements = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return statements
+
+def fetch_all_activities_from_db():
+    """
+    Fetches all activities from a PostgreSQL database.
+    """
+    #TODO:use environment variables for database connection 
+    conn = psycopg2.connect(
+        dbname="database",
+        user="postgres",
+        password="postgres",
+        host="localhost",
+        port="5432"
+    )
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+
+    query = """
+    SELECT activity_iri  FROM activity;
+   
+    """
+    cursor.execute(query)
+    statements = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+    
+    statementsJson = json.loads(json.dumps(statements))
+    activities = set()
+    
+    for statement in statementsJson:
+        activity_iri = statement.get("activity_iri")
+        if activity_iri:
+            activities.add(activity_iri)
+
+    return activities
 
