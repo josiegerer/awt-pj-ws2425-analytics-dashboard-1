@@ -56,6 +56,9 @@ export default {
     async fetchCourses() {
       try {
         const response = await fetch('/api/courses');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
         this.localCourses = data; // Update local data property
       } catch (error) {

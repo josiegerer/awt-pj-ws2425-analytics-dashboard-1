@@ -29,49 +29,63 @@
 </template>
 
 <script>
-import jwtDecode from 'jwt-decode';
+// Import jwt-decode correctly
+import { jwtDecode } from 'jwt-decode'
+console.log('jwtDecode:', jwtDecode); // Debug: Check if jwtDecode is imported
 
 export default {
-name: 'App',
-data() {
-  return {
-    userName: 'User', // Default name
-    role: '', // User role
-  };
-},
-computed: {
-  showHeader() {
-    return this.$route.path !== '/educator-dashboard';
-  }
-},
-methods: {
-  navigateTo(route) {
-    this.$router.push(route);
+  name: 'App',
+  data() {
+    return {
+      userName: 'User', // Default name
+      role: '', // User role
+    };
   },
-  fetchUserName() {
-    const token = localStorage.getItem('token'); // Fetch the token from local storage
-    if (token) {
+  computed: {
+    showHeader() {
+      return this.$route.path !== '/educator-dashboard';
+    }
+  },
+  methods: {
+    navigateTo(route) {
+      this.$router.push(route);
+    },
+    fetchUserName() {
+      const token = localStorage.getItem('token'); // Get the token
+  console.log('Token:', token); // Debug: Check if token exists
+
+  if (token) {
+    try {
       const decodedToken = jwtDecode(token); // Decode the token
-      this.userName = decodedToken.name;
-      this.role = decodedToken.role; // Extract the user role from the token
-      this.redirectBasedOnRole();
-    } else {
-      console.error('No token found');
+      console.log('Decoded Token:', decodedToken); // Debug: Check decoded token
+
+      this.userName = decodedToken.name; // Set the user's name
+      this.role = decodedToken.role; // Set the user's role
+
+      // Role-based route redirection
+      if (this.role === 'learner') {
+        this.$router.push('/overall');
+      } else if (this.role === 'admin') {
+        this.$router.push('/admin-dashboard');
+      } else if (this.role === 'educator') {
+        this.$router.push('/educator-dashboard');
+      } else {
+        console.error('Unknown role: ' + this.role);
+        this.$router.push('/login'); // Fallback in case of an unknown role
+      }
+    } catch (error) {
+      console.error('Invalid token:', error);
+      this.$router.push('/login'); // Redirect to login if the token is invalid
     }
+  } else {
+    console.error('No token found');
+    this.$router.push('/login'); // Redirect to login if no token is found
+  }
+    },
   },
-  redirectBasedOnRole() {
-    if (this.role === 'learner') {
-      this.$router.push('/overall');
-    } else if (this.role === 'admin') {
-      this.$router.push('/admin-dashboard');
-    } else if (this.role === 'educator') {
-      this.$router.push('/educator-dashboard');
-    }
+  created() {
+    this.fetchUserName();
   },
-},
-created() {
-  this.fetchUserName();
-},
 };
 </script>
 
