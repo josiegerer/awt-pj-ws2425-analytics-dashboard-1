@@ -49,7 +49,7 @@ class XAPIGenerator:
                 }
             }
         }
-    test_pass_threshold = 0.7  # 70% to pass a test
+    test_pass_threshold = 0.5  # 70% to pass a test
     
     
     def deep_merge(self,json1, json2):
@@ -101,6 +101,9 @@ class XAPIGenerator:
             dict: A context JSON object.
         """
         context = {
+            "top-level-course": {
+                "name": "Baumchirurgie"
+            },
             "instructor": {
                 "name": instructor_name,
                 "mbox": f"mailto:{instructor_email}"
@@ -237,7 +240,8 @@ class XAPIGenerator:
                     "scaled": score,
                     "raw": int(score * 100),
                     "min": 0,
-                    "max": 100
+                    "max": 100,
+                    "threshold": 0.5
                 }
             }
         if rating is not None:
