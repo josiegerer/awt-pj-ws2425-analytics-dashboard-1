@@ -467,7 +467,7 @@ class XAPIGenerator:
                     current_date = new_date
 
                 # Add time gap between materials
-                current_date = self.get_next_study_date(current_date, profile)
+                current_date = self.get_next_study_date(current_date, profile,  diminished_factor=0.5)
 
             # Remove subcourse if empty
             if not materials_by_subcourse[subcourse]:
@@ -610,7 +610,7 @@ class XAPIGenerator:
             # Randomly choose a material from uncompleted ones
             material = random.choice(list(uncompleted_materials))
             
-            if random.random() < profile["completion_rate"]:  # User engages with the material
+            if random.random() < profile["completion_rate"] * 1.5:  # User engages with the material
                
                 duration = random.randint(
                    int(profile["study_duration"] * 0.5 ),
@@ -620,7 +620,7 @@ class XAPIGenerator:
                          learning_sessions[material] = 0
                          
                 # Generate learning material statements
-                if random.random() > 0.5:  # User spends time on the material
+                if random.random() > 0.3:  # User spends time on the material
                     material_statements, end_time = self.generate_learning_session(
                         user_id, material, current_date, duration
                     )
@@ -645,7 +645,7 @@ class XAPIGenerator:
                     ))
 
                 # Generate test statements based on user behavior
-                if random.random() < self.calculate_test_probability(learning_sessions[material],profile):  # User takes a test
+                if random.random() < self.calculate_test_probability(learning_sessions[material],profile)* 2:  # User takes a test
                     session_bonus = min(0.2, 0.05 * learning_sessions[material])  # Max 20% bonus
                     difficulty_decimal = self.get_difficulty_decimal(material)
                     test_score = random.uniform(
@@ -863,7 +863,7 @@ def test_single_user_type(user_type):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
         
-    output_file = os.path.join(output_dir, f"xapi_statements_{user_type}.json")
+    output_file = os.path.join(output_dir, f"new_xapi_statements_{user_type}.json")
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(statements, f, ensure_ascii=False, indent=2)
     
@@ -981,13 +981,16 @@ def generate_multi_duration_dataset(output_file="xapi_statements_combined.json")
     return all_statements
 
 if __name__ == "__main__":
-    # Test each type individually
-    # user_types = ["consistent", "inconsistent", "u_shaped", "diminished"]
+            # Test each type individually
+    #user_types = ["consistent", "inconsistent", "u_shaped", "diminished"]
+    # user_types = ["consistent"]
+
 
     # for utype in user_types:
     #     print(f"\nTesting {utype} learner:")
-    #     statements = test_single_user_type(ut
-    
+    #     statements = test_single_user_type(utype)
+    #     analyze_statements(statements)
+
     statements = generate_multi_duration_dataset()
     
     
