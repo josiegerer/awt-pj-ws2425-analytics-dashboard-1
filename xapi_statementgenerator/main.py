@@ -494,14 +494,14 @@ class XAPIGenerator:
         while current_date < end_date and uncompleted_materials:
             # Determine current phase and adjust engagement
             if current_date < phase1_end:  # High engagement phase
-                engagement_multiplier = 1.2
-                study_frequency_modifier = 1
+                engagement_multiplier = 2
+                study_frequency_modifier = 2
             elif current_date < phase2_end:  # Low engagement phase
-                engagement_multiplier = 0.6
-                study_frequency_modifier = 0.5
+                engagement_multiplier = 0.8
+                study_frequency_modifier = 0.8
             else:  # Recovery phase
-                engagement_multiplier = 1.3
-                study_frequency_modifier = 1.2
+                engagement_multiplier = 2.5
+                study_frequency_modifier = 2
 
             # Randomly search for any material (including completed ones)
             if random.random() < (0.4 * engagement_multiplier):
@@ -548,7 +548,7 @@ class XAPIGenerator:
 
                     # Test taking probability increases with sessions and engagement
                     test_probability = self.calculate_test_probability(learning_sessions[material],
-                                                                       profile) * engagement_multiplier
+                                                                       profile) * engagement_multiplier * 1.5
 
                     if random.random() < test_probability:
                         # Calculate test score based on sessions and phase
@@ -557,7 +557,7 @@ class XAPIGenerator:
                         base_performance = profile["test_performance"] * engagement_multiplier 
 
                         test_score = random.uniform(
-                            base_performance * 0.8 - difficulty_decimal,
+                            base_performance * 0.5 - difficulty_decimal,
                             base_performance * 1.2 - difficulty_decimal
                         ) + session_bonus
                         test_score = min(1.0, test_score)
@@ -582,7 +582,7 @@ class XAPIGenerator:
                             ))
 
             # Adjust time advancement based on phase
-            base_advance = 7 / profile["study_frequency"]
+            base_advance = 3 / profile["study_frequency"]
             phase_advance = base_advance / study_frequency_modifier
             current_date = self.get_next_study_date(
                 current_date + timedelta(days=random.uniform(0.5 * phase_advance, 1.5 * phase_advance)),
@@ -983,7 +983,7 @@ def generate_multi_duration_dataset(output_file="xapi_statements_combined.json")
 if __name__ == "__main__":
             # Test each type individually
     #user_types = ["consistent", "inconsistent", "u_shaped", "diminished"]
-    # user_types = ["consistent"]
+    # user_types = ["u_shaped"]
 
 
     # for utype in user_types:
