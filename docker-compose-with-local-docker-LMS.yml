@@ -1,4 +1,4 @@
-version: '3.8'
+
 
 services:
   postgresdb:
@@ -21,8 +21,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-    networks:
-      - shared_network
+
 
   yetanalytics_lrsql:
     image: yetanalytics/lrsql:latest
@@ -49,8 +48,7 @@ services:
       LRSQL_ALLOW_ALL_ORIGINS: true
       LRSQL_ENABLE_CLAMAV: true
       LRSQL_CLAMAV_HOST: clamav
-    networks:
-      - shared_network
+
 
 
   mariadb:
@@ -64,8 +62,7 @@ services:
       - MARIADB_COLLATE=utf8mb4_unicode_ci
     volumes:
       - 'mariadb_data:/bitnami/mariadb'
-    networks:
-      - shared_network
+
 
 
   moodle:
@@ -85,8 +82,6 @@ services:
       - 'moodledata_data:/bitnami/moodledata'
     depends_on:
       - mariadb
-    networks:
-      - shared_network
 
 volumes:
   pgdata:
@@ -97,7 +92,3 @@ volumes:
     driver: local
   moodledata_data:
     driver: local
-
-networks:
-  shared_network:
-    external: true

@@ -15,6 +15,7 @@
     <!-- Dashboard Content -->
     <div class="dashboard">
       <div class="grid-container">
+        <p>JOJO</p>
         
       </div>
     </div>

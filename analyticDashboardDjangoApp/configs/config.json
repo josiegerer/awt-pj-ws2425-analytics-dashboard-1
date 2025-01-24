@@ -133,14 +133,14 @@
     
     "http://localhost:8081": [{
         "default": false,
-        "client_id": "aX2hJ5kFnsptQgj",
+        "client_id": "HC70Iufth7izjA9",
         "auth_login_url": "http://localhost:8081/mod/lti/auth.php",
         "auth_token_url": "http://localhost:8081/mod/lti/token.php",
         "key_set_url": "http://localhost:8081/mod/lti/certs.php",
         "key_set": null,
         "private_key_file": "private.key",
         "public_key_file": "public.key",
-        "deployment_ids": ["2"]}],
+        "deployment_ids": ["1"]}],
 
     "https://saltire.lti.app/platform": [{
         "default": false,

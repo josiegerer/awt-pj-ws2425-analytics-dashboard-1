@@ -29,64 +29,93 @@
 </template>
 
 <script>
-// Import jwt-decode correctly
 import { jwtDecode } from 'jwt-decode'
-console.log('jwtDecode:', jwtDecode); // Debug: Check if jwtDecode is imported
+
+const LTI_ROLES = {
+  STUDENT: 'http://purl.imsglobal.org/vocab/lis/v2/membership#Learner',
+  TEACHER: 'http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor',
+  ADMIN: 'http://purl.imsglobal.org/vocab/lis/v2/system/person#Administrator'
+}
 
 export default {
   name: 'App',
   data() {
     return {
-      userName: 'User', // Default name
-      role: '', // User role
-    };
+      userName: 'User',
+      roles: []
+    }
   },
   computed: {
     showHeader() {
-      return this.$route.path !== '/educator-dashboard';
+      return !['/educator-dashboard', '/lti/launch'].includes(this.$route.path)
+    },
+    isStudent() {
+      return this.roles.some(role => role === LTI_ROLES.STUDENT)
+    },
+    isTeacher() {
+      return this.roles.some(role => role === LTI_ROLES.TEACHER)
+    },
+    isAdmin() {
+      return this.roles.some(role => role === LTI_ROLES.ADMIN)
     }
   },
   methods: {
     navigateTo(route) {
-      this.$router.push(route);
+      this.$router.push(route)
     },
-    fetchUserName() {
-      const token = localStorage.getItem('token'); // Get the token
-  console.log('Token:', token); // Debug: Check if token exists
+    getCookie(name) {
+      const value = `; ${document.cookie}`
+      const parts = value.split(`; ${name}=`)
+      return parts.length === 2 ? parts.pop().split(';').shift() : null
+    },
+    fetchUserData() {
+      const token = this.getCookie('auth_token')
+      
+      if (token) {
+        try {
+          const decoded = jwtDecode(token)
+          console.log('Raw Token Data:', decoded)
 
-  if (token) {
-    try {
-      const decodedToken = jwtDecode(token); // Decode the token
-      console.log('Decoded Token:', decodedToken); // Debug: Check decoded token
+          // Proxy-Array in normales Array umwandeln
+          const rawRoles = decoded.roles || [] // Anpassung für dein Token
+          this.roles = JSON.parse(JSON.stringify(rawRoles))
+          
+          console.log('Processed Roles:', this.roles)
+          console.log('Is Student:', this.isStudent)
 
-      this.userName = decodedToken.name; // Set the user's name
-      this.role = decodedToken.role; // Set the user's role
+          this.userName = decoded.name || 'Unknown User'
+          this.autoRedirect()
 
-      // Role-based route redirection
-      if (this.role === 'learner') {
-        this.$router.push('/overall');
-      } else if (this.role === 'admin') {
-        this.$router.push('/admin-dashboard');
-      } else if (this.role === 'educator') {
-        this.$router.push('/educator-dashboard');
+        } catch (error) {
+          console.error('Token Error:', error)
+          this.$router.push('/login')
+        }
       } else {
-        console.error('Unknown role: ' + this.role);
-        this.$router.push('/login'); // Fallback in case of an unknown role
+        this.$router.push('/login')
       }
-    } catch (error) {
-      console.error('Invalid token:', error);
-      this.$router.push('/login'); // Redirect to login if the token is invalid
-    }
-  } else {
-    console.error('No token found');
-    this.$router.push('/login'); // Redirect to login if no token is found
-  }
     },
+    autoRedirect() {
+      const currentPath = this.$route.path
+      console.log('Current Path:', currentPath)
+
+      if (this.isAdmin && !currentPath.includes('admin')) {
+        console.log('Redirecting to admin dashboard')
+        this.$router.replace('/admin-dashboard')
+      }
+      else if (this.isTeacher && !currentPath.includes('educator')) {
+        console.log('Redirecting to educator dashboard')
+        this.$router.replace('/educator-dashboard')
+      }
+      else if (this.isStudent && currentPath === '/lti/launch/') {
+        console.log('Redirecting student from launch')
+        this.$router.replace('/overall')
+      }
+    }
   },
   created() {
-    this.fetchUserName();
-  },
-};
+    this.fetchUserData()
+  }
+}
 </script>
 
 <style>
