@@ -1,0 +1,2174 @@
+[
+  {
+    "id": "19004970-7cfe-4e9b-b2d6-bffdb7680813",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Gefahren_im_Umgang_mit_Bäumen_mindern",
+      "definition": {
+        "name": {
+          "de-DE": "Gefahren im Umgang mit Bäumen mindern"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen des Kletterns"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-01T13:37:37.103Z"
+  },
+  {
+    "id": "41a92290-b697-4b75-b0ff-8cfcdfc57dca",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Gefahren_im_Umgang_mit_Bäumen_mindern",
+      "definition": {
+        "name": {
+          "de-DE": "Gefahren im Umgang mit Bäumen mindern"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen des Kletterns"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-01T15:44:37.103Z",
+    "result": {
+      "duration": "PT127M"
+    }
+  },
+  {
+    "id": "3e6389e7-bbea-4897-9756-931c90200fc2",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Gefahren_im_Umgang_mit_Bäumen_mindern",
+      "definition": {
+        "name": {
+          "de-DE": "Gefahren im Umgang mit Bäumen mindern"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen des Kletterns"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-01T13:44:37.103Z",
+    "result": {
+      "score": {
+        "raw": 4,
+        "min": 1,
+        "max": 5
+      }
+    }
+  },
+  {
+    "id": "8ce4b428-2cf1-4466-898d-aaf4f3111583",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Krankheits-_und_Schädlingsbekämpfung_durchführen",
+      "definition": {
+        "name": {
+          "de-DE": "Krankheits- und Schädlingsbekämpfung durchführen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-04T15:09:37.103Z"
+  },
+  {
+    "id": "ff90dde2-b738-44ce-b713-dae20884fd28",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Krankheits-_und_Schädlingsbekämpfung_durchführen",
+      "definition": {
+        "name": {
+          "de-DE": "Krankheits- und Schädlingsbekämpfung durchführen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-04T17:21:37.103Z",
+    "result": {
+      "duration": "PT132M"
+    }
+  },
+  {
+    "id": "e44a8ffc-904e-4420-b3f3-a67830dd7ce9",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Krankheits-_und_Schädlingsbekämpfung_durchführen",
+      "definition": {
+        "name": {
+          "de-DE": "Krankheits- und Schädlingsbekämpfung durchführen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-04T15:13:37.103Z"
+  },
+  {
+    "id": "b45a10ee-a188-4b5e-ba69-abc94ef09f9d",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Sicherheitsverfahren_in_großen_Höhen_befolgen",
+      "definition": {
+        "name": {
+          "de-DE": "Sicherheitsverfahren in großen Höhen befolgen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen des Kletterns"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-06T15:31:37.103Z"
+  },
+  {
+    "id": "42783def-24bc-406b-9622-3498518d94bb",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Sicherheitsverfahren_in_großen_Höhen_befolgen",
+      "definition": {
+        "name": {
+          "de-DE": "Sicherheitsverfahren in großen Höhen befolgen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen des Kletterns"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-06T16:55:37.103Z",
+    "result": {
+      "duration": "PT84M"
+    }
+  },
+  {
+    "id": "a5db01ed-8256-4cc1-908d-db11160ac650",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Sicherheitsverfahren_in_großen_Höhen_befolgen",
+      "definition": {
+        "name": {
+          "de-DE": "Sicherheitsverfahren in großen Höhen befolgen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen des Kletterns"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-06T15:36:37.103Z",
+    "result": {
+      "score": {
+        "raw": 1,
+        "min": 1,
+        "max": 5
+      }
+    }
+  },
+  {
+    "id": "72b9e8d4-c17f-4f93-9929-d6e44dd7d203",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Sicherheitsverfahren_in_großen_Höhen_befolgen",
+      "definition": {
+        "name": {
+          "de-DE": "Sicherheitsverfahren in großen Höhen befolgen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen des Kletterns"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-06T15:44:37.103Z"
+  },
+  {
+    "id": "7216cb42-c3eb-4703-88c4-4ff549127e4b",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Instandhaltung"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-08T17:05:37.103Z"
+  },
+  {
+    "id": "bbf5ec97-6ee2-4ee5-be84-c06e583b9a59",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Instandhaltung"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-08T20:26:37.103Z",
+    "result": {
+      "duration": "PT201M"
+    }
+  },
+  {
+    "id": "3685ba8e-66a3-41cf-8ef5-82152aaf8668",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Krankheits-_und_Schädlingsbekämpfung_durchführen",
+      "definition": {
+        "name": {
+          "de-DE": "Krankheits- und Schädlingsbekämpfung durchführen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-11T17:24:37.103Z"
+  },
+  {
+    "id": "e7bc9e74-5954-494f-8844-7fe844418419",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Krankheits-_und_Schädlingsbekämpfung_durchführen",
+      "definition": {
+        "name": {
+          "de-DE": "Krankheits- und Schädlingsbekämpfung durchführen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-11T20:32:37.103Z",
+    "result": {
+      "duration": "PT188M"
+    }
+  },
+  {
+    "id": "68824cc3-5981-4c35-92fc-4bd81ed0f1f3",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Krankheits-_und_Schädlingsbekämpfung_durchführen",
+      "definition": {
+        "name": {
+          "de-DE": "Krankheits- und Schädlingsbekämpfung durchführen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-11T17:28:37.103Z",
+    "result": {
+      "score": {
+        "raw": 4,
+        "min": 1,
+        "max": 5
+      }
+    }
+  },
+  {
+    "id": "5e5af927-bafd-489b-949e-02ca98d06bef",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Instandhaltung"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-13T15:54:37.103Z"
+  },
+  {
+    "id": "1ebe9d33-b122-42bc-99cf-ad9c393dada8",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Instandhaltung"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-13T18:51:37.103Z",
+    "result": {
+      "duration": "PT177M"
+    }
+  },
+  {
+    "id": "50f46170-c292-4a22-a1d6-748baba67c9a",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Instandhaltung"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-13T16:01:37.103Z"
+  },
+  {
+    "id": "2736af02-d68e-4791-a31a-02b7472e6aee",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Instandhaltung"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-16T17:55:37.103Z"
+  },
+  {
+    "id": "ca760fca-dd45-4c13-ad7d-bf04c642cef9",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Instandhaltung"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-16T19:41:37.103Z",
+    "result": {
+      "duration": "PT106M"
+    }
+  },
+  {
+    "id": "f2efb9c5-4d2f-4eec-99c9-81afeb291f05",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Instandhaltung"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-16T17:58:37.103Z",
+    "result": {
+      "score": {
+        "raw": 1,
+        "min": 1,
+        "max": 5
+      }
+    }
+  },
+  {
+    "id": "8484671d-8363-449a-82fe-eb7556be31ad",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Kettensäge_bedienen",
+      "definition": {
+        "name": {
+          "de-DE": "Kettensäge bedienen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor3",
+        "mbox": "mailto:instructor3@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Instandhaltung",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Instandhaltung"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-16T18:05:37.103Z"
+  },
+  {
+    "id": "5d769257-a193-485c-8e0f-ec12f46b5aef",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen des Kletterns"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-20T18:44:37.103Z"
+  },
+  {
+    "id": "bbe9295c-9c46-4798-baa6-fc0ad574d5d9",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen des Kletterns"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-20T20:25:37.103Z",
+    "result": {
+      "duration": "PT101M"
+    }
+  },
+  {
+    "id": "d360188c-0dba-411b-84e0-fdc6bab53c67",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-24T14:30:37.103Z"
+  },
+  {
+    "id": "3226f3c1-a61a-4a04-a8e9-11acbe3b323a",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-24T16:04:37.103Z",
+    "result": {
+      "duration": "PT94M"
+    }
+  },
+  {
+    "id": "f52e290e-c890-414d-aa18-4af14eea4fd4",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-24T14:35:37.103Z",
+    "result": {
+      "score": {
+        "raw": 1,
+        "min": 1,
+        "max": 5
+      }
+    }
+  },
+  {
+    "id": "7962ad0d-9e04-4c96-8724-5b6c74569fcb",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Baumkonservierung",
+      "definition": {
+        "name": {
+          "de-DE": "Baumkonservierung"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-24T14:42:37.103Z"
+  },
+  {
+    "id": "4ca64c3e-9a35-46b6-aa07-7cae3683a77e",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Krankheits-_und_Schädlingsbekämpfung_durchführen",
+      "definition": {
+        "name": {
+          "de-DE": "Krankheits- und Schädlingsbekämpfung durchführen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-27T14:53:37.103Z"
+  },
+  {
+    "id": "52aee6a6-fa2a-42fd-aad3-fc9324e24d2f",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Krankheits-_und_Schädlingsbekämpfung_durchführen",
+      "definition": {
+        "name": {
+          "de-DE": "Krankheits- und Schädlingsbekämpfung durchführen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-27T16:34:37.103Z",
+    "result": {
+      "duration": "PT101M"
+    }
+  },
+  {
+    "id": "c170bf0b-517c-47b2-8105-eb37e7a80786",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Krankheits-_und_Schädlingsbekämpfung_durchführen",
+      "definition": {
+        "name": {
+          "de-DE": "Krankheits- und Schädlingsbekämpfung durchführen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-27T15:02:37.103Z",
+    "result": {
+      "score": {
+        "raw": 5,
+        "min": 1,
+        "max": 5
+      }
+    }
+  },
+  {
+    "id": "a4a671a0-dadb-4f12-bd7b-e8337551dd00",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Krankheits-_und_Schädlingsbekämpfung_durchführen",
+      "definition": {
+        "name": {
+          "de-DE": "Krankheits- und Schädlingsbekämpfung durchführen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-27T15:05:37.103Z"
+  },
+  {
+    "id": "1a2f2f34-e2f5-46ad-825b-c3447b5ec93f",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen des Kletterns"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-29T15:36:37.103Z"
+  },
+  {
+    "id": "92450eed-9b5b-4de9-8d8c-488c6efa898f",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen des Kletterns"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-29T17:55:37.103Z",
+    "result": {
+      "duration": "PT139M"
+    }
+  },
+  {
+    "id": "6328b4dc-0808-4723-a8fb-5875d100f46c",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen des Kletterns"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-29T15:46:37.103Z",
+    "result": {
+      "score": {
+        "raw": 1,
+        "min": 1,
+        "max": 5
+      }
+    }
+  },
+  {
+    "id": "0576839a-adba-4e4b-a372-1af19907fe78",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Auf_Bäume_klettern",
+      "definition": {
+        "name": {
+          "de-DE": "Auf Bäume klettern"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor1",
+        "mbox": "mailto:instructor1@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_des_Kletterns",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen des Kletterns"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-11-29T15:49:37.103Z"
+  },
+  {
+    "id": "25872038-6ae3-4884-bcf6-bc542a63f403",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/initialized",
+      "display": {
+        "de-DE": "initialized"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Krankheits-_und_Schädlingsbekämpfung_durchführen",
+      "definition": {
+        "name": {
+          "de-DE": "Krankheits- und Schädlingsbekämpfung durchführen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-12-05T16:02:37.103Z"
+  },
+  {
+    "id": "ae69ce29-4e9a-4180-8d97-06a67a9b7e54",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/exited",
+      "display": {
+        "de-DE": "exited"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Krankheits-_und_Schädlingsbekämpfung_durchführen",
+      "definition": {
+        "name": {
+          "de-DE": "Krankheits- und Schädlingsbekämpfung durchführen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-12-05T17:58:37.103Z",
+    "result": {
+      "duration": "PT116M"
+    }
+  },
+  {
+    "id": "1e87e709-576b-45ec-a08d-ab974e0b8f8a",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/rated",
+      "display": {
+        "de-DE": "rated"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Krankheits-_und_Schädlingsbekämpfung_durchführen",
+      "definition": {
+        "name": {
+          "de-DE": "Krankheits- und Schädlingsbekämpfung durchführen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-12-05T16:10:37.103Z",
+    "result": {
+      "score": {
+        "raw": 4,
+        "min": 1,
+        "max": 5
+      }
+    }
+  },
+  {
+    "id": "f1dcf12a-a6d4-4d62-bb54-e3b61fecb3a1",
+    "actor": {
+      "objectType": "Agent",
+      "name": "User_test_diminished_1",
+      "mbox": "mailto:user_test_diminished_1@example.com"
+    },
+    "verb": {
+      "id": "http://adlnet.gov/expapi/verbs/searched",
+      "display": {
+        "de-DE": "searched"
+      }
+    },
+    "object": {
+      "id": "http://example.com/activities/Krankheits-_und_Schädlingsbekämpfung_durchführen",
+      "definition": {
+        "name": {
+          "de-DE": "Krankheits- und Schädlingsbekämpfung durchführen"
+        }
+      }
+    },
+    "context": {
+      "extensions": {
+        "https://example.com/extensions/threshold": 0.5
+      },
+      "instructor": {
+        "name": "instructor2",
+        "mbox": "mailto:instructor2@example.com"
+      },
+      "contextActivities": {
+        "parent": [
+          {
+            "id": "http://example.com/activities/Grundlagen_der_Baumpflege",
+            "definition": {
+              "name": {
+                "de-DE": "Grundlagen der Baumpflege"
+              }
+            }
+          },
+          {
+            "id": "http://example.com/activities/Baumchirurgie",
+            "definition": {
+              "name": {
+                "de-DE": "Baumchirurgie"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "timestamp": "2024-12-05T16:18:37.103Z"
+  }
+]
