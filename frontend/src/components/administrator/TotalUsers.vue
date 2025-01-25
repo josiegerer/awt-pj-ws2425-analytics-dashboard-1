@@ -1,54 +1,63 @@
 <template>
-
     <div class="overview-box">
         <h3>Total Users</h3>
-        <x>{{ totalUsers }} </x>
-        <p :class="userChangeClass">{{ userChangeText }}</p>
+        <x>{{ totalUsers }}</x>
     </div>
 </template>
 
 <script>
 export default {
-data() {
+  data() {
     return {
-        totalUsers: 1034, // Example number, replace with actual data
-        userChange: +35 // Example change, replace with actual data
+      totalUsers: 0,  // Default before API call
+      adminToken: localStorage.getItem("adminToken") // Load token from local storage
     };
-},
-computed: {
-    userChangeText() {
-        const absChange = Math.abs(this.userChange);
-        return `${this.userChange > 0 ? '+' : '-'}${absChange} Users in the last 30 days`;
-    },
-    userChangeClass() {
-        return {
-            'text-green': this.userChange > 0,
-            'text-red': this.userChange < 0
-        };
+  },
+  methods: {
+    async fetchTotalUsers() {
+      try {
+        const response = await fetch("http://localhost:8000/totalUsers", {
+          headers: { Authorization: `Bearer ${this.adminToken}` }
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch totalUsers");
+        }
+
+        const data = await response.json();
+        
+        if (data.totalUsers !== undefined) {
+          this.totalUsers = data.totalUsers; 
+        }
+      } catch (error) {
+        console.error("Error fetching totalUsers:", error);
+      }
     }
-}
+  },
+  created() {
+    this.fetchTotalUsers(); // Fetch API data when component is created
+  }
 };
 </script>
 
 <style scoped>
-
 h3 {
-text-align: left;
-font-size: 15px;
-color: black;
-margin-bottom: 15px;
+  text-align: left;
+  font-size: 15px;
+  color: black;
+  margin-bottom: 15px;
 }
-x{
-text-align: center;
-font-size: 42px;
 
+x {
+  text-align: center;
+  font-size: 42px;
 }
 
 .text-green {
-color: green;
+  color: green;
 }
 
 .text-red {
-color: red;
+  color: red;
 }
 </style>

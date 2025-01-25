@@ -6,14 +6,14 @@
 
         <p class="subheader">Engagement</p>
 
-        <!-- Users over time -->
+        <!-- Active Users last 30 days-->
         <div class="grid-item users-time">
-          <UsersChart :data="usersOverTimeData" />
+          <ActiveUsersChart />
         </div>
 
         <!-- Popular Times -->
         <div class="grid-item popular-times">
-          <PopularTimesChart :data="popularTimesData" />
+          <PopularTimesChart />
         </div>
 
         <p class="subheader">Resource Utilization & Content Popularity</p>
@@ -21,19 +21,19 @@
         <!-- Stats Row (4 Equal Boxes) -->
         <div class="stats-row">
           <div class="grid-item">
-            <ActiveUsers :activeUsers="activeUsers" :change="activeUsersChange" />
+            <ActiveUsers />
           </div>
 
           <div class="grid-item">
-            <TotalUsers :totalUsers="totalUsers" :change="totalUsersChange" />
+            <TotalUsers />
           </div>
 
           <div class="grid-item">
-            <TotalCourses :totalCourses="totalCourses" :change="totalCoursesChange" />
+            <TotalCourses />
           </div>
 
           <div class="grid-item">
-            <TotalActivities :totalActivities="totalActivities" :change="totalActivitiesChange" />
+            <TotalActivities />
           </div>
         </div>
 
@@ -53,20 +53,20 @@
 </template>
 
 <script>
-import jwtDecode from 'jwt-decode';
-import UsersChart from '../components/administrator/UsersChart.vue';
+import ActiveUsersChart from '../components/administrator/ActiveUsersChart.vue';
 import PopularTimesChart from '../components/administrator/PopularTimesChart.vue';
 import SearchTrendsChart from '../components/administrator/SearchTrendsChart.vue';
 import KeywordsList from '../components/administrator/KeywordsList.vue';
 import TotalUsers from '../components/administrator/TotalUsers.vue';
 import TotalActivities from '../components/administrator/TotalActivities.vue';
 import TotalCourses from '../components/administrator/TotalCourses.vue';
-import ActiveUsers from '../components/educator/ActiveUsers.vue'
+import ActiveUsers from '../components/educator/ActiveUsers.vue';
+
 
 export default {
   name: 'AdminDashboard',
   components: {
-    UsersChart,
+    ActiveUsersChart,
     PopularTimesChart,
     SearchTrendsChart,
     KeywordsList,
@@ -78,56 +78,9 @@ export default {
   data() {
     return {
       userName: 'Administrator',
-
-      // Static Data
-      usersOverTimeData: [
-        { month: 'Jan', users: 120 },
-        { month: 'Feb', users: 180 },
-        { month: 'Mar', users: 250 },
-        { month: 'Apr', users: 320 },
-        { month: 'May', users: 280 },
-        { month: 'Jun', users: 340 },
-      ],
-
-      popularTimesData: [
-        { hour: '08:00', visits: 50 },
-        { hour: '09:00', visits: 80 },
-        { hour: '10:00', visits: 150 },
-        { hour: '11:00', visits: 120 },
-        { hour: '12:00', visits: 90 },
-        { hour: '13:00', visits: 70 },
-        { hour: '14:00', visits: 100 },
-      ],
-
-      searchTrendsData: [
-        { query: 'Kompetenzen', count: 500 },
-        { query: 'Grundlagen', count: 450 },
-        { query: 'Gefahren', count: 350 },
-        { query: 'Pflege', count: 320 },
-        { query: 'Klettern', count: 290 },
-      ],
-      activeUsers: 120,
-      activeUsersChange: -65,
-      totalUsers: 1234,
-      totalUsersChange: +34,
-      totalCourses: 2,
-      totalCoursesChange: +1,
-      totalActivities: 122,
-      totalActivitiesChange: +11,
+      adminToken: localStorage.getItem("adminToken"), // Load admin token
     };
   },
-  created() {
-    try {
-      const token = localStorage.getItem('token');
-      if (token) {
-        const decodedToken = jwtDecode(token);
-        this.userName = decodedToken.name || 'Administrator';
-      }
-    } catch (error) {
-      console.error('Error decoding token:', error);
-      localStorage.removeItem('token'); // Prevent invalid tokens from causing errors
-    }
-  }
 };
 </script>
 

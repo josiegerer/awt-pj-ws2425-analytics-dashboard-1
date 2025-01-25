@@ -1,54 +1,63 @@
 <template>
-
     <div class="overview-box">
         <h3>Total Courses</h3>
-        <x>{{ totalCourses }} </x>
-        <p :class="courseChangeClass">{{ courseChangeText }}</p>
+        <x>{{ totalCourses }}</x>
     </div>
 </template>
 
 <script>
 export default {
-data() {
+  data() {
     return {
-        totalCourses: 2, // Example number, replace with actual data
-        courseChange: +1 // Example change, replace with actual data
+      totalCourses: 0,  // Default before API call
+      adminToken: localStorage.getItem("adminToken") // Load token from local storage
     };
-},
-computed: {
-    courseChangeText() {
-        const absChange = Math.abs(this.courseChange);
-        return `${this.courseChange > 0 ? '+' : '-'}${absChange} Users in the last 30 days`;
-    },
-    courseChangeClass() {
-        return {
-            'text-green': this.courseChange > 0,
-            'text-red': this.courseChange < 0
-        };
+  },
+  methods: {
+    async fetchTotalCourses() {
+      try {
+        const response = await fetch("http://localhost:8000/totalCourses", {
+          headers: { Authorization: `Bearer ${this.adminToken}` }
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch totalCourses");
+        }
+
+        const data = await response.json();
+        
+        if (data.totalCourses && Array.isArray(data.totalCourses)) {
+          this.totalCourses = data.totalCourses.length; // Count total courses
+        }
+      } catch (error) {
+        console.error("Error fetching totalCourses:", error);
+      }
     }
-}
+  },
+  created() {
+    this.fetchTotalCourses(); // Fetch API data when component is created
+  }
 };
 </script>
 
 <style scoped>
-
 h3 {
-text-align: left;
-font-size: 15px;
-color: black;
-margin-bottom: 15px;
+  text-align: left;
+  font-size: 15px;
+  color: black;
+  margin-bottom: 15px;
 }
-x{
-text-align: center;
-font-size: 42px;
 
+x {
+  text-align: center;
+  font-size: 42px;
 }
 
 .text-green {
-color: green;
+  color: green;
 }
 
 .text-red {
-color: red;
+  color: red;
 }
 </style>

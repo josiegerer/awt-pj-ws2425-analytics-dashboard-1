@@ -1,15 +1,11 @@
 <template>
   <div class="chart">
     <h3>Popular Times</h3>
-    <Bar 
-      :data="chartData"
-      :options="chartOptions"
-    />
+    <Bar :data="chartData" :options="chartOptions" />
   </div>
 </template>
 
 <script>
-import { Bar } from 'vue-chartjs'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -18,7 +14,7 @@ import {
   Title,
   Tooltip,
   Legend
-} from 'chart.js'
+} from "chart.js";
 
 ChartJS.register(
   CategoryScale,
@@ -27,27 +23,31 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend
-)
+);
 
 export default {
-  name: 'PopularTimesChart',
-  components: { Bar },
-  props: {
-    data: Array
+  name: "PopularTimesChart",
+  data() {
+    return {
+      adminToken: localStorage.getItem("adminToken"), // Load token from local storage
+      popularTimesData: Array(24).fill(0) // Default values for 24 hours
+    };
   },
   computed: {
     chartData() {
       return {
-        labels: this.data.map(d => d.hour), // FIXED
-        datasets: [{
-          label: 'Visits',
-          data: this.data.map(d => d.visits), // FIXED
-          backgroundColor: '#e2e8f0',
-          borderRadius: 4,
-          hoverBackgroundColor: '#9333ea',
-          barThickness: 20
-        }]
-      }
+        labels: Array.from({ length: 24 }, (_, i) => `${i}:00`), // Hours 0-23
+        datasets: [
+          {
+            label: "Active Users",
+            data: this.popularTimesData, // Set from API response
+            backgroundColor: "#e2e8f0",
+            borderRadius: 4,
+            hoverBackgroundColor: "#9333ea",
+            barThickness: 20
+          }
+        ]
+      };
     },
     chartOptions() {
       return {
@@ -71,14 +71,38 @@ export default {
             }
           }
         }
+      };
+    }
+  },
+  methods: {
+    async fetchPopularTimes() {
+      try {
+        const response = await fetch("http://localhost:8000/popularTimes", {
+          headers: { Authorization: `Bearer ${this.adminToken}` }
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch popularTimes");
+        }
+
+        const data = await response.json();
+
+        if (data.activeUsersByHour) {
+          this.popularTimesData = Object.values(data.activeUsersByHour); // Extract user counts
+        }
+      } catch (error) {
+        console.error("Error fetching popularTimes:", error);
       }
     }
+  },
+  created() {
+    this.fetchPopularTimes(); // Fetch API data when component is created
   }
-}
+};
 </script>
 
 <style scoped>
 .chart {
-  height: 300px;
+  height: 320px;
 }
 </style>

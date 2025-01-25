@@ -166,12 +166,6 @@ margin: 0;
 font-size: 14px;
 }
 
-/* Navigation Buttons */
-.nav-buttons {
-display: flex;
-gap: 20px;
-margin-left: auto; /* Align buttons to the right */
-}
 
 /* Logo Styling */
 .logo {
@@ -180,29 +174,6 @@ margin-right: 10px; /* Minimal space between logo and greeting */
 
 .logo img {
 height: 40px; /* Adjust the height as needed */
-}
-
-/* Button Styling */
-button {
-padding: 20px 40px; /* Bigger inner padding */
-border: 2px solid white; /* Hollow buttons with white border */
-border-radius: 0; /* No rounded edges */
-background-color: transparent; /* Transparent background */
-color: white; /* White text */
-font-size: 18px; /* Bigger font size */
-font-family: 'Inter', sans-serif;
-cursor: pointer;
-transition: background-color 0.3s, transform 0.3s;
-}
-
-button:hover {
-background-color: rgba(255, 255, 255, 0.1); /* Light white on hover */
-transform: scale(1.05);
-}
-
-button:active {
-background-color: rgba(255, 255, 255, 0.2); /* Slightly darker on click */
-transform: scale(1);
 }
 
 /* Main Content */

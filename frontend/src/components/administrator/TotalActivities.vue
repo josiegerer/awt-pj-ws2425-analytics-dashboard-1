@@ -1,47 +1,56 @@
 <template>
-
-    <div class="overview-box">
-        <h3>Total Activities</h3>
-        <x>{{ totalActivities }} </x>
-        <p :class="activitiesChangeClass">{{ activitiesChangeText }}</p>
-    </div>
+  <div class="overview-box">
+      <h3>Total Activities</h3>
+      <x>{{ totalActivities }}</x>
+  </div>
 </template>
 
 <script>
 export default {
 data() {
-    return {
-        totalActivities: 20, // Example number, replace with actual data
-        activitiesChange: +4 // Example change, replace with actual data
-    };
+  return {
+    totalActivities: 0,  // Default before API call
+    adminToken: localStorage.getItem("adminToken") // Load token from local storage
+  };
 },
-computed: {
-    userChangeText() {
-        const absChange = Math.abs(this.userChange);
-        return `${this.userChange > 0 ? '+' : '-'}${absChange} Users in the last 30 days`;
-    },
-    userChangeClass() {
-        return {
-            'text-green': this.userChange > 0,
-            'text-red': this.userChange < 0
-        };
+methods: {
+  async fetchTotalActivities() {
+    try {
+      const response = await fetch("http://localhost:8000/totalActivities", {
+        headers: { Authorization: `Bearer ${this.adminToken}` }
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch totalActivities");
+      }
+
+      const data = await response.json();
+      
+      if (data.activities && Array.isArray(data.activities)) {
+        this.totalActivities = data.activities.length; // Count total activities
+      }
+    } catch (error) {
+      console.error("Error fetching totalActivities:", error);
     }
+  }
+},
+created() {
+  this.fetchTotalActivities(); // Fetch API data when component is created
 }
 };
 </script>
 
 <style scoped>
-
 h3 {
 text-align: left;
 font-size: 15px;
 color: black;
 margin-bottom: 15px;
 }
-x{
+
+x {
 text-align: center;
 font-size: 42px;
-
 }
 
 .text-green {
