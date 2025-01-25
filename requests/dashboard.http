@@ -84,3 +84,12 @@ Authorization: Bearer {{learnerToken}}
 
 GET http://localhost:8000/activeHoursThisWeek
 Authorization: Bearer {{learnerToken}}
+
+GET http://localhost:8000/getNameForActivityId
+Authorization: Bearer {{learnerToken}}
+
+GET http://localhost:8000/parentsOfActivities
+Authorization: Bearer {{learnerToken}}
+
+GET http://localhost:8000/parentsOfParents
+Authorization: Bearer {{learnerToken}}

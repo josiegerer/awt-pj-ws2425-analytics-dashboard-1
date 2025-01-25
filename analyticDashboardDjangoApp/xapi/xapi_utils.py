@@ -420,8 +420,8 @@ def get_open_activities(statements):
     open_activities = list(open_activity_ids)
     return open_activities
 
-def get_object_name_by_id(statements, object_id):
+def get_object_name_by_id(statements, object_id,language="de-DE"):
     for statement in statements:
         if get_id(statement, "object") == object_id:
-            return  get_object_name(statement)
+            return  get_object_name(statement,language)
     return "Unknown"

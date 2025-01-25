@@ -936,14 +936,16 @@ def count_verbs_for_all_activities_for_learner(request):
     responseJson = {"verbsCount": verbs_count}
     return JsonResponse(responseJson, safe=False)
 
-def get_all_object_names_and_ids(request):
+def get_all_object_names_and_ids(request, **kwargs):
     try:
+        language = str(kwargs.get('language', "de-DE"))
+        
         statements = xapi_service.fetch_statements()
         all_objects = get_all_objects_ids_used(statements)
         object_names_and_ids = []
 
         for object_id in all_objects:
-            object_name = get_object_name_by_id(statements, object_id)
+            object_name = get_object_name_by_id(statements, object_id,language)
             object_names_and_ids.append({
                 "objectId": object_id,
                 "objectName": object_name
@@ -956,3 +958,68 @@ def get_all_object_names_and_ids(request):
             "error": str(e)
         }, status=500)
 
+def get_parents_of_all_activities(request):
+    try:
+        statements = xapi_service.fetch_statements()
+        activity_parents = {}
+
+        def get_parents(statement):
+            parents = []
+            if 'context' in statement['statement_payload'] and 'contextActivities' in statement['statement_payload']['context']:
+                context_activities = statement['statement_payload']['context']['contextActivities']
+                if 'parent' in context_activities:
+                    parent_activities = context_activities['parent']
+                    for parent in parent_activities:
+                        parents.append(parent['id'])
+            return parents
+
+        for statement in statements:
+            child_activity_id = statement['statement_payload']['object']['id']
+            parent_activity_ids = get_parents(statement)
+            if parent_activity_ids:
+                if child_activity_id not in activity_parents:
+                    activity_parents[child_activity_id] = parent_activity_ids
+                else:
+                    # Ensure the sequence of parent IDs is consistent
+                    for parent_id in parent_activity_ids:
+                        if parent_id not in activity_parents[child_activity_id]:
+                            activity_parents[child_activity_id].append(parent_id)
+
+        responseJson = {"activityParents": activity_parents}
+        return JsonResponse(responseJson, safe=False)
+    except Exception as e:
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
+        
+def get_parent_of_all_parents(request):
+    try:
+        statements = xapi_service.fetch_statements()
+        parent_of_parents = {}
+
+        def get_parents(statement):
+            parents = []
+            if 'context' in statement['statement_payload'] and 'contextActivities' in statement['statement_payload']['context']:
+                context_activities = statement['statement_payload']['context']['contextActivities']
+                if 'parent' in context_activities:
+                    parent_activities = context_activities['parent']
+                    for parent in parent_activities:
+                        parents.append(parent['id'])
+            return parents
+
+        for statement in statements:
+            parent_activity_ids = get_parents(statement)
+            if parent_activity_ids:
+                for parent_id in parent_activity_ids:
+                    parents=get_parents(statement)
+                    if parent_id =="http://example.com/activities/Grundlagen_der_Baumpflege":
+                            print(parents)
+                    parent_of_parents[parent_id] = parents[-1]
+                        
+
+        responseJson = {"parentOfParents": parent_of_parents}
+        return JsonResponse(responseJson, safe=False)
+    except Exception as e:
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
