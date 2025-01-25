@@ -6,6 +6,7 @@ import os
 
 SECRET_KEY='django-insecure-_vpe_zb%6i09*rd6+7mq4y%ug=*!hhauf3w8=@_u)z8yknj!#y'
 
+# Get token from lrs.http which is printed in the console with Name Encoded Token:
 def send_data_to_lrs(json_file_path, lrs_url, auth_token):
     # Read the JSON file
     with open(json_file_path, 'r') as file:
@@ -51,5 +52,5 @@ print("LearnerToken",token)
 token=generate_token_for_testing('12345', ['http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor'], 'instructor3@example.com')
 print("InstructorToken",token)
 
-token=generate_token_for_testing('12345', ['http://purl.imsglobal.org/vocab/lis/v2/membership#Learner'], 'admin@example.com')
+token=generate_token_for_testing('12345', ['http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator'], 'admin@example.com')
 print("AdminToken",token)

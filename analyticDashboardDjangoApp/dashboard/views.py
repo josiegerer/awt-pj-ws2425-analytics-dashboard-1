@@ -1,9 +1,10 @@
 
 #Number of searches conducted on specific keyword
 from django.http import JsonResponse
+from authentification.views import verify_admin_token_annotation, verify_instructor_token_annotation, verify_learner_token_annotation
 from dashboard.xapi_services import UserXAPIService, XAPIService
 from xapi.lrs_utils import  fetch_xapi_statements_from_db_for_user, fetch_xapi_statements_from_db, fetch_xapi_statements_from_db
-from xapi.xapi_utils import construct_activity_id, construct_verb_id, filter_statements_by_instructor_email, filter_statements_by_object_id, filter_statements_by_course_id, get_all_actors_emails_used, get_all_courses, get_all_objects_ids_used, get_all_user_names, get_all_verbs_ids_used, get_duration_of_activities, get_durations_of_tests_for_user, get_open_activities, get_statements_in_last_days, filter_statements_by_verb_id, get_statements_of_specfic_user_by_email, get_statements_with_specific_hour, sort_statements_by_timestamp
+from xapi.xapi_utils import construct_activity_id, construct_verb_id, filter_statements_by_instructor_email, filter_statements_by_object_id, filter_statements_by_course_id, get_all_actors_emails_used, get_all_courses, get_all_objects_ids_used, get_all_objects_names_used, get_all_user_names, get_all_verbs_ids_used, get_all_verbs_name_used, get_duration_of_activities, get_durations_of_tests_for_user, get_id, get_name_of_verb_by_id, get_object_name, get_object_name_by_id, get_open_activities, get_score, get_statements_in_last_days, filter_statements_by_verb_id, get_statements_of_specfic_user_by_email, get_statements_with_specific_hour, sort_statements_by_timestamp
 from datetime import datetime, timedelta
 
 xapi_service = XAPIService(cache_duration=300) 
@@ -33,7 +34,7 @@ def get_active_users_count_for_timeslot(request, **kwargs):
     try:
         statements = xapi_service.fetch_statements()
         # Save statements to a JSON file
-        print(statements)
+      
         days = str(kwargs.get('days', 30))
         # Filter statements by time period
         statements_filtered_by_time = get_statements_in_last_days(statements, days)
@@ -51,13 +52,55 @@ def get_active_users_count_for_timeslot(request, **kwargs):
         return JsonResponse({
             "error": str(e)
         }, status=500)
+        
+@verify_admin_token_annotation
+def get_active_users_count_for_timeslot_of_subcourses(request, **kwargs):
+    try:
+        statements = xapi_service.fetch_statements()
+        days = str(kwargs.get('days', 30))
+        statements_filtered_by_time = get_statements_in_last_days(statements, days)
+        all_subcourses = get_all_courses(statements_filtered_by_time)
+        active_users_by_subcourse = {}
 
-def get_all_courses_count(request):
+        for subcourse_id in all_subcourses:
+            statements_filtered_by_subcourse_id = filter_statements_by_course_id(statements_filtered_by_time, subcourse_id)
+            unique_users = get_all_actors_emails_used(statements_filtered_by_subcourse_id)
+            active_users_by_subcourse[subcourse_id] = len(unique_users)
+
+        responseJson = {"activeUsersBySubcourse": active_users_by_subcourse}
+        return JsonResponse(responseJson, safe=False)
+    except Exception as e:
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
+
+@verify_instructor_token_annotation
+def get_active_users_count_for_timeslot_for_instructor_subcourses(request, **kwargs):
+    try:
+        statements = user_xapi_service.fetch_statements_for_user(request.email)
+        days = str(kwargs.get('days', 30))
+        statements_filtered_by_time = get_statements_in_last_days(statements, days)
+        all_subcourses = get_all_courses(statements_filtered_by_time)
+        active_users_by_subcourse = {}
+
+        for subcourse_id in all_subcourses:
+            statements_filtered_by_subcourse_id = filter_statements_by_course_id(statements_filtered_by_time, subcourse_id)
+            unique_users = get_all_actors_emails_used(statements_filtered_by_subcourse_id)
+            active_users_by_subcourse[subcourse_id] = len(unique_users)
+
+        responseJson = {"activeUsersBySubcourse": active_users_by_subcourse}
+        return JsonResponse(responseJson, safe=False)
+    except Exception as e:
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
+    
+def get_all_courses_request(request):
     try:
         statements = xapi_service.fetch_statements()
         all_courses= get_all_courses(statements)
 
-        responseJson = {"totalCourses": len(all_courses)}
+        responseJson = {"totalCourses": all_courses}
         
         return JsonResponse(responseJson, safe=False)
     except Exception as e:
@@ -119,6 +162,30 @@ def get_all_user_for_hour(request, **kwargs):
         return JsonResponse({
             "error": str(e)
         }, status=500)
+        
+def get_active_users_for_each_hour_today(request):
+    try:
+        statements = xapi_service.fetch_statements()
+        current_date = datetime.now().date()
+        
+        active_users_by_hour = {hour: set() for hour in range(24)}
+        
+        for statement in statements:
+            timestamp = statement['timestamp']
+            if timestamp.date() == current_date:
+                hour = timestamp.hour
+                actor_email = statement['statement_payload']['actor']['mbox']
+                active_users_by_hour[hour].add(actor_email)
+        
+        responseJson = {
+            "activeUsersByHour": {hour: len(users) for hour, users in active_users_by_hour.items()}
+        }
+        
+        return JsonResponse(responseJson, safe=False)
+    except Exception as e:
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
     
 def get_average_score_for_activities(request, **kwargs):
     statements = xapi_service.fetch_statements()
@@ -140,7 +207,47 @@ def get_average_score_for_activities(request, **kwargs):
     
     responseJson = {"averageScore": average_score}
     
-    return JsonResponse(responseJson, safe=False)
+def get_all_activities_summary(request):
+    try:
+        statements = xapi_service.fetch_statements()
+        all_activities = get_all_objects_ids_used(statements)
+        activities_summary = []
+
+        for activity_id in all_activities:
+            # Get the total visits
+            statements_filtered_by_object_id = filter_statements_by_object_id(statements, activity_id)
+            total_visits = len(statements_filtered_by_object_id)
+
+            # Get the average score
+            statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object_id, construct_verb_id("scored"))
+            total_score = sum(statement['statement_payload']['result']['score']['raw'] for statement in statements_filtered_by_verb if 'statement_payload' in statement and 'result' in statement['statement_payload'] and 'score' in statement['statement_payload']['result'])
+            average_score = total_score / len(statements_filtered_by_verb) if statements_filtered_by_verb else 0
+
+            # Get the average time spent
+            all_user_emails = get_all_actors_emails_used(statements_filtered_by_object_id)
+            total_time = 0
+            user_count = 0
+            for email in all_user_emails:
+                statements_filtered_by_user = get_statements_of_specfic_user_by_email(statements_filtered_by_object_id, email)
+                durations = get_durations_of_tests_for_user(statements_filtered_by_user)
+                total_time += sum(duration['duration'].total_seconds() / 60 for duration in durations)
+                user_count += 1
+            average_time = total_time / user_count if user_count > 0 else 0
+
+            activities_summary.append({
+                "activityId": activity_id,
+                "totalVisits": total_visits,
+                "averageScore": average_score,
+                "averageTimeSpent": average_time
+            })
+
+        responseJson = {"activitiesSummary": activities_summary}
+        return JsonResponse(responseJson, safe=False)
+    except Exception as e:
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
+    
 def get_average_timespent_for_activities(request):
     statements = xapi_service.fetch_statements()
     activity_id = request.GET.get('activityId')
@@ -170,7 +277,7 @@ def get_average_timespent_for_tests(request):
     
     statements_filtered_by_object_id = filter_statements_by_object_id(statements, activity_id)
     
-    all_user_emails = get_all_actors_emails_used(statements)
+    all_user_emails = get_all_actors_emails_used(statements_filtered_by_object_id)
      
     total_time = 0
     user_count = 0
@@ -187,62 +294,251 @@ def get_average_timespent_for_tests(request):
     
     return JsonResponse(responseJson, safe=False)
 
-def get_all_vists_of_activity(request):
+def get_average_timespent_for_all_activities(request):
     statements = xapi_service.fetch_statements()
-    activity_id = request.GET.get('activityId')
-    
-    statements_filtered_by_object_id = filter_statements_by_object_id(statements, activity_id)
-    
-    statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object_id, construct_verb_id("initialized"))
-    
-    responseJson = {"visits": len(statements_filtered_by_verb)}
+    all_activities = get_all_objects_ids_used(statements)
+    activities_summary = []
+
+    for activity_id in all_activities:
+        statements_filtered_by_object_id = filter_statements_by_object_id(statements, activity_id)
+        all_user_emails = get_all_actors_emails_used(statements_filtered_by_object_id)
+        
+        total_time = 0
+        user_count = 0
+        
+        for email in all_user_emails:
+            statements_filtered_by_user = get_statements_of_specfic_user_by_email(statements_filtered_by_object_id, email)
+            durations = get_durations_of_tests_for_user(statements_filtered_by_user)
+            total_time += sum(durations["duration"])
+            user_count += 1
+        
+        average_time = total_time / user_count if user_count > 0 else 0
+        
+        activities_summary.append({
+            "activityId": activity_id,
+            "averageTime": average_time
+        })
+
+    responseJson = {"activitiesSummary": activities_summary}
     
     return JsonResponse(responseJson, safe=False)
 
-def get_average_score_for_subcourse(request):
-    statements= xapi_service.fetch_statements()
-    activity_id = request.GET.get('courseId')
-    statements_filtered_by_subcourse_id =filter_statements_by_course_id(statements, activity_id)
-    staments_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_subcourse_id, construct_verb_id("scored"))
-    total_score = 0
-    count = 0
-    for statement in staments_filtered_by_verb:
-        if 'result' in statement and 'score' in statement['result']:
-            total_score += statement['result']['score']['raw']
-            count += 1
-    average_score = total_score / count if count > 0 else 0
-    responseJson = {"averageScore": average_score}
-    return JsonResponse(responseJson, safe=False)
-
-def get_activitiy_completion_and_assigned(request):
-    statements = xapi_service.fetch_statements()
-    activity_id = request.GET.get('activityId')
+@verify_instructor_token_annotation
+def get_average_timespent_for_all_activities_for_instructor(request):
+    statements = user_xapi_service.fetch_statements_for_user(request.email)
+    all_activities = get_all_objects_ids_used(statements)
+    activities_summary = []
     
-    statements_filtered_by_object = filter_statements_by_object_id(statements,activity_id)
-    all_users_of_filtered_statements = get_all_actors_emails_used(statements_filtered_by_object)
-    statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object, construct_verb_id("completed"))
-    all_users_who_completed = get_all_actors_emails_used(statements_filtered_by_verb)
+    for activity_id in all_activities:
+        statements_filtered_by_object_id = filter_statements_by_object_id(statements, activity_id)
+        all_user_emails = get_all_actors_emails_used(statements_filtered_by_object_id)
+        total_time = 0
+        user_count = 0
+        
+        for email in all_user_emails:
+            statements_filtered_by_user = get_statements_of_specfic_user_by_email(statements_filtered_by_object_id, email)
+            durations = get_durations_of_tests_for_user(statements_filtered_by_user)
+            durations += get_duration_of_activities(statements_filtered_by_user)
+            total_time += sum(duration["duration"].total_seconds() / 60 for duration in durations)
+            user_count += 1
+        
+        average_time = total_time / user_count if user_count > 0 else 0
+        
+        activities_summary.append({
+            "activityId": activity_id,
+            "averageTime": average_time
+        })
+
+    responseJson = {"activitiesSummary": activities_summary}
     
-    responseJson = {"assigned": len(all_users_of_filtered_statements),
-                    "completed": len(all_users_who_completed)}
-                               
-
     return JsonResponse(responseJson, safe=False)
-
-def get_active_user_in_cours_in_last_days(request,**kwargs):
-    statements = xapi_service.fetch_statements()
-    days = str(kwargs.get('days', 0))
-    subcourse_id= request.GET.get('courseId')
-    statements_filtered_by_time = get_statements_in_last_days(statements, days)
-    statements_filtered_by_subcourse_id = filter_statements_by_course_id(statements_filtered_by_time, subcourse_id)
-    unique_users =  get_all_actors_emails_used(statements_filtered_by_subcourse_id)
-    responseJson = {"activeUser": len(unique_users)}
-    return JsonResponse(responseJson, safe=False)
-
-def get_list_of_activities_of_instructor(request):
+@verify_instructor_token_annotation
+def get_all_visits_of_all_activities_of_instructor(request):
     instructor_email = request.email
     statements = xapi_service.fetch_statements()
     statements_of_instructor = filter_statements_by_instructor_email(statements, instructor_email)
+    all_activities = get_all_objects_ids_used(statements_of_instructor)
+    activities_visits = []
+
+    for activity_id in all_activities:
+        statements_filtered_by_object_id = filter_statements_by_object_id(statements_of_instructor, activity_id)
+        statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object_id, construct_verb_id("initialized"))
+        activities_visits.append({
+            "activityId": activity_id,
+            "visits": len(statements_filtered_by_verb)
+        })
+
+    responseJson = {"activitiesVisits": activities_visits}
+    return JsonResponse(responseJson, safe=False)
+def get_all_activities(request):
+    try:
+        statements = xapi_service.fetch_statements()
+        all_activities = get_all_objects_ids_used(statements)
+        activities = []
+
+        for activity_id in all_activities:
+            activity = {
+                "activityId": activity_id,
+                "totalVisits": len(filter_statements_by_object_id(statements, activity_id)),
+                "averageScore": get_average_score_for_activity(statements, activity_id),
+                "averageTimeSpent": get_average_time_spent_for_activity(statements, activity_id)
+            }
+            activities.append(activity)
+
+        responseJson = {"activities": activities}
+        return JsonResponse(responseJson, safe=False)
+    except Exception as e:
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
+
+def get_average_score_for_activity(statements, activity_id):
+    statements_filtered_by_object_id = filter_statements_by_object_id(statements, activity_id)
+    statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object_id, construct_verb_id("scored"))
+    total_score = sum(statement['result']['score']['raw'] for statement in statements_filtered_by_verb if 'result' in statement and 'score' in statement['result'])
+    return total_score / len(statements_filtered_by_verb) if statements_filtered_by_verb else 0
+
+def get_average_time_spent_for_activity(statements, activity_id):
+    statements_filtered_by_object_id = filter_statements_by_object_id(statements, activity_id)
+    all_user_emails = get_all_actors_emails_used(statements_filtered_by_object_id)
+    total_time = 0
+    user_count = 0
+
+    for email in all_user_emails:
+        statements_filtered_by_user = get_statements_of_specfic_user_by_email(statements_filtered_by_object_id, email)
+        durations = get_durations_of_tests_for_user(statements_filtered_by_user)
+        total_time += sum(durations)
+        user_count += 1
+
+    return total_time / user_count if user_count > 0 else 0
+
+@verify_instructor_token_annotation
+def get_average_score_for_all_subcourses_for_instructor(request):
+    try:
+        statements_of_instructor=user_xapi_service.fetch_statements_for_user(request.email)
+        all_subcourses = get_all_courses(statements_of_instructor)
+        subcourses_scores = []
+
+        for subcourse_id in all_subcourses:
+            statements_filtered_by_subcourse_id = filter_statements_by_course_id(statements_of_instructor, subcourse_id)
+            statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_subcourse_id, construct_verb_id("scored"))
+            print(statements_filtered_by_verb)
+            total_score = 0
+            count = 0
+
+            for statement in statements_filtered_by_verb:
+                score = get_score(statement)
+                if score is not None:
+                    total_score += score
+                    count += 1
+
+            average_score = total_score / count if count > 0 else 0
+            subcourses_scores.append({
+                "subcourseId": subcourse_id,
+                "averageScore": average_score
+            })
+
+        responseJson = {"subcoursesScores": subcourses_scores}
+        return JsonResponse(responseJson, safe=False)
+    except Exception as e:
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
+        
+@verify_instructor_token_annotation
+def active_hours_in_the_current_week_for_instructor(request):
+
+    statements_of_instructor=user_xapi_service.fetch_statements_for_user(request.email)
+    current_date = datetime.now()
+    start_of_week = current_date - timedelta(days=current_date.weekday())
+    statements_filtered_by_week = [
+        statement for statement in statements_of_instructor
+        if start_of_week.date() <= statement['timestamp'].date() <= (start_of_week + timedelta(days=6)).date()
+    ]
+    active_hours = [{"day": (start_of_week + timedelta(days=i)).strftime('%A'), "hours": [{"hour": h, "timeSpent": 0} for h in range(24)]} for i in range(7)]
+    
+    durations = get_duration_of_activities(statements_filtered_by_week)
+    for duration_info in durations:
+        test_start = duration_info['test_start']
+        test_end = duration_info['test_end']
+        current_time = test_start
+        while current_time < test_end:
+            next_hour = (current_time + timedelta(hours=1)).replace(minute=0, second=0, microsecond=0)
+            if next_hour > test_end:
+                next_hour = test_end
+            duration = (next_hour - current_time).total_seconds() / 60  # Convert duration to minutes
+            statement_date = current_time.date()
+            day_index = (statement_date - start_of_week.date()).days
+            if 0 <= day_index < 7:  # Ensure day_index is within range
+                hour = current_time.hour
+                active_hours[day_index]["hours"][hour]["timeSpent"] += duration
+            current_time = next_hour
+    
+    responseJson = {"activeHours": active_hours}
+    
+    return JsonResponse(responseJson, safe=False)
+
+def get_all_subcourses(request):
+    try:
+        statements = xapi_service.fetch_statements()
+        all_subcourses = get_all_courses(statements)
+
+        responseJson = {"totalSubcourses": all_subcourses}
+        
+        return JsonResponse(responseJson, safe=False)
+    except Exception as e:
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
+
+@verify_instructor_token_annotation
+def get_activitiy_completion_and_assigned_for_instructor(request):
+    statements = user_xapi_service.fetch_statements_for_user(request.email)
+    all_activities = get_all_objects_ids_used(statements)
+    all_verbs = get_all_verbs_ids_used(statements)
+    print(all_activities)
+    print(all_verbs)
+    activities_summary = []
+
+    for activity_id in all_activities:
+        statements_filtered_by_object = filter_statements_by_object_id(statements, activity_id)
+        all_users_of_filtered_statements = get_all_actors_emails_used(statements_filtered_by_object)
+      
+        statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object, construct_verb_id("completed"))
+        all_users_who_completed = get_all_actors_emails_used(statements_filtered_by_verb)
+
+        activities_summary.append({
+            "activityId": activity_id,
+            "assigned": len(all_users_of_filtered_statements),
+            "completed": len(all_users_who_completed)
+        })
+
+    responseJson = {"activitiesSummary": activities_summary}
+    return JsonResponse(responseJson, safe=False)
+
+def get_active_users_in_all_courses_in_last_days(request, **kwargs):
+    try:
+        statements = xapi_service.fetch_statements()
+        days = str(kwargs.get('days', 0))
+        statements_filtered_by_time = get_statements_in_last_days(statements, days)
+        all_courses = get_all_courses(statements_filtered_by_time)
+        
+        active_users_by_course = {}
+        
+        for course_id in all_courses:
+            statements_filtered_by_course_id = filter_statements_by_course_id(statements_filtered_by_time, course_id)
+            unique_users = get_all_actors_emails_used(statements_filtered_by_course_id)
+            active_users_by_course[course_id] = len(unique_users)
+        
+        responseJson = {"activeUsersByCourse": active_users_by_course}
+        return JsonResponse(responseJson, safe=False)
+    except Exception as e:
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
+
+def get_list_of_activities_of_instructor(request):
+    statements_of_instructor=user_xapi_service.fetch_statements_for_user(request.email)
     all_objects = get_all_objects_ids_used(statements_of_instructor)
     responseJson = {"activities": all_objects}
     return JsonResponse(responseJson, safe=False)
@@ -255,35 +551,55 @@ def get_list_of_activities_of_learner(request):
     responseJson = {"activities": all_objects}
     return JsonResponse(responseJson, safe=False)
 
-def get_activity_completion_and_assigned_for_learner(request):
-    email= request.email
-    activity_id = request.GET.get('activityId')
+@verify_learner_token_annotation
+def get_activity_completion_and_assigned_for_subcourses(request):
+    email = request.email
     statements = user_xapi_service.fetch_statements_for_user(email)
-    
-    statements_filtered_by_object = filter_statements_by_object_id(statements,activity_id)
-    all_users_of_filtered_statements = get_all_actors_emails_used(statements_filtered_by_object)
-    statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object, construct_verb_id("completed"))
-    responseJson = {"assigned": len(all_users_of_filtered_statements),
-                    "completed": len(statements_filtered_by_verb)}
+    all_subcourses = get_all_courses(statements)
+    subcourses_summary = []
+
+    for subcourse_id in all_subcourses:
+        statements_filtered_by_subcourse = filter_statements_by_course_id(statements, subcourse_id)
+        all_activities = get_all_objects_ids_used(statements_filtered_by_subcourse)
+        assigned_activities = len(all_activities)
+
+        completed_activities = 0
+        for activity_id in all_activities:
+            statements_filtered_by_activity = filter_statements_by_object_id(statements_filtered_by_subcourse, activity_id)
+            statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_activity, construct_verb_id("completed"))
+            if len(statements_filtered_by_verb) > 0:
+                completed_activities += 1
+
+        subcourses_summary.append({
+            "subcourseId": subcourse_id,
+            "assignedActivities": assigned_activities,
+            "completedActivities": completed_activities
+        })
+
+    responseJson = {"subcoursesSummary": subcourses_summary}
     return JsonResponse(responseJson, safe=False)
-    
-                  
+          
+          
+@verify_learner_token_annotation        
 def get_scoring_progress_array(request):
-    
-    # Macht keinen Sinn
-    email= request.email
+    email = request.email
     statements = user_xapi_service.fetch_statements_for_user(email)
     statements_filtered_by_verb = filter_statements_by_verb_id(statements, construct_verb_id("scored"))
     scores_by_day = {}
     responseJson = {"score": []}
     
+    current_date = datetime.now()
+    start_of_week = current_date - timedelta(days=current_date.weekday())
+    
     for statement in statements_filtered_by_verb:
-        if 'result' in statement and 'score' in statement['result']:
-            timestamp = statement['timestamp'][:10]  # Extract the date part
-            if timestamp not in scores_by_day:
-                scores_by_day[timestamp] = {'total_score': 0, 'count': 0}
-            scores_by_day[timestamp]['total_score'] += statement['result']['score']['raw']
-            scores_by_day[timestamp]['count'] += 1
+        if get_score(statement) is not None:
+            timestamp =statement['timestamp']
+            if timestamp.date() >= start_of_week.date() and timestamp.date() <= current_date.date():
+                date_str = timestamp.strftime('%Y-%m-%d')
+                if date_str not in scores_by_day:
+                    scores_by_day[date_str] = {'total_score': 0, 'count': 0}
+                scores_by_day[date_str]['total_score'] += get_score(statement)
+                scores_by_day[date_str]['count'] += 1
     
     for day, data in scores_by_day.items():
         average_score = data['total_score'] / data['count'] if data['count'] > 0 else 0
@@ -291,33 +607,60 @@ def get_scoring_progress_array(request):
     
     return JsonResponse(responseJson, safe=False)
 
+@verify_learner_token_annotation
 def is_activity_completed_for_learner(request):
-    email= request.email
-    activity_id = request.GET.get('activityId')
+    email = request.email
     statements = user_xapi_service.fetch_statements_for_user(email)
-    statements_filtered_by_object = filter_statements_by_object_id(statements,activity_id)
-    statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object, construct_verb_id("completed"))
-    responseJson = {"passed": len(statements_filtered_by_verb) > 0}
-    return JsonResponse(responseJson, safe=False)
+    all_activities = get_all_objects_ids_used(statements)
+    activities_completion = {}
 
+    for activity_id in all_activities:
+        statements_filtered_by_object = filter_statements_by_object_id(statements, activity_id)
+        statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object, construct_verb_id("completed"))
+        activities_completion[activity_id] = len(statements_filtered_by_verb) > 0
+
+    responseJson = {"activitiesCompletion": activities_completion}
+    return JsonResponse(responseJson, safe=False)
+@verify_learner_token_annotation
+def is_activity_scored_for_learner(request):
+    email = request.email
+    statements = user_xapi_service.fetch_statements_for_user(email)
+    all_activities = get_all_objects_ids_used(statements)
+    activities_scored = {}
+
+    for activity_id in all_activities:
+        statements_filtered_by_object = filter_statements_by_object_id(statements, activity_id)
+        statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object, construct_verb_id("scored"))
+        activities_scored[activity_id] = len(statements_filtered_by_verb) > 0
+
+    responseJson = {"activitiesScored": activities_scored}
+    return JsonResponse(responseJson, safe=False)
+@verify_learner_token_annotation
 def get_attempts_until_passed_for_learner(request):
     email = request.email
-    activity_id = request.GET.get('activityId')
     statements = user_xapi_service.fetch_statements_for_user(email)
-    statements_filtered_by_object = filter_statements_by_object_id(statements, activity_id)
-    sorted_statements = sort_statements_by_timestamp(statements_filtered_by_object)
+    all_activities = get_all_objects_ids_used(statements)
+    attempts_until_passed = {}
 
-    attempts = 0
-    completed = False
+    for activity_id in all_activities:
+        statements_filtered_by_object = filter_statements_by_object_id(statements, activity_id)
+        sorted_statements = sort_statements_by_timestamp(statements_filtered_by_object)
 
-    for statement in sorted_statements:
-        if statement['verb']['id'] == construct_verb_id("scored"):
-            attempts += 1
-        elif statement['verb']['id'] == construct_verb_id("completed"):
-            completed = True
-            break
+        attempts = 0
+        completed = False
+        
 
-    responseJson = {"attempts": attempts if completed else 0}
+        for statement in sorted_statements:
+            if get_id(statement,'verb') == construct_verb_id("scored"):
+                attempts += 1
+            elif get_id(statement,'verb')  == construct_verb_id("completed"):
+                print(f"Activity: {get_id(statement,'object')}")
+                completed = True
+                break
+
+        attempts_until_passed[activity_id] = attempts if completed else 0
+
+    responseJson = {"attemptsUntilPassed": attempts_until_passed}
     return JsonResponse(responseJson, safe=False)
 
 def count_each_verb_for_learner(request):
@@ -351,14 +694,14 @@ def time_spent_on_each_activity_for_learner(request):
     }
     
     return JsonResponse(responseJson, safe=False)
-
+@verify_learner_token_annotation
 def get_passed_and_failed_tests_for_learner(request):
     email = request.email
     statements = user_xapi_service.fetch_statements_for_user(email)
     open_statements= get_open_activities(statements)
     durations = get_durations_of_tests_for_user(statements)
-    passed = sum(duration["result"] == "completed" for duration in durations.values())
-    failed = sum(duration["result"] == "failed" for duration in durations.values())
+    passed = sum(duration["result"] == "completed" for duration in durations)
+    failed = sum(duration["result"] == "failed" for duration in durations)
     open_activities = len(open_statements)
     responseJson = {
         "passed": passed,
@@ -368,12 +711,14 @@ def get_passed_and_failed_tests_for_learner(request):
     
     return JsonResponse(responseJson, safe=False)
 
+@verify_instructor_token_annotation
 def get_passed_and_failed_tests_for_instructor(request):
     instructor_email = request.email
     statements = xapi_service.fetch_statements()
     all_user_emails = get_all_actors_emails_used(statements)
     statements_of_instructor = filter_statements_by_instructor_email(statements, instructor_email)
     user_results = {}
+
 
     for email in all_user_emails:
         statements_of_learner = get_statements_of_specfic_user_by_email(statements_of_instructor, email)
@@ -382,8 +727,8 @@ def get_passed_and_failed_tests_for_instructor(request):
         sorted_statements = sort_statements_by_timestamp(statements_of_learner)
         open_statements = get_open_activities(statements_of_learner)
         durations = get_durations_of_tests_for_user(sorted_statements)
-        passed = sum(duration["result"] == "completed" for duration in durations.values())
-        failed = sum(duration["result"] == "failed" for duration in durations.values())
+        passed = sum(duration["result"] == "completed" for duration in durations)
+        failed = sum(duration["result"] == "failed" for duration in durations)
         open_activities = len(open_statements)
         
         user_results[email] = {
@@ -395,22 +740,34 @@ def get_passed_and_failed_tests_for_instructor(request):
     responseJson = {"userResults": user_results}
     return JsonResponse(responseJson, safe=False)
 
-def get_rating_of_activity_for_learner(request):
+def get_last_rating_for_all_activities(request):
     email = request.email
-    activity_id = request.GET.get('activityId')
     statements = user_xapi_service.fetch_statements_for_user(email)
-    statements_filtered_by_object = filter_statements_by_object_id(statements , activity_id)
-    statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object, construct_verb_id("rated"))
-    statement_sort=sort_statements_by_timestamp(statements_filtered_by_verb)
-    
-    if statement_sort:
-        last_rating = statements_filtered_by_verb[-1]['result']['score']['raw']
-    else:
-        last_rating = 0
-    
-    responseJson = {"lastRating": last_rating}
+    all_activities = get_all_objects_ids_used(statements)
+    activities_ratings = []
+
+    for activity_id in all_activities:
+        statements_filtered_by_object = filter_statements_by_object_id(statements, activity_id)
+        statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object, construct_verb_id("rated"))
+        sorted_statements = sort_statements_by_timestamp(statements_filtered_by_verb)
+        
+        if sorted_statements:
+            last_rating = sorted_statements[-1]['result']['score']['raw']
+            timestamp = sorted_statements[-1]['timestamp']
+        else:
+            last_rating = 0
+            timestamp = None
+        
+        activities_ratings.append({
+            "activityId": activity_id,
+            "lastRating": last_rating,
+            "timestamp": timestamp
+        })
+
+    responseJson = {"activitiesRatings": activities_ratings}
     return JsonResponse(responseJson, safe=False)
 
+@verify_instructor_token_annotation
 def get_rating_of_all_users_for_instructor(request):
     instructor_email = request.email
     statements = xapi_service.fetch_statements()
@@ -424,36 +781,108 @@ def get_rating_of_all_users_for_instructor(request):
         sorted_statements = sort_statements_by_timestamp(statements_filtered_by_verb)
         
         if sorted_statements:
-            last_rating = sorted_statements[-1]['result']['score']['raw']
+            ratings = [get_score(statement) for statement in sorted_statements]
+            mean_rating = sum(ratings) / len(ratings)
         else:
-            last_rating = 0
+            mean_rating = 0
         
-        user_ratings[email] = last_rating
+        user_ratings[email] = mean_rating
 
     responseJson = {"userRatings": user_ratings}
     return JsonResponse(responseJson, safe=False)
 
+@verify_learner_token_annotation
+def get_last_rating_of_user_for_each_activity(request):
+     email = request.email
+     statements = user_xapi_service.fetch_statements_for_user(email)
+     statements_filtered_by_verb = filter_statements_by_verb_id(statements, construct_verb_id("rated"))
+     sorted_statements = sort_statements_by_timestamp(statements_filtered_by_verb)
+    
+     last_ratings = {}
+     for statement in sorted_statements:
+        activity_id = get_id(statement, "object")
+        if activity_id not in last_ratings:
+            last_ratings[activity_id] = {
+                "score": get_score(statement),
+                "timestamp": statement['timestamp']
+            }
+    
+     responseJson = {"lastRatings": last_ratings}
+    
+     return JsonResponse(responseJson, safe=False)
+
+@verify_instructor_token_annotation
+def get_mean_rating_for_all_activities_for_instructor(request):
+    try:
+        instructor_email = request.email
+        statements = xapi_service.fetch_statements()
+        statements_of_instructor = filter_statements_by_instructor_email(statements, instructor_email)
+        all_activities = get_all_objects_ids_used(statements_of_instructor)
+        activities_ratings = []
+
+        for activity_id in all_activities:
+            statements_filtered_by_object = filter_statements_by_object_id(statements_of_instructor, activity_id)
+            statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object, construct_verb_id("rated"))
+            total_rating = 0
+            count = 0
+
+            for statement in statements_filtered_by_verb:
+                if 'result' in statement['statement_payload'] and 'score' in statement['statement_payload']['result']:
+                    total_rating += statement['statement_payload']['result']['score']['raw']
+                    count += 1
+
+            mean_rating = total_rating / count if count > 0 else 0
+            activities_ratings.append({
+                "activityId": activity_id,
+                "meanRating": mean_rating
+            })
+
+        responseJson = {"activitiesRatings": activities_ratings}
+        return JsonResponse(responseJson, safe=False)
+    except Exception as e:
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
+
+@verify_learner_token_annotation
 def learning_efficiency_for_learner(request):
     email = request.email
-    activity_id = request.GET.get('activityId')
     statements = user_xapi_service.fetch_statements_for_user(email)
-    statements_filtered_by_object = filter_statements_by_object_id(statements, activity_id)
-    sorted_statements = sort_statements_by_timestamp(statements_filtered_by_object)
-    durations = get_durations_of_tests_for_user(sorted_statements)
-    scores=[]
-    for duration in durations:
-        object= {
-            "duration": duration["duration"],
-            "score": duration["score"],
-            "timestamp": duration["timestamp"]
-        }
-        scores.append(object)
-  
-    responseJson = {"scores": scores}
+    all_activities = get_all_objects_ids_used(statements)
+    activities_efficiency = []
+
+    for activity_id in all_activities:
+        
+        statements_filtered_by_object = filter_statements_by_object_id(statements, activity_id)
+        sorted_statements = sort_statements_by_timestamp(statements_filtered_by_object)
+        durations_of_tests = get_durations_of_tests_for_user(sorted_statements)
+        durations_of_activities = get_duration_of_activities(sorted_statements)
+
+        # Combine durations of tests and activities
+        for test_duration in durations_of_tests:
+            for activity_duration in durations_of_activities:
+                if test_duration['id'] == activity_duration['id']:
+                    test_duration['duration'] += activity_duration['duration']
+                    break
+        scores = []
+        for duration in durations_of_tests:
+            scores.append({
+                "duration": duration["duration"],
+                "score": duration["score"],
+                "timestamp": duration["timestamp"]
+            })
+        
+        activities_efficiency.append({
+            "activityId": activity_id,
+            "scores": scores
+        })
+
+    responseJson = {"activitiesEfficiency": activities_efficiency}
     return JsonResponse(responseJson, safe=False)
 
+@verify_learner_token_annotation
 def active_hours_in_the_current_week_for_learner(request):
-    email = request.user.email  # Corrected to access email from authenticated user
+    email = request.user['email']  # Corrected to access email from authenticated user
     statements_of_learner =  user_xapi_service.fetch_statements_for_user(email)
     
     current_date = datetime.now()
@@ -461,15 +890,15 @@ def active_hours_in_the_current_week_for_learner(request):
     
     statements_filtered_by_week = [
         statement for statement in statements_of_learner
-        if datetime.strptime(statement['timestamp'][:10], '%Y-%m-%d') >= start_of_week
+        if start_of_week.date() <= statement['timestamp'].date() <= (start_of_week + timedelta(days=6)).date()
     ]
     
     active_hours = [{"day": (start_of_week + timedelta(days=i)).strftime('%A'), "hours": [{"hour": h, "timeSpent": 0} for h in range(24)]} for i in range(7)]
     
     durations = get_duration_of_activities(statements_filtered_by_week)
     for duration_info in durations:
-        test_start = datetime.strptime(duration_info['test_start'], '%Y-%m-%dT%H:%M:%S')
-        test_end = datetime.strptime(duration_info['test_end'], '%Y-%m-%dT%H:%M:%S')
+        test_start = duration_info['test_start']
+        test_end = duration_info['test_end']
         current_time = test_start
         while current_time < test_end:
             next_hour = (current_time + timedelta(hours=1)).replace(minute=0, second=0, microsecond=0)
@@ -486,3 +915,43 @@ def active_hours_in_the_current_week_for_learner(request):
     responseJson = {"activeHours": active_hours}
     
     return JsonResponse(responseJson, safe=False)
+@verify_learner_token_annotation
+def count_verbs_for_all_activities_for_learner(request):
+    email = request.email
+    statements = xapi_service.fetch_statements()
+    statements_of_learner = get_statements_of_specfic_user_by_email(statements, email)
+    all_activities = get_all_objects_ids_used(statements_of_learner)
+    all_verbs = get_all_verbs_name_used(statements)
+    verbs_count = {}
+
+    for activity_id in all_activities:
+        statements_filtered_by_activity = filter_statements_by_object_id(statements_of_learner, activity_id)
+        verbs_count[activity_id] = {verb: 0 for verb in all_verbs}
+        for statement in statements_filtered_by_activity:
+            verb_id = get_name_of_verb_by_id(statement)
+            if verb_id in verbs_count[activity_id]:
+                verbs_count[activity_id][verb_id] += 1
+
+    responseJson = {"verbsCount": verbs_count}
+    return JsonResponse(responseJson, safe=False)
+
+def get_all_object_names_and_ids(request):
+    try:
+        statements = xapi_service.fetch_statements()
+        all_objects = get_all_objects_ids_used(statements)
+        object_names_and_ids = []
+
+        for object_id in all_objects:
+            object_name = get_object_name_by_id(statements, object_id)
+            object_names_and_ids.append({
+                "objectId": object_id,
+                "objectName": object_name
+            })
+
+        responseJson = {"objects": object_names_and_ids}
+        return JsonResponse(responseJson, safe=False)
+    except Exception as e:
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
+

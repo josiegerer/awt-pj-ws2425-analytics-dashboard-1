@@ -14,7 +14,8 @@ def filter_statements_by_verb_id(statements, verb_id):
     
     filtered_statements = []
     for statement in statements:
-        if statement.get("statement_payload",{}).get("verb", {}).get("id") == verb_id:
+        if get_id(statement,"verb") == verb_id:
+           
             filtered_statements.append(statement)
     return filtered_statements
 
@@ -36,7 +37,7 @@ def filter_statements_by_course_id(statements, subcourse_id):
     :param subcourse_id: The subcourse ID to filter by.
     :return: List of filtered xAPI statements.
     """
-    filtered_statements = [statement for statement in statements if statement.get("statement_payload",{}).get("context", {}).get("contextActivities", {}).get("parent", [{}])[0].get("id") == subcourse_id]
+    filtered_statements = [statement for statement in statements if get_parent_id(statement) == subcourse_id]
     return filtered_statements
 
 def construct_activity_id(activity_name):
@@ -56,7 +57,7 @@ def filter_statements_by_object_id(statements, object_id):
     :param object_id: The object ID to filter by.
     :return: List of filtered xAPI statements.
     """
-    filtered_statements = [statement for statement in statements if statement.get("statement_payload",{}).get("object", {}).get("id") == object_id]
+    filtered_statements = [statement for statement in statements if get_id(statement,"object") == object_id]
     return filtered_statements
 
 def filter_statements_by_instructor_email(statements, email):
@@ -67,7 +68,8 @@ def filter_statements_by_instructor_email(statements, email):
     :param email: The email of the instructor to filter by.
     :return: List of filtered xAPI statements.
     """
-    filtered_statements = [statement for statement in statements if statement.get("statement_payload",{}).get("context", {}).get("instructor", {}).get("mbox") == f"mailto:{email}"]
+    print("statements",statements)
+    filtered_statements = [statement for statement in statements if get_instructor_email(statement) == f"mailto:{email}"]
     return filtered_statements
 
 def get_statements_in_last_days(statements, days):
@@ -123,7 +125,7 @@ def get_statements_of_specfic_user_by_email(statements, email):
     :param email: The email of the user to filter by.
     :return: List of filtered xAPI statements.
     """
-    filtered_statements = [statement for statement in statements if statement.get("actor", {}).get("mbox") == f"mailto:{email}"]
+    filtered_statements = [statement for statement in statements if get_mbox(statement,"actor") == f"mailto:{email}"]
     return filtered_statements
 
 
@@ -150,16 +152,17 @@ def get_durations_of_tests_for_user(statements):
     sorted_statements=sort_statements_by_timestamp(statements)
 
     for statement in sorted_statements:
-        object_id = statement.get("object", {}).get("id")
-        verb_id = statement.get("verb", {}).get("id")
+        object_id = get_id(statement, "object")
+        verb_id = get_id(statement, "verb")
         if verb_id == construct_verb_id("scored"):
-            test_start = datetime.strptime(statement.get("timestamp"), "%Y-%m-%dT%H:%M:%S.%fZ")
+            test_start = statement.get("timestamp")
         elif verb_id in [construct_verb_id("failed"), construct_verb_id("completed")]:
             if test_start:
-                test_end = datetime.strptime(statement.get("timestamp"), "%Y-%m-%dT%H:%M:%S.%fZ")
+                test_end = statement.get("timestamp")
                 duration = test_end - test_start
+                print("duration",duration)
                 durations.append({
-                    "score": statement.get("result", {}).get("score", {}).get("raw"),
+                    "score": get_score(statement),
                     "duration": duration,
                     "result": "failed" if verb_id == construct_verb_id("failed") else "completed",
                     "object_id": object_id,
@@ -179,14 +182,15 @@ def get_duration_of_activities(statements):
     durations = []
     test_start = None
     sorted_statements=sort_statements_by_timestamp(statements)
+    
     for statement in sorted_statements:
-        verb_id = statement.get("statement_payload",{}).get("verb", {}).get("id")
-        activity_id = statement.get("statement_payload",{}).get("object", {}).get("id")
+        verb_id = get_id(statement, "verb")
+        activity_id = get_id(statement, "object")
         if verb_id == construct_verb_id("initialized"):
-            test_start = datetime.strptime(statement.get("timestamp"), "%Y-%m-%dT%H:%M:%S.%fZ")
+            test_start = statement.get("timestamp")
         elif verb_id in [construct_verb_id("exited")]:
             if test_start:
-                test_end = datetime.strptime(statement.get("timestamp"), "%Y-%m-%dT%H:%M:%S.%fZ")
+                test_end = statement.get("timestamp")
                 duration = test_end - test_start
                 durations.append({
                     "activityId": activity_id,
@@ -214,11 +218,40 @@ def get_all_verbs_ids_used(statements):
     verbs = set()
     
     for statement in statements:
-        verb_id = statement.get("statement_payload",{}).get("verb", {}).get("id")
+        
+        verb_id = get_id(statement, "verb")
         if verb_id:
             verbs.add(verb_id)
     
     return list(verbs)
+
+def get_all_verbs_name_used(statements):
+    """
+    Extracts all unique verbs used in xAPI statements.
+    
+    :param statements: List of xAPI statements.
+    :return: Set of all unique verbs used.
+    """
+    verbs = set()
+    
+    for statement in statements:
+        
+        verb_id = get_id(statement, "verb")
+        if verb_id:
+            verbs.add(verb_id.split("/")[-1])
+    
+    return list(verbs)
+
+def get_name_of_verb_by_id(statement):
+    """
+    Extracts the verb name from an xAPI statement.
+    
+    :param verb_id: The verb ID.
+    :return: The verb name if found, otherwise None.
+    """
+    verb_id = get_id(statement, "verb")
+        
+    return verb_id.split("/")[-1]
 
 def get_all_objects_ids_used(statements):
     """
@@ -228,14 +261,105 @@ def get_all_objects_ids_used(statements):
     :return: Set of all unique objects used.
     """
     objects = set()
-    
     for statement in statements:
-        object_id = statement.get("statement_payload",{}).get("object", {}).get("id")
+        object_id = get_id(statement, "object")
         if object_id:
             objects.add(object_id)
     
     return list(objects)
+def get_all_objects_names_used(statements, language="de-DE"):
+    """
+    Extracts all unique object names used in xAPI statements.
+    
+    :param statements: List of xAPI statements.
+    :return: Set of all unique object names used.
+    """
+    object_names = set()
+    
+    for statement in statements:
+        object_name = get_object_name(statement, language)
+        if object_name:
+            object_names.add(object_name)
+    
+    return list(object_names)
 
+def get_object_name(statement, language="de-DE"):
+    """
+    Extracts the object name from an xAPI statement.
+    
+    :param statement: The xAPI statement.
+    :param language: The language of the object name (default: "de-DE").
+    :return: The object name if found, otherwise None.
+    """
+    return (
+        statement.get("statement_payload", {}).get("object", {}).get("definition", {}).get("name", {}).get(language) or
+        statement.get("payload", {}).get("object", {}).get("definition", {}).get("name", {}).get(language) or
+        statement.get("object", {}).get("definition", {}).get("name", {}).get(language)
+    )
+
+def get_id(statement, attribute):
+    """
+    Extracts the object ID from an xAPI statement.
+    
+    :param statement: The xAPI statement.
+    :param verb: The verb associated with the statement (not used in this function).
+    :return: The object ID if found, otherwise None.
+    """
+    return (
+        statement.get("statement_payload", {}).get(attribute, {}).get("id") or
+        statement.get("payload", {}).get(attribute, {}).get("id") or
+        statement.get(attribute, {}).get("id")
+    )
+def get_mbox(statement, attribute):
+    """
+    Extracts the mbox from an xAPI statement.
+    
+    :param statement: The xAPI statement.
+    :param verb: The verb associated with the statement (not used in this function).
+    :return: The mbox if found, otherwise None.
+    """
+    return (
+        statement.get("statement_payload", {}).get(attribute, {}).get("mbox") or
+        statement.get("payload", {}).get(attribute, {}).get("mbox") or
+        statement.get(attribute, {}).get("mbox")
+    )
+def get_parent_id(statement):
+    """
+    Extracts the parent ID from an xAPI statement.
+    
+    :param statement: The xAPI statement.
+    :return: The parent ID if found, otherwise None.
+    """
+    return (
+        statement.get("statement_payload", {}).get("context", {}).get("contextActivities", {}).get("parent", [{}])[0].get("id") or
+        statement.get("payload", {}).get("context", {}).get("contextActivities", {}).get("parent", [{}])[0].get("id") or
+        statement.get("context", {}).get("contextActivities", {}).get("parent", [{}])[0].get("id")
+    )
+
+def get_instructor_email(statement):
+    """
+    Extracts the instructor's email from an xAPI statement.
+    
+    :param statement: The xAPI statement.
+    :return: The instructor's email if found, otherwise None.
+    """
+    return (
+        statement.get("statement_payload", {}).get("context", {}).get("instructor", {}).get("mbox") or
+        statement.get("payload", {}).get("context", {}).get("instructor", {}).get("mbox") or
+        statement.get("context", {}).get("instructor", {}).get("mbox")
+    )
+def get_score(statement):
+    """
+    Extracts the score from an xAPI statement.
+    
+    :param statement: The xAPI statement.
+    :return: The score if found, otherwise None.
+    """
+    return (
+        statement.get("statement_payload", {}).get("result", {}).get("score", {}).get("raw") or
+        statement.get("payload", {}).get("result", {}).get("score", {}).get("raw") or
+        statement.get("result", {}).get("score", {}).get("raw")
+    )  
 def get_all_actors_emails_used(statements):
     """
     Extracts all unique actors' emails used in xAPI statements.
@@ -246,7 +370,8 @@ def get_all_actors_emails_used(statements):
     emails = set()
     
     for statement in statements:
-        mbox = statement.get("statement_payload",{}).get("actor", {}).get("mbox")
+    
+        mbox = get_mbox(statement, "actor")
         if mbox:
             email = mbox.replace("mailto:", "")
             emails.add(email)
@@ -263,7 +388,7 @@ def get_all_courses(statements):
     courses = set()
     
     for statement in statements:
-        course_id = statement.get("statement_payload",{}).get("context", {}).get("contextActivities", {}).get("parent", [{}])[0].get("id")
+        course_id = get_parent_id(statement)
         if course_id:
             courses.add(course_id)
     
@@ -281,8 +406,8 @@ def get_open_activities(statements):
     scored_activity_ids = set()
     
     for statement in statements:
-        verb_id = statement.get("statement_payload",{}).get("verb", {}).get("id")
-        activity_id = statement.get("statement_payload",{}).get("object", {}).get("id")
+        verb_id = get_id(statement, "verb")
+        activity_id =  get_id(statement, "object")
         
         if verb_id == construct_verb_id("initialized"):
             if activity_id not in scored_activity_ids:
@@ -294,3 +419,9 @@ def get_open_activities(statements):
     
     open_activities = list(open_activity_ids)
     return open_activities
+
+def get_object_name_by_id(statements, object_id):
+    for statement in statements:
+        if get_id(statement, "object") == object_id:
+            return  get_object_name(statement)
+    return "Unknown"
