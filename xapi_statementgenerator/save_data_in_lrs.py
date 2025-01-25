@@ -47,12 +47,14 @@ def generate_token_and_authenticate(base_url, username, password):
     creds_data = creds_response.json()
     api_key = creds_data.get("api-key")
     secret_key = creds_data.get("secret-key")
-
+    print("API Key",api_key)
+    print("Secret Key",secret_key)
     if not api_key or not secret_key:
         raise Exception("Credentials response did not contain API Key and/or Secret Key.")
 
     # Step 3: Encode API Key and Secret Key to Base64
     token = base64.b64encode(f"{api_key}:{secret_key}".encode()).decode()
+    print("Token",token)
 
     return token
 
@@ -74,6 +76,7 @@ def send_data_to_lrs(json_file_path, lrs_url, base_url, username, password):
     user_emails = set()
 
     for statement in statements:
+        
         # Extract user email if available
         actor = statement.get("actor", {})
         mbox = actor.get("mbox")
@@ -85,6 +88,7 @@ def send_data_to_lrs(json_file_path, lrs_url, base_url, username, password):
         if response.status_code == 200 or response.status_code == 204:
             print(f"Successfully sent statement {statement.get('id', 'unknown')}")
         else:
+            
             print(f"Failed to send statement {statement.get('id', 'unknown')}: {response.status_code} - {response.text}")
 
     # Save unique emails to a file
@@ -94,5 +98,5 @@ def send_data_to_lrs(json_file_path, lrs_url, base_url, username, password):
 
     print("User emails saved to user_emails.txt")
     
-# Example Usage
-# send_data_to_lrs("statements.json", "http://localhost:8080/xAPI/statements", "http://localhost:8080", "my_username", "my_password")
+
+send_data_to_lrs("./generated_data/new_xapi_statements_12userdata.json", "http://localhost:8080/xapi/statements", "http://localhost:8080", "my_username", "my_password")
