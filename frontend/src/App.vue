@@ -98,8 +98,8 @@ export default {
         console.log('Redirecting to educator dashboard')
         this.$router.replace('/educator-dashboard')
       }
-      else if (this.isStudent && currentPath.includes('/lti/launch')) {
-        console.log('Redirecting student from launch')
+      else if (this.isStudent && !currentPath.includes('student')){
+        console.log('Redirecting to student dashboard')
         this.$router.replace('/overall')
       }
       else {

@@ -1,39 +1,46 @@
 <template>
-    <nav v-if="showHeader" class="nav-buttons">
-      <button @click="navigateTo('/overall')">Overall</button>
-      <button @click="navigateTo('/performance')">Performance</button>
-      <button @click="navigateTo('/engagement')">Engagement</button>
-    </nav>
-  <div class="dashboard">
-    <div class="grid-container">
-      <!-- Assessment Points Over Time -->
-      <div class="grid-item assessment-performance-chart">
-        <AssessmentPerformanceChart />
-      </div>
+  <div class="performance-container">
+    <!-- Navigation -->
+    <div class="nav-container">
+      <nav v-if="showHeader" class="nav-buttons">
+        <button @click="navigateTo('/overall')">Overall</button>
+        <button @click="navigateTo('/performance')">Performance</button>
+        <button @click="navigateTo('/engagement')">Engagement</button>
+      </nav>
+    </div>
 
-      <!-- Daily Streak  -->
-      <div class="grid-item daily-streak">
-        <DailyStreak :streak="dailyStreak" />
-      </div>
+    <!-- Dashboard Content -->
+    <div class="dashboard">
+      <div class="grid-container">
+        <!-- Assessment Performance -->
+        <div class="grid-item assessment-performance-chart">
+          <AssessmentPerformanceChart />
+        </div>
 
-      <!-- Average Attempts Until Passed -->
-      <div class="grid-item average-attempts">
-        <AttemptsUntilPassedCard :data="attemptsUntilPassed" />
-      </div>
-      
-      <!-- Pass Rate Chart-->
-      <div class="grid-item pass-rate-chart">
-        <PassRateChart :data="passRateData" />
-      </div>
+        <!-- Daily Streak -->
+        <div class="grid-item daily-streak">
+          <DailyStreak :streak="dailyStreak" />
+        </div>
 
-      <!-- Course Completion Chart-->
-      <div class="grid-item course-completion-chart">
-        <CourseCompletionChart :courses="coursesData" />
-      </div>
+        <!-- Average Attempts Until Passed -->
+        <div class="grid-item average-attempts">
+          <AttemptsUntilPassedCard :data="attemptsUntilPassed" />
+        </div>
 
-      <!-- Assessment Attempts  -->
-      <div class="grid-item assessment-attempts-chart">
-        <AssessmentAttempts :data="assessmentAttemptsData" />
+        <!-- Pass Rate Chart -->
+        <div class="grid-item pass-rate-chart">
+          <PassRateChart :data="passRateData" />
+        </div>
+
+        <!-- Course Completion Chart -->
+        <div class="grid-item course-completion-chart">
+          <CourseCompletionChart :courses="coursesData" />
+        </div>
+
+        <!-- Assessment Attempts -->
+        <div class="grid-item assessment-attempts-chart">
+          <AssessmentAttempts :data="assessmentAttemptsData" />
+        </div>
       </div>
     </div>
   </div>
@@ -59,6 +66,7 @@ export default {
   },
   data() {
     return {
+      showHeader: true, // Ensures the navigation bar is visible
       dailyStreak: 3,
       attemptsUntilPassed: 5,
       coursesData: [
@@ -81,58 +89,68 @@ export default {
                 { id: 1, name: "Assessment 1", status: "passed" },
                 { id: 2, name: "Assessment 2", status: "not passed" },
               ],
-            },
-            {
-              id: 2,
-              name: "Subcourse 2",
-              progress: 40,
-              completedAssessments: 2,
-              totalAssessments: 5,
-              open: false,
-              assessments: [
-                { id: 3, name: "Assessment 3", status: "passed" },
-                { id: 4, name: "Assessment 4", status: "not passed" },
-              ],
-            },
+            }
           ],
-        },
-        {
-          id: 2,
-          name: "Main Course 2",
-          progress: 70,
-          completedAssessments: 7,
-          totalAssessments: 10,
-          open: false,
-          subcourses: [
-            {
-              id: 3,
-              name: "Subcourse 3",
-              progress: 80,
-              completedAssessments: 4,
-              totalAssessments: 5,
-              open: false,
-              assessments: [
-                { id: 5, name: "Assessment 5", status: "passed" },
-                { id: 6, name: "Assessment 6", status: "not passed" },
-              ],
-            },
-          ],
-        },
+        }
       ],
     };
   },
+  methods: {
+    navigateTo(route) {
+      this.$router.push(route);
+    }
+  }
 };
 </script>
 
 <style scoped>
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr); /* Create 12 equal columns */
-  gap: 20px;
-  grid-template-rows: repeat(12, 50 px) ;
-
+/* Container */
+.performance-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Navigation Container */
+.nav-container {
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 8px;
+  background-color: transparent !important;
+}
+
+/* Navigation Buttons */
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.nav-buttons button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  background-color: #c40d1e;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.nav-buttons button:hover {
+  background-color: #9e0b19;
+}
+
+/* Grid Layout */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 20px;
+}
+
+/* Grid Items */
 .grid-item {
   background: white;
   border-radius: 8px;
@@ -140,39 +158,49 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Assessment Points Over Time*/
+/* Layout Definition */
 .assessment-performance-chart {
   grid-column: span 9; 
   grid-row: span 3;
 }
 
-/* Daily Streak */
 .daily-streak {
   grid-column: span 3; 
   grid-row: span 1;
 }
 
-/* Average Attempts Until Passed */
 .average-attempts {
   grid-column: span 3;
   grid-row: span 1;
 }
 
-/* Pass Rate Chart */
 .pass-rate-chart {
   grid-column: span 3;
   grid-row: span 1;
 }
 
-/* Course Completion Chart */
 .course-completion-chart {
   grid-column: span 9;
   grid-row: span 2;
 }
 
-/* Assessment Attempts */
 .assessment-attempts-chart {
   grid-column: span 3;
   grid-row: span 2;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .grid-item {
+    grid-column: span 6; 
+  }
+
+  .nav-buttons {
+    flex-direction: column;
+  }
 }
 </style>

@@ -1,30 +1,41 @@
 <template>
+  <div class="overall-container">
+    <!-- Navigation -->
+    <div class="nav-container">
       <nav v-if="showHeader" class="nav-buttons">
-      <button @click="navigateTo('/overall')">Overall</button>
-      <button @click="navigateTo('/performance')">Performance</button>
-      <button @click="navigateTo('/engagement')">Engagement</button>
-    </nav>
-  <div class="dashboard">
-    <div class="grid-container">
-      <!-- Time Spent Daily -->
-      <div class="grid-item time-spent-daily">
-        <TimeSpentDaily :data="timeSpentDailyData" />
-      </div>
-      <!-- Learning Effectiveness Chart -->
-      <div class="grid-item learning-effectiveness">
-        <LearningEffectivenessChart :data="learningEffectivenessData" />
-      </div>
-      <!-- Daily Streak -->
-      <div class="grid-item daily-streak">
-        <DailyStreak :streak="dailyStreak" />
-      </div>
-      <!-- Recommendation Box -->
-      <div class="grid-item recommendation-box">
-        <RecommendationBox />
-      </div>
-      <!-- Course Completion Chart -->
-      <div class="grid-item course-completion-chart">
-        <CourseCompletionChart :courses="coursesData" />
+        <button @click="navigateTo('/overall')">Overall</button>
+        <button @click="navigateTo('/performance')">Performance</button>
+        <button @click="navigateTo('/engagement')">Engagement</button>
+      </nav>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard">
+      <div class="grid-container">
+        <!-- Time Spent Daily -->
+        <div class="grid-item time-spent-daily">
+          <TimeSpentDaily :data="timeSpentDailyData" />
+        </div>
+
+        <!-- Learning Effectiveness Chart -->
+        <div class="grid-item learning-effectiveness">
+          <LearningEffectivenessChart :data="learningEffectivenessData" />
+        </div>
+
+        <!-- Daily Streak -->
+        <div class="grid-item daily-streak">
+          <DailyStreak :streak="dailyStreak" />
+        </div>
+
+        <!-- Recommendation Box -->
+        <div class="grid-item recommendation-box">
+          <RecommendationBox />
+        </div>
+
+        <!-- Course Completion Chart -->
+        <div class="grid-item course-completion-chart">
+          <CourseCompletionChart :courses="coursesData" />
+        </div>
       </div>
     </div>
   </div>
@@ -37,7 +48,6 @@ import DailyStreak from "../components/learner/DailyStreak.vue";
 import LearningEffectivenessChart from "../components/learner/LearningEffectivenessChart.vue";
 import RecommendationBox from "../components/learner/RecommendationBox.vue";
 
-
 export default {
   name: "OverallView",
   components: {
@@ -49,6 +59,7 @@ export default {
   },
   data() {
     return {
+      showHeader: true, // Ensures the navigation bar is visible
       timeSpentDailyData: [
         { day: "Monday", minutes: 120 },
         { day: "Tuesday", minutes: 90 },
@@ -93,28 +104,6 @@ export default {
             },
           ],
         },
-        {
-          id: 2,
-          name: "Main Course 2",
-          progress: 70,
-          completedAssessments: 7,
-          totalAssessments: 10,
-          open: false,
-          subcourses: [
-            {
-              id: 3,
-              name: "Subcourse 3",
-              progress: 80,
-              completedAssessments: 4,
-              totalAssessments: 5,
-              open: false,
-              assessments: [
-                { id: 5, name: "Assessment 5", status: "passed" },
-                { id: 6, name: "Assessment 6", status: "not passed" },
-              ],
-            },
-          ],
-        },
       ],
       dailyStreak: 3,
       learningEffectivenessData: [
@@ -125,16 +114,60 @@ export default {
       ],
     };
   },
+  methods: {
+    navigateTo(route) {
+      this.$router.push(route);
+    }
+  }
 };
 </script>
 
 <style scoped>
+/* Container for overall layout */
+.overall-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
+/* Navigation container */
+.nav-container {
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Navigation buttons */
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.nav-buttons button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  background-color: #3b82f6;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.nav-buttons button:hover {
+  background-color: #2563eb;
+}
+
+/* Grid Layout */
 .grid-container {
   display: grid;
-  grid-template-rows: repeat(12, auto); /* Define flexible rows */
-  grid-template-columns: repeat(12, 1fr); /* 12 equal columns */
-  grid-gap: 20px; /* Space between items */
+  grid-template-rows: repeat(12, auto);
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 20px;
   grid-template-areas:
     "time-spent-daily learning-effectiveness daily-streak recommendation-box"
     "time-spent-daily learning-effectiveness daily-streak recommendation-box"
@@ -179,8 +212,53 @@ export default {
 }
 
 .course-completion-chart {
-  grid-column: span 12; /* Full width */
-  grid-row: span 12; 
+  grid-column: span 12;
+  grid-row: span 12;
 }
 
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .grid-item {
+    grid-column: span 6;
+  }
+
+  .nav-buttons {
+    flex-direction: column;
+  }
+}
+
+/* Navigation Container */
+.nav-container {
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 8px;
+  background-color: transparent !important;
+}
+
+/* Navigation Buttons */
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.nav-buttons button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  background-color: #c40d1e;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.nav-buttons button:hover {
+  background-color: #9e0b19;
+}
 </style>

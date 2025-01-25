@@ -101,9 +101,6 @@ class XAPIGenerator:
             dict: A context JSON object.
         """
         context = {
-            "top-level-course": {
-                "name": "Baumchirurgie"
-            },
             "instructor": {
                 "name": instructor_name,
                 "mbox": f"mailto:{instructor_email}"
@@ -135,9 +132,15 @@ class XAPIGenerator:
                 {
                     "id": parent_activity_id or "http://example.com/default-parent-activity",
                     "definition": {
-                        "name": {"en": parent_activity_name or "Default Parent Activity"}
+                        "name": {"de-DE": parent_activity_name or "Default Parent Activity"}
                     }
-                }
+                },
+                                {
+                    "id": "http://example.com/activities/Baumchirurgie",
+                    "definition": {
+                        "name": {"de-DE": "Baumchirurgie" }
+                    }
+                },
             ]
         if context_activities:
             context["contextActivities"] = context_activities
@@ -231,6 +234,11 @@ class XAPIGenerator:
                     "name": {"de-DE": activity}
                 }
             },
+            "context": {
+                "extensions": {
+                    "https://example.com/extensions/threshold": 0.5
+            }
+            },
             "timestamp": timestamp.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
         }
 
@@ -241,7 +249,6 @@ class XAPIGenerator:
                     "raw": int(score * 100),
                     "min": 0,
                     "max": 100,
-                    "threshold": 0.5
                 }
             }
         if rating is not None:
@@ -354,13 +361,13 @@ class XAPIGenerator:
 
                 # Generate test statements
                 statements.append(self.generate_statement_with_context(
-                    user_id, "scored", f"Test: {material}", test_time,
+                    user_id, "scored", f"{material}", test_time,
                     score=test_score
                 ))
 
                 verb = "completed" if test_score >= self.test_pass_threshold else "failed"
                 statements.append(self.generate_statement_with_context(
-                    user_id, verb, f"Test: {material}",
+                    user_id, verb, f"{material}",
                     test_time + timedelta(minutes=random.randint(15, 30)),
                     score=test_score
                 ))
@@ -380,11 +387,11 @@ class XAPIGenerator:
                 final_test_time = current_date + timedelta(minutes=random.randint(60, 240))
                 final_score = self.test_pass_threshold  # Ensure passing score
                 statements.append(self.generate_statement_with_context(
-                    user_id, "scored", f"Test: {material}", final_test_time,
+                    user_id, "scored", f"{material}", final_test_time,
                     score=final_score
                 ))
                 statements.append(self.generate_statement_with_context(
-                    user_id, "completed", f"Test: {material}",
+                    user_id, "completed", f"{material}",
                     final_test_time + timedelta(minutes=random.randint(15, 30)),
                     score=final_score
                 ))
@@ -412,7 +419,7 @@ class XAPIGenerator:
 
     def generate_test_session(self, user_id, material, timestamp, score):
         """Generate statements for a complete test session"""
-        test_name = f"Test: {material}"
+        test_name = f"{material}"
         statements = [
             self.add_instructor_context(
                 self.generate_statement(user_id, "scored", test_name, timestamp, score=score), material
@@ -982,8 +989,8 @@ def generate_multi_duration_dataset(output_file="xapi_statements_combined.json")
 
 if __name__ == "__main__":
             # Test each type individually
-    #user_types = ["consistent", "inconsistent", "u_shaped", "diminished"]
-    # user_types = ["u_shaped"]
+    # user_types = ["consistent", "inconsistent", "u_shaped", "diminished"]
+    # user_types = ["diminished"]
 
 
     # for utype in user_types:

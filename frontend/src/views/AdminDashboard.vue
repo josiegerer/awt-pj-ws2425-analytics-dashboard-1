@@ -3,7 +3,7 @@
     <!-- Dashboard Content -->
     <div class="dashboard">
       <div class="grid-container">
-       
+
         <p class="subheader">Engagement</p>
 
         <!-- Users over time -->
@@ -18,27 +18,26 @@
 
         <p class="subheader">Resource Utilization & Content Popularity</p>
 
-        <!-- Active Users per Course -->
-        <div class="grid-item active-users">
-          <ActiveUsers :activeUsers="activeUsers" :change="activeUsersChange" />
+        <!-- Stats Row (4 Equal Boxes) -->
+        <div class="stats-row">
+          <div class="grid-item">
+            <ActiveUsers :activeUsers="activeUsers" :change="activeUsersChange" />
+          </div>
+
+          <div class="grid-item">
+            <TotalUsers :totalUsers="totalUsers" :change="totalUsersChange" />
+          </div>
+
+          <div class="grid-item">
+            <TotalCourses :totalCourses="totalCourses" :change="totalCoursesChange" />
+          </div>
+
+          <div class="grid-item">
+            <TotalActivities :totalActivities="totalActivities" :change="totalActivitiesChange" />
+          </div>
         </div>
 
-        <!--Total Users -->
-        <div class="grid-item total-users">
-          <TotalUsers :totalUsers="totalUsers" :change="totalUsersChange" />
-        </div>
-
-        <!--Total Courses -->
-        <div class="grid-item total-courses">
-          <TotalCourses :totalCourses="totalCourses" :change="totalCoursesChange" />
-        </div>
-
-        <!--Total Activities -->
-        <div class="grid-item total-courses">
-          <TotalActivities :totalActivities="totalActivities" :change="totalActivitiesChange" />
-        </div>
-
-        <!-- Search Trends -->
+        <!-- Search Trends (Full Width in New Row) -->
         <div class="grid-item search-trends">
           <SearchTrendsChart :data="searchTrendsData" />
         </div>
@@ -47,6 +46,7 @@
         <div class="grid-item keyword-list">
           <KeywordsList :data="keywordsData" />
         </div>
+
       </div>
     </div>
   </div>
@@ -100,19 +100,11 @@ export default {
       ],
 
       searchTrendsData: [
-        { query: 'Algebra', count: 500 },
-        { query: 'Physics', count: 450 },
-        { query: 'Machine Learning', count: 350 },
-        { query: 'AI Basics', count: 320 },
-        { query: 'Data Science', count: 290 },
-      ],
-
-      keywordsData: [
-        { keyword: 'Deep Learning', count: 200 },
-        { keyword: 'Statistics', count: 180 },
-        { keyword: 'Python', count: 170 },
-        { keyword: 'R Programming', count: 140 },
-        { keyword: 'Linear Algebra', count: 130 },
+        { query: 'Kompetenzen', count: 500 },
+        { query: 'Grundlagen', count: 450 },
+        { query: 'Gefahren', count: 350 },
+        { query: 'Pflege', count: 320 },
+        { query: 'Klettern', count: 290 },
       ],
       activeUsers: 120,
       activeUsersChange: -65,
@@ -166,49 +158,53 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-
-/* Grid Layout */
-.users-time{
-  grid-column: span 6;
-  grid-row: span 1;
+/* Stats Row (4 Equal Boxes in One Row) */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
+  grid-column: span 12; /* Full row width */
 }
 
-.popular-times{
-  grid-column: span 6;
-  grid-row: span 1;
+/* Search Trends (New Row, Full Width) */
+.search-trends {
+  grid-column: span 12;
 }
 
-.total-users
-.total-activities
-.total-courses
-.active-users {
-  grid-column: span 3;
-  grid-row: span 1; 
+/* Users Time & Popular Times */
+.users-time {
+  grid-column: span 6;
 }
 
-.search-trends{
+.popular-times {
   grid-column: span 6;
-  grid-row: span 1;
 }
 
 .keyword-list {
   grid-column: span 6;
-  grid-row: span 1;
 }
 
-.subheader{
+.subheader {
   grid-column: span 12;
-  grid-row: span 1;
   font-style: oblique;
   font-size: medium;
 }
 
+/* Mobile Responsive */
 @media (max-width: 768px) {
   .grid-container {
     grid-template-columns: repeat(6, 1fr);
   }
 
   .grid-item {
+    grid-column: span 6;
+  }
+
+  .stats-row {
+    grid-template-columns: repeat(2, 1fr); /* Show 2 per row on small screens */
+  }
+
+  .search-trends {
     grid-column: span 6;
   }
 }

@@ -2,13 +2,13 @@
   <div class="search-trends">
     <div class="search-header">
       <div class="search-title">
-        <h3>Searches conducted</h3>
-        <div class="search-count">254</div>
-        <div class="search-change">+30 Searches in the last 30 days</div>
+        <h3>Top Search Trends</h3>
+        <div class="search-count">{{ totalSearches }}</div>
+        <div class="search-change">+{{ searchChange }} in the last 30 days</div>
       </div>
     </div>
     <div class="chart">
-      <Line
+      <Bar
         :data="chartData"
         :options="chartOptions"
       />
@@ -17,43 +17,49 @@
 </template>
 
 <script>
-import { Line } from 'vue-chartjs'
+import { Bar } from 'vue-chartjs'
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
-  Tooltip
+  Tooltip,
+  Legend
 } from 'chart.js'
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
-  Tooltip
+  Tooltip,
+  Legend
 )
 
 export default {
   name: 'SearchTrendsChart',
-  components: { Line },
+  components: { Bar },
   props: {
     data: Array
   },
   computed: {
+    totalSearches() {
+      return this.data.reduce((sum, d) => sum + d.count, 0) // Sum of all searches
+    },
+    searchChange() {
+      return Math.floor(this.totalSearches * 0.12) // Mock increase (+12%)
+    },
     chartData() {
       return {
-        labels: this.data.map(d => d.query), // FIXED
+        labels: this.data.map(d => d.query), // Words on X-axis
         datasets: [{
           label: 'Search Volume',
-          data: this.data.map(d => d.count), // FIXED
-          borderColor: '#3b82f6',
-          tension: 0.4,
-          borderWidth: 2,
-          pointRadius: 0
+          data: this.data.map(d => d.count), // Counts on Y-axis
+          backgroundColor: '#3b82f6', // Bar color
+          borderRadius: 4,
+          hoverBackgroundColor: '#9333ea',
+          barThickness: 30
         }]
       }
     },
@@ -112,6 +118,6 @@ export default {
 }
 
 .chart {
-  height: 200px;
+  height: 300px;
 }
 </style>
