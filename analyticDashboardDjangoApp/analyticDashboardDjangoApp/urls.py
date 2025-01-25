@@ -24,7 +24,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
-from dashboard.views import get_active_users_count_for_timeslot, get_all_activities_count, get_all_courses_count, get_all_user_count, get_all_user_for_hour, get_average_score_for_activities
+from dashboard.views import active_hours_in_the_current_week_for_learner, count_verbs_for_all_activities_for_learner, get_active_users_count_for_timeslot, get_active_users_count_for_timeslot_for_instructor_subcourses, get_active_users_count_for_timeslot_of_subcourses, get_active_users_for_each_hour_today, get_activitiy_completion_and_assigned_for_instructor,get_activity_completion_and_assigned_for_subcourses, get_all_activities_summary, get_all_courses_request, get_all_user_count, get_all_visits_of_all_activities_of_instructor, get_attempts_until_passed_for_learner, get_average_score_for_all_subcourses_for_instructor, get_average_timespent_for_all_activities_for_instructor, get_last_rating_of_user_for_each_activity, get_list_of_all_activities, get_mean_rating_for_all_activities_for_instructor, get_passed_and_failed_tests_for_instructor, get_passed_and_failed_tests_for_learner, get_scoring_progress_array, is_activity_scored_for_learner, learning_efficiency_for_learner
 from lti import views
 from authentification.views import refresh_token_view
 
@@ -34,13 +34,30 @@ urlpatterns = [
     path('lti/login/', views.login, name='lti-login'),
     path('lti/', include('lti_provider.urls')),
     path('token/refresh/', refresh_token_view, name='token_refresh'),
-    #path('/popularityOfResources/<str:keyword>'),
     path('activeUser/<int:days>',get_active_users_count_for_timeslot),
-    path('totalCourses',get_all_courses_count),
-    path('totalActivities',get_all_activities_count),
+    path('totalCourses',get_all_courses_request),
+    path('totalActivities',get_list_of_all_activities),
     path('totalUsers',get_all_user_count),
-    path('popularTimes/<int:hour>',get_all_user_for_hour),
-    path('assessmentPerformance',get_average_score_for_activities)
-    #path('/totalCourses'),
+    path('popularTimes',get_active_users_for_each_hour_today),
+    path('assessmentPerformance',get_all_activities_summary),
+    path('activityRatings/instructor',get_mean_rating_for_all_activities_for_instructor),
+    path('activityRatings/learner', get_last_rating_of_user_for_each_activity),
+    path('timeSpentOnActivities',get_average_timespent_for_all_activities_for_instructor),
+    path('activityRevisits',get_all_visits_of_all_activities_of_instructor),
+    path('assessmentAveragesofCourses',get_average_score_for_all_subcourses_for_instructor),
+    path('courseCompletionRate', get_activitiy_completion_and_assigned_for_instructor),
+    path('activeUserSubcours/<int:days>/instructor',get_active_users_count_for_timeslot_for_instructor_subcourses),
+    path('activeUserSubcours/<int:days>/admin',get_active_users_count_for_timeslot_of_subcourses),
+    path('courseCompletionRate/learner', get_activity_completion_and_assigned_for_subcourses),
+    path('dailyAverageScoreofTheWeek',get_scoring_progress_array),
+    path('assessmentAttempts', is_activity_scored_for_learner),
+    path('attemptsUntilPassed', get_attempts_until_passed_for_learner),
+    path('activityEngagement', count_verbs_for_all_activities_for_learner),
+    path('passRate/instructor', get_passed_and_failed_tests_for_instructor),
+    path('passRate/learner', get_passed_and_failed_tests_for_learner),
+    path('learningEffectiveness',learning_efficiency_for_learner ),
+    path('activeHoursThisWeek',active_hours_in_the_current_week_for_learner),# special 
+    # 
+    #
     #path
 ]

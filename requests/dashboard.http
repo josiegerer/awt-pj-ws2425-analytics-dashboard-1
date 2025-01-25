@@ -11,7 +11,7 @@ Content-Type: application/json
     "password": "my_password"
 }
 > {%
-client.global.set("adminToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NSIsInJvbGVzIjpbImh0dHA6Ly9wdXJsLmltc2dsb2JhbC5vcmcvdm9jYWIvbGlzL3YyL21lbWJlcnNoaXAjTGVhcm5lciJdLCJleHAiOjE3NTI4NjE0MDAsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20ifQ.9jggrAL4joVHigURrjbBPrwfV3cBYq6jpg-OUhGxzb0");
+client.global.set("adminToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NSIsInJvbGVzIjpbImh0dHA6Ly9wdXJsLmltc2dsb2JhbC5vcmcvdm9jYWIvbGlzL3YyL21lbWJlcnNoaXAjQWRtaW5pc3RyYXRvciJdLCJleHAiOjE3NTMzMTI4MDgsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20ifQ.18JYAn-C-_q3AVNQmir_HksoKul6E1HmHzNd4GxWZRc");
 client.global.set("instructorToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NSIsInJvbGVzIjpbImh0dHA6Ly9wdXJsLmltc2dsb2JhbC5vcmcvdm9jYWIvbGlzL3YyL21lbWJlcnNoaXAjSW5zdHJ1Y3RvciJdLCJleHAiOjE3NTI4NjE0MDAsImVtYWlsIjoiaW5zdHJ1Y3RvcjNAZXhhbXBsZS5jb20ifQ.TE9DBHiggewv16voMXhJ9q5TApvPzOGdZAZbFvIziko");
 client.global.set("learnerToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NSIsInJvbGVzIjpbImh0dHA6Ly9wdXJsLmltc2dsb2JhbC5vcmcvdm9jYWIvbGlzL3YyL21lbWJlcnNoaXAjTGVhcm5lciJdLCJleHAiOjE3NTI4NjE0MDAsImVtYWlsIjoidXNlcl90ZXN0X2NvbnNpc3RlbnRfMTJ3X2Q4MzgyMTBlQGV4YW1wbGUuY29tIn0.Xd1pefZ1JHypwT3Be5QXHPhK2Q_9wSnLbhbRlQ201nU");
 console.log("Hallo")
@@ -31,11 +31,56 @@ Authorization: Bearer {{adminToken}}
 GET http://localhost:8000/totalUsers
 Authorization: Bearer {{adminToken}}
 
-GET http://localhost:8000/assessmentPerformance?activityId=http://example.com/activities/Test:_Kettensäge_bedienen
+GET http://localhost:8000/assessmentPerformance
 Authorization: Bearer {{adminToken}}
 
-GET http://localhost:8000/assessmentPerformance?activityId=http://example.com/activities/Test:_Kettensäge_bedienen
+GET http://localhost:8000/popularTimes
 Authorization: Bearer {{adminToken}}
 
-GET http://localhost:8000/popularTimes/18
+GET http://localhost:8000/activityRatings/instructor
+Authorization: Bearer {{instructorToken}}
+
+GET http://localhost:8000/activityRatings/learner
+Authorization: Bearer {{learnerToken}}
+
+GET http://localhost:8000/timeSpentOnActivities
+Authorization: Bearer {{instructorToken}}
+
+GET http://localhost:8000/activityRevisits
+Authorization: Bearer {{instructorToken}}
+
+GET http://localhost:8000/assessmentAveragesofCourses
+Authorization: Bearer {{instructorToken}}
+
+GET http://localhost:8000/courseCompletionRate
+Authorization: Bearer {{instructorToken}}
+
+GET http://localhost:8000/activeUserSubcours/30/instructor
+Authorization: Bearer {{instructorToken}}
+
+GET http://localhost:8000/activeUserSubcours/30/admin
 Authorization: Bearer {{adminToken}}
+
+GET http://localhost:8000/dailyAverageScoreofTheWeek
+Authorization: Bearer {{learnerToken}}
+
+GET http://localhost:8000/assessmentAttempts
+Authorization: Bearer {{learnerToken}}
+
+GET http://localhost:8000/attemptsUntilPassed
+Authorization: Bearer {{learnerToken}}
+
+GET http://localhost:8000/activityEngagement
+Authorization: Bearer {{learnerToken}}
+
+GET http://localhost:8000/passRate/instructor
+Authorization: Bearer {{instructorToken}}
+
+GET http://localhost:8000/passRate/learner
+Authorization: Bearer {{learnerToken}}
+
+GET http://localhost:8000/learningEffectiveness
+Authorization: Bearer {{learnerToken}}
+
+GET http://localhost:8000/activeHoursThisWeek
+Authorization: Bearer {{learnerToken}}
