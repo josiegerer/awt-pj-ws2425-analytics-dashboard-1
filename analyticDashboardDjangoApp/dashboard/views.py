@@ -860,8 +860,9 @@ def learning_efficiency_for_learner(request):
 
         # Combine durations of tests and activities
         for test_duration in durations_of_tests:
+            print(test_duration)
             for activity_duration in durations_of_activities:
-                if test_duration['id'] == activity_duration['id']:
+                if test_duration['object_id'] == activity_duration['activityId']:
                     test_duration['duration'] += activity_duration['duration']
                     break
         scores = []

@@ -46,7 +46,7 @@ def generate_token_for_testing(user_id, roles, email):
 # send_data_to_lrs(json_file_path, lrs_url, auth_token)
 
 
-token=generate_token_for_testing('12345', ['http://purl.imsglobal.org/vocab/lis/v2/membership#Learner'], 'user_test_consistent_12w_d838210e@example.com')
+token=generate_token_for_testing('12345', ['http://purl.imsglobal.org/vocab/lis/v2/membership#Learner'], 'user_test_consistent_12w_725bac5c@example.com')
 print("LearnerToken",token)
 
 token=generate_token_for_testing('12345', ['http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor'], 'instructor3@example.com')
