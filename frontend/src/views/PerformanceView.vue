@@ -1,4 +1,9 @@
 <template>
+    <nav v-if="showHeader" class="nav-buttons">
+      <button @click="navigateTo('/overall')">Overall</button>
+      <button @click="navigateTo('/performance')">Performance</button>
+      <button @click="navigateTo('/engagement')">Engagement</button>
+    </nav>
   <div class="dashboard">
     <div class="grid-container">
       <!-- Assessment Points Over Time -->
@@ -35,12 +40,12 @@
 </template>
 
 <script>
-import CourseCompletionChart from '../components/CourseCompletionChart.vue';
-import DailyStreak from '../components/DailyStreak.vue';
-import PassRateChart from '../components/PassRateChart.vue';
-import AssessmentAttempts from '../components/AssessmentAttempts.vue';
-import AttemptsUntilPassedCard from '../components/AttemptsUntilPassedCard.vue';
-import AssessmentPerformanceChart from '../components/AssessmentPerformanceChart.vue'; 
+import CourseCompletionChart from '../components/learner/CourseCompletionChart.vue';
+import DailyStreak from '../components/learner/DailyStreak.vue';
+import PassRateChart from '../components/learner/PassRateChart.vue';
+import AssessmentAttempts from '../components/learner/AssessmentAttempts.vue';
+import AttemptsUntilPassedCard from '../components/learner/AttemptsUntilPassedCard.vue';
+import AssessmentPerformanceChart from '../components/learner/AssessmentPerformanceChart.vue'; 
 
 export default {
   name: 'PerformanceView',

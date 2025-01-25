@@ -133,7 +133,7 @@
     
     "http://localhost:8081": [{
         "default": false,
-        "client_id": "HC70Iufth7izjA9",
+        "client_id": "fDLkDDTEGAIkOZM",
         "auth_login_url": "http://localhost:8081/mod/lti/auth.php",
         "auth_token_url": "http://localhost:8081/mod/lti/token.php",
         "key_set_url": "http://localhost:8081/mod/lti/certs.php",

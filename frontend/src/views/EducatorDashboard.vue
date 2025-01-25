@@ -48,7 +48,7 @@
 import jwtDecode from 'jwt-decode';
 import PassRatesChart from '../components/educator/PassRatesChart.vue';
 import AssessmentMarks from '../components/educator/AssessmentMarks.vue';
-import ActivityRevisits from '../components/ActivityRevisits.vue';
+import ActivityRevisits from '../components/learner/ActivityRevisits.vue';
 import ActiveUsers from '../components/educator/ActiveUsers.vue';
 import CourseCompletion from '../components/educator/CourseCompletion.vue';
 

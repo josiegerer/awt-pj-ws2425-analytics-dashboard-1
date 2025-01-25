@@ -1,6 +1,5 @@
 <template>
 <div class="app-container">
-  <!-- Conditional Header -->
   <header class="dashboard-header">
     <div class="logo-greeting">
       <div class="logo">
@@ -12,13 +11,6 @@
         <p v-else>Great to have you back, ready to inspire and guide the next generation?</p>
       </div>
     </div>
-    <nav v-if="showHeader" class="nav-buttons">
-      <button @click="navigateTo('/overall')">Overall</button>
-      <button @click="navigateTo('/performance')">Performance</button>
-      <button @click="navigateTo('/engagement')">Engagement</button>
-      <button @click="navigateTo('/admin-dashboard')">Admin</button>
-      <button @click="navigateTo('/educator-dashboard')">Educator</button>
-    </nav>
   </header>
 
   <!-- Dynamic Content -->
@@ -106,9 +98,12 @@ export default {
         console.log('Redirecting to educator dashboard')
         this.$router.replace('/educator-dashboard')
       }
-      else if (this.isStudent && currentPath === '/lti/launch/') {
+      else if (this.isStudent && currentPath.includes('/lti/launch')) {
         console.log('Redirecting student from launch')
         this.$router.replace('/overall')
+      }
+      else {
+        console.warn('No matching role, staying on current page.')
       }
     }
   },

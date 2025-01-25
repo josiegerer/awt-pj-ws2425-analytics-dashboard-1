@@ -1,4 +1,9 @@
 <template>
+      <nav v-if="showHeader" class="nav-buttons">
+      <button @click="navigateTo('/overall')">Overall</button>
+      <button @click="navigateTo('/performance')">Performance</button>
+      <button @click="navigateTo('/engagement')">Engagement</button>
+    </nav>
   <div class="dashboard">
     <div class="grid-container">
       <!-- Time Spent Daily -->
@@ -26,11 +31,11 @@
 </template>
 
 <script>
-import TimeSpentDaily from "../components/TimeSpentDaily.vue";
-import CourseCompletionChart from "../components/CourseCompletionChart.vue";
-import DailyStreak from "../components/DailyStreak.vue";
-import LearningEffectivenessChart from "../components/LearningEffectivenessChart.vue";
-import RecommendationBox from "../components/RecommendationBox.vue";
+import TimeSpentDaily from "../components/learner/TimeSpentDaily.vue";
+import CourseCompletionChart from "../components/learner/CourseCompletionChart.vue";
+import DailyStreak from "../components/learner/DailyStreak.vue";
+import LearningEffectivenessChart from "../components/learner/LearningEffectivenessChart.vue";
+import RecommendationBox from "../components/learner/RecommendationBox.vue";
 
 
 export default {

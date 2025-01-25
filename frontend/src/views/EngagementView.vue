@@ -1,4 +1,9 @@
 <template>
+      <nav v-if="showHeader" class="nav-buttons">
+      <button @click="navigateTo('/overall')">Overall</button>
+      <button @click="navigateTo('/performance')">Performance</button>
+      <button @click="navigateTo('/engagement')">Engagement</button>
+    </nav>
   <div class="dashboard">
     <div class="grid-container">
       <!-- First Row -->
@@ -37,12 +42,12 @@
 </template>
 
 <script>
-import HeatmapChart from '../components/ActiveHours.vue';
-import ActivityEngagement from '../components/ActivityEngagement.vue';
-import ActivityRevisits from '../components/ActivityRevisits.vue';
-import TimeSpent from '../components/TimeSpent.vue';
-import LastRating from '../components/LastRating.vue';
-import DailyStreak from '../components/DailyStreak.vue';
+import HeatmapChart from '../components/learner/ActiveHours.vue';
+import ActivityEngagement from '../components/learner/ActivityEngagement.vue';
+import ActivityRevisits from '../components/learner/ActivityRevisits.vue';
+import TimeSpent from '../components/learner/TimeSpent.vue';
+import LastRating from '../components/learner/LastRating.vue';
+import DailyStreak from '../components/learner/DailyStreak.vue';
 
 export default {
   name: 'EngagementView',
