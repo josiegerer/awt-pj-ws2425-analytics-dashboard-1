@@ -352,6 +352,33 @@ def get_average_timespent_for_all_activities_for_instructor(request):
     responseJson = {"activitiesSummary": activities_summary}
     
     return JsonResponse(responseJson, safe=False)
+
+@verify_learner_token_annotation
+def get_average_timespent_for_all_activities_for_learner(request):
+    email = request.email
+    statements = user_xapi_service.fetch_statements_for_user(email)
+    all_activities = get_all_objects_ids_used(statements)
+    activities_summary = []
+    
+    for activity_id in all_activities:
+        statements_filtered_by_object_id = filter_statements_by_object_id(statements, activity_id)
+        statements_filtered_by_user = get_statements_of_specfic_user_by_email(statements_filtered_by_object_id, email)
+        durations = get_durations_of_tests_for_user(statements_filtered_by_user)
+        durations += get_duration_of_activities(statements_filtered_by_user)
+        
+        total_time = sum(duration["duration"].total_seconds() / 60 for duration in durations)
+        user_count = 1 if durations else 0
+        
+        average_time = total_time / user_count if user_count > 0 else 0
+        
+        activities_summary.append({
+            "activityId": activity_id,
+            "averageTime": average_time
+        })
+
+    responseJson = {"activitiesSummary": activities_summary}
+    
+    return JsonResponse(responseJson, safe=False)
 @verify_instructor_token_annotation
 def get_all_visits_of_all_activities_of_instructor(request):
     instructor_email = request.email
@@ -491,6 +518,33 @@ def get_all_subcourses(request):
             "error": str(e)
         }, status=500)
 
+@verify_learner_token_annotation
+def get_time_spent_in_activities_for_learner(request):
+    email = request.email
+    statements = user_xapi_service.fetch_statements_for_user(email)
+    all_activities = get_all_objects_ids_used(statements)
+    activities_duration = []
+    total_time = 0
+
+    for activity_id in all_activities:
+        statements_filtered_by_object = filter_statements_by_object_id(statements, activity_id)
+        durations = get_durations_of_tests_for_user(statements_filtered_by_object)
+        durations += get_duration_of_activities(statements_filtered_by_object)
+        
+        activity_time = sum(duration["duration"].total_seconds() / 60 for duration in durations)
+        total_time += activity_time
+        
+        activities_duration.append({
+            "activityId": activity_id,
+            "duration": activity_time
+        })
+
+    responseJson = {
+        "activities": activities_duration,
+        "totalTime": total_time
+    }
+    
+    return JsonResponse(responseJson, safe=False)
 @verify_instructor_token_annotation
 def get_activitiy_completion_and_assigned_for_instructor(request):
     statements = user_xapi_service.fetch_statements_for_user(request.email)

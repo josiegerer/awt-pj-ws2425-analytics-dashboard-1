@@ -43,8 +43,11 @@ Authorization: Bearer {{instructorToken}}
 GET http://localhost:8000/activityRatings/learner
 Authorization: Bearer {{learnerToken}}
 
-GET http://localhost:8000/timeSpentOnActivities
+GET http://localhost:8000/timeSpentOnActivities/instructor
 Authorization: Bearer {{instructorToken}}
+
+GET http://localhost:8000/timeSpentOnActivities/learner
+Authorization: Bearer {{learnerToken}}
 
 GET http://localhost:8000/activityRevisits
 Authorization: Bearer {{instructorToken}}
