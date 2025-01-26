@@ -3,13 +3,10 @@
     <h3>Assessment Performance Overview</h3>
     <p>Class Average Grades per Assessment</p>
     <apexchart
-      type="line"
+      type="bar"
       :options="chartOptions"
-      :series="[{
-        name: 'Class Average',
-        data: data.map(item => item.averageGrade)
-      }]"
-      height="300"
+      :series="chartSeries"
+      height="450"
     />
   </div>
 </template>
@@ -22,76 +19,95 @@ export default {
   components: {
     apexchart: VueApexCharts
   },
-  props: {
-    data: {
-      type: Array,
-      required: true
-    }
-  },
-  computed: {
-    chartOptions() {
-      return {
+  data() {
+    return {
+      chartSeries: [], 
+      chartOptions: {
         chart: {
-          type: 'line',
-          zoom: {
-            enabled: false
-          },
-          toolbar: {
-            show: false
-          }
+          type: "bar",
+          zoom: { enabled: false },
+          toolbar: { show: false }
         },
-        stroke: {
-          curve: 'smooth',
-          width: 2
+        plotOptions: {
+          bar: {
+            horizontal: false, 
+            columnWidth: "60%", 
+            endingShape: "rounded"
+          }
         },
         dataLabels: {
           enabled: true,
-          formatter: function(val) {
-            return val + '%'
-          }
+          style: {
+            fontSize: "10px" 
+          },
+          formatter: (val) => `${val}%`,
+          offsetY: -5 
         },
         xaxis: {
-          categories: this.data.map(item => item.name),
+          categories: [], 
           labels: {
-            style: {
-              fontSize: '12px'
-            },
-            rotateAlways: true,
+            style: { fontSize: "10px" }, 
             rotate: -45,
             trim: false,
-            maxHeight: 100
+            maxHeight: 120, 
+            wrap: true 
           }
         },
         yaxis: {
           min: 0,
           max: 100,
           labels: {
-            formatter: function(val) {
-              return val + '%'
-            }
+            formatter: (val) => `${val}%`
           },
-          title: {
-            text: 'Class Average (%)'
-          }
+          title: { text: "Class Average (%)" }
         },
-        colors: ['#c40d1e'],
-        markers: {
-          size: 5,
-          hover: {
-            size: 7
-          }
-        },
+        colors: ["#c40d1e"],
         tooltip: {
-          y: {
-            formatter: function(val) {
-              return val + '%'
-            }
-          }
+          y: { formatter: (val) => `${val}%` }
         }
       }
+    };
+  },
+  methods: {
+    async fetchData() {
+      try {
+        const response = await fetch("http://localhost:8000/assessmentPerformance");
+        const data = await response.json();
+        const activities = data.activitiesSummary;
+
+        // Extract activity names and scores
+        this.chartOptions = {
+          ...this.chartOptions, 
+          xaxis: {
+            categories: activities.map((activity) =>
+              activity.activityId.split("/").pop().replace(/_/g, " ") // Extract readable activity names
+            ),
+            labels: {
+              style: { fontSize: "10px" },
+              rotateAlways: true,
+              rotate: -45,
+              trim: false,
+              maxHeight: 120,
+              wrap: true 
+            }
+          }
+        };
+
+        this.chartSeries = [
+          {
+            name: "Class Average",
+            data: activities.map((activity) => Math.round(activity.averageScore)) 
+          }
+        ];
+      } catch (error) {
+        console.error("Error fetching assessment data:", error);
+      }
     }
+  },
+  mounted() {
+    this.fetchData();
   }
-}
+};
 </script>
 
 <style scoped>

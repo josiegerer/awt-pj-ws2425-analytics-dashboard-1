@@ -12,28 +12,33 @@
     <!-- Dashboard Content -->
     <div class="dashboard">
       <div class="grid-container">
-        <!-- First Row -->
+
+        <!-- Activity Hours -->
         <div class="grid-item active-hours">
           <HeatmapChart />
         </div>
 
+        <!-- Activity Engagement -->
         <div class="grid-item activity-engagement">
           <ActivityEngagement :data="activityEngagementData" />
         </div>
 
+        <!-- Daily Streak -->
         <div class="grid-item daily-streak">
           <DailyStreak :streak="dailyStreak" />
         </div>
 
+        <!-- Activity Revisits -->
         <div class="grid-item activity-revisits">
           <ActivityRevisits :data="activityRevisitsData" />
         </div>
 
-        <!-- Second Row -->
+        <!-- Time Spent -->
         <div class="grid-item time-spent">
           <TimeSpent :data="timeSpentData" @button-click="handleTimeSpentClick" />
         </div>
 
+         <!-- Last Rating -->
         <div class="grid-item last-rating">
           <LastRating :rating="lastRatingData" />
         </div>
@@ -45,11 +50,12 @@
 <script>
 import HeatmapChart from '../components/learner/ActiveHours.vue';
 import ActivityEngagement from '../components/learner/ActivityEngagement.vue';
-import ActivityRevisits from '../components/learner/ActivityRevisits.vue';
+import ActivityRevisits from '../components/educator/ActivityRevisits.vue';
 import TimeSpent from '../components/learner/TimeSpent.vue';
 import LastRating from '../components/learner/LastRating.vue';
 import DailyStreak from '../components/learner/DailyStreak.vue';
 
+// insert all charts
 export default {
   name: 'EngagementView',
   components: {
@@ -62,7 +68,7 @@ export default {
   },
   data() {
     return {
-      showHeader: true, // Ensures the navigation bar is visible
+      showHeader: true, 
       activityEngagementData: [],
       activityRevisitsData: [
         { course: "Course 1", count: 15, change: "+10 in the last 30 days" },

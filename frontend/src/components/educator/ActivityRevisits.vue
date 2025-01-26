@@ -21,42 +21,55 @@
 <script>
 export default {
   name: "ActivityRevisits",
-  props: {
-    data: {
-      type: Array,
-      required: true,
-      default: () => [
-        { course: "Course 1: Bäume pflanzen", count: 20, change: "+5 in the last 30 days" },
-        { course: "Course 2: Bäume auskappen", count: 8, change: "+1 in the last 30 days" },
-        { course: "Course 3: Bäume ausdünnen", count: 15, change: "+10 in the last 30 days" },
-        { course: "Course 4: Bäume schützen", count: 13, change: "+13 in the last 30 days" },
-        { course: "Course 5: Bäume gießen", count: 18, change: "+8 in the last 30 days" },
-        { course: "Course 6: Bäume schneiden", count: 22, change: "+12 in the last 30 days" },
-        { course: "Course 7: Bäume düngen", count: 10, change: "+3 in the last 30 days" },
-      ],
-    },
-  },
   data() {
     return {
+      activities: [], // Store fetched data here
       showAll: false,
     };
   },
   computed: {
     visibleData() {
-      return this.showAll ? this.data : this.data.slice(0, 3);
+      return this.showAll ? this.activities : this.activities.slice(0, 3);
     },
   },
   methods: {
+    async fetchActivityRevisits() {
+      try {
+        const response = await fetch("http://localhost:8000/activityRevisits");
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data: ${response.status}`);
+        }
+        const data = await response.json();
+
+        console.log("Fetched Data:", data); 
+
+        // Transform API data to match expected structure
+        this.activities = data.activitiesVisits.map((activity) => ({
+          course: this.extractCourseName(activity.activityId), // Extract name from URL
+          count: activity.visits,
+          change: "+X in the last 30 days" // Placeholder for real change calculation
+        }));
+      } catch (error) {
+        console.error("Error fetching activity revisits:", error);
+      }
+    },
+    extractCourseName(activityId) {
+      // Extracts readable course name from activityId URL
+      return decodeURIComponent(activityId.split("/").pop(                                          ).replace(/_/g, " "));
+    },
     toggleView() {
       this.showAll = !this.showAll;
     },
   },
+  mounted() {
+    this.fetchActivityRevisits(); // Fetch data when the component loads
+  }
 };
 </script>
 
 <style scoped>
 h3 {
-  text-align: left; /* Align title to the left */
+  text-align: left;
   font-size: 15px;
   color: black;
 }
@@ -111,6 +124,5 @@ h3 {
 
 .view-more-button:hover {
   background-color: darkgrey;
-  font-size: 14px;
 }
 </style>

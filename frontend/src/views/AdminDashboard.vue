@@ -8,7 +8,7 @@
 
         <p class="subheader-2">Resource Availability & Content Popularity</p>
 
-        <!-- Active Users last 30 days-->
+        <!-- Active Users last days with dropdown-->
         <div class="grid-item users-time">
           <ActiveUsersChart />
         </div>
@@ -37,7 +37,7 @@
           </div>
         </div>
 
-        <!-- Search Trends (Full Width in New Row) -->
+        <!-- Search Trends -->
         <div class="grid-item search-trends">
           <SearchTrendsChart />
         </div>
@@ -62,7 +62,7 @@ import TotalActivities from '../components/administrator/TotalActivities.vue';
 import TotalCourses from '../components/administrator/TotalCourses.vue';
 import ActiveUsers from '../components/educator/ActiveUsers.vue';
 
-
+// insert all charts
 export default {
   name: 'AdminDashboard',
   components: {
@@ -115,19 +115,18 @@ export default {
 .stats-row {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(4, auto); /* Adjust height dynamically */
+  grid-template-rows: repeat(4, auto); 
   grid-column: span 2;
-  grid-gap: 10px; /* Reduce space between boxes */
+  grid-gap: 10px;
 }
 
-/* Ensure each grid item resizes properly */
 .stats-row .grid-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 15px; /* Reduce padding for smaller boxes */
-  min-height: 100px; /* Set minimum height */
+  padding: 15px; 
+  min-height: 100px; 
   text-align: center;
 }
 
@@ -169,7 +168,7 @@ export default {
   }
 
   .stats-row {
-    grid-template-columns: repeat(2, 1fr); /* Show 2 per row on small screens */
+    grid-template-columns: repeat(2, 1fr); 
   }
 
   .search-trends {
