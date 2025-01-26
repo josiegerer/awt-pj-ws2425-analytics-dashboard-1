@@ -82,14 +82,16 @@ h3 {
 
 x {
   text-align: center;
-  font-size: 42px;
+  font-size: 30px;
 }
 
 .text-green {
   color: green;
+  font-size: 15px;
 }
 
 .text-red {
   color: red;
+  font-size: 15px;
 }
 </style>

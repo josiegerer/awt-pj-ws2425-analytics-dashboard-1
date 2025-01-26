@@ -45,12 +45,12 @@ h3 {
 text-align: left;
 font-size: 15px;
 color: black;
-margin-bottom: 15px;
+margin-bottom: 5px;
 }
 
 x {
 text-align: center;
-font-size: 42px;
+font-size: 30px;
 }
 
 .text-green {

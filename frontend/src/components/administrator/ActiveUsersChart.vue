@@ -74,13 +74,28 @@ export default {
       return {
         responsive: true,
         maintainAspectRatio: false,
+        layout: {
+          padding: {
+            bottom: 20 // Increase bottom padding to prevent label cutoff
+          }
+        },
         plugins: {
           legend: {
-            display: true // Display legend for both datasets
+            display: true
           }
         },
         scales: {
+          x: {
+            title: { display: true, text: "Day" },
+            ticks: {
+              autoSkip: false, // Show all labels
+              maxRotation: 45, // Rotate labels to avoid overlap
+              minRotation: 45,
+              padding: 10 // Move labels slightly upward
+            }
+          },
           y: {
+            title: { display: true, text: "Number of active Users" },
             beginAtZero: true
           }
         }
@@ -130,17 +145,14 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 400px; 
-  min-height: 400px;
-  max-height: 500px;
-  overflow: hidden; 
+  height: 500px;
+  padding-bottom: 30px; 
 }
 
 .chart-header {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  align-items: center;
   margin-bottom: 10px; 
 }
 
@@ -149,11 +161,4 @@ select {
   font-size: 14px;
   margin-left: 10px;
 }
-
-.chart {
-  height: 250px; 
-  width: 100%;
-  max-height: 250px;
-}
 </style>
-

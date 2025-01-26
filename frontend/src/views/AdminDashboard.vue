@@ -4,7 +4,9 @@
     <div class="dashboard">
       <div class="grid-container">
 
-        <p class="subheader">Engagement</p>
+        <p class="subheader-1">Engagement</p>
+
+        <p class="subheader-2">Resource Availability & Content Popularity</p>
 
         <!-- Active Users last 30 days-->
         <div class="grid-item users-time">
@@ -15,8 +17,6 @@
         <div class="grid-item popular-times">
           <PopularTimesChart />
         </div>
-
-        <p class="subheader">Resource Utilization & Content Popularity</p>
 
         <!-- Stats Row (4 Equal Boxes) -->
         <div class="stats-row">
@@ -39,12 +39,12 @@
 
         <!-- Search Trends (Full Width in New Row) -->
         <div class="grid-item search-trends">
-          <SearchTrendsChart :data="searchTrendsData" />
+          <SearchTrendsChart />
         </div>
 
         <!-- Keyword List -->
         <div class="grid-item keyword-list">
-          <KeywordsList :data="keywordsData" />
+          <KeywordsList />
         </div>
 
       </div>
@@ -111,34 +111,49 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Stats Row (4 Equal Boxes in One Row) */
+/* Stats Row (4 Boxes Stacked) */
 .stats-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 20px;
-  grid-column: span 12; /* Full row width */
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(4, auto); /* Adjust height dynamically */
+  grid-column: span 2;
+  grid-gap: 10px; /* Reduce space between boxes */
 }
 
-/* Search Trends (New Row, Full Width) */
+/* Ensure each grid item resizes properly */
+.stats-row .grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px; /* Reduce padding for smaller boxes */
+  min-height: 100px; /* Set minimum height */
+  text-align: center;
+}
+
 .search-trends {
   grid-column: span 12;
 }
 
-/* Users Time & Popular Times */
 .users-time {
-  grid-column: span 6;
+  grid-column: span 5;
 }
 
 .popular-times {
-  grid-column: span 6;
+  grid-column: span 5;
 }
 
 .keyword-list {
   grid-column: span 6;
 }
 
-.subheader {
-  grid-column: span 12;
+.subheader-1{
+  grid-column: span 10;
+  font-style: oblique;
+  font-size: medium;
+}
+.subheader-2{
+  grid-column: span 2;
   font-style: oblique;
   font-size: medium;
 }

@@ -1,108 +1,91 @@
 <template>
-  <div class="chart">
-    <h3>Popular Times</h3>
-    <Bar :data="chartData" :options="chartOptions" />
+   <h3 class="chart-header">Popular Times</h3>
+  <div class="chart-container" style="width: 100%; height: 400px;">
+    <canvas ref="chartRef"></canvas>
   </div>
 </template>
+ 
+<script setup>
+import { ref, onMounted } from "vue";
+import { Chart, BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip } from "chart.js";
 
-<script>
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-} from "chart.js";
+Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip);
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-export default {
-  name: "PopularTimesChart",
-  data() {
-    return {
-      adminToken: localStorage.getItem("adminToken"), // Load token from local storage
-      popularTimesData: Array(24).fill(0) // Default values for 24 hours
-    };
-  },
-  computed: {
-    chartData() {
-      return {
-        labels: Array.from({ length: 24 }, (_, i) => `${i}:00`), // Hours 0-23
-        datasets: [
-          {
-            label: "Active Users",
-            data: this.popularTimesData, // Set from API response
-            backgroundColor: "#e2e8f0",
-            borderRadius: 4,
-            hoverBackgroundColor: "#9333ea",
-            barThickness: 20
-          }
-        ]
-      };
+const chartRef = ref(null);
+const chartInstance = ref(null);
+const chartData = ref({
+  labels: [],
+  datasets: [
+    {
+      label: "Active Users by Hour",
+      data: [],
+      backgroundColor: "rgba(96, 96, 96, 0.7)",
+      borderWidth: 1,
     },
-    chartOptions() {
-      return {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            grid: {
-              display: true
-            }
-          },
-          x: {
-            grid: {
-              display: false
-            }
-          }
-        }
-      };
-    }
-  },
-  methods: {
-    async fetchPopularTimes() {
-      try {
-        const response = await fetch("http://localhost:8000/popularTimes", {
-          headers: { Authorization: `Bearer ${this.adminToken}` }
-        });
+  ],
+});
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch popularTimes");
-        }
+// Fetch data from API
+const fetchData = async () => {
+  try {
+    const response = await fetch("http://localhost:8000/popularTimes");
+    const data = await response.json();
+    const activeUsers = data.activeUsersByHour;
 
-        const data = await response.json();
+    chartData.value.labels = Object.keys(activeUsers).map((hour) => `${hour}:00`); // map active users to hours
+    chartData.value.datasets[0].data = Object.values(activeUsers);
 
-        if (data.activeUsersByHour) {
-          this.popularTimesData = Object.values(data.activeUsersByHour); // Extract user counts
-        }
-      } catch (error) {
-        console.error("Error fetching popularTimes:", error);
-      }
-    }
-  },
-  created() {
-    this.fetchPopularTimes(); // Fetch API data when component is created
+    renderChart();
+  } catch (error) {
+    console.error("Error fetching data:", error);
   }
 };
+
+// Render Chart
+const renderChart = () => {
+  if (chartInstance.value) {
+    chartInstance.value.destroy(); 
+  }
+  chartInstance.value = new Chart(chartRef.value, {
+    type: "bar",
+    data: chartData.value,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          title: { display: true, text: "Hour of the Day" },
+        },
+        y: {
+          title: { display: true, text: "Number of Active Users" },
+          beginAtZero: true,
+          ticks: {
+            precision: 0, 
+          },
+        },
+      },
+    },
+  });
+};
+
+onMounted(fetchData);
 </script>
 
 <style scoped>
-.chart {
-  height: 320px;
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 500px; 
+  overflow: hidden; 
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px; 
 }
 </style>
+
