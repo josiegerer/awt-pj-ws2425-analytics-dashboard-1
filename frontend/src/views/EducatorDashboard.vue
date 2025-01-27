@@ -26,10 +26,10 @@
           <AssessmentMarks />
         </div>
 
-        <!-- Active Users -->
+        <!-- Active Users 
         <div class="grid-item active-users">
-          <ActiveUsers />
-        </div>
+          <ActiveUsers_Educator />
+        </div> -->
 
         <!-- Activity Revisits -->
         <div class="grid-item activity-revisits">
@@ -54,9 +54,9 @@
 import PassRatesChart from '../components/educator/PassRatesChart.vue';
 import AssessmentMarks from '../components/educator/AssessmentMarks.vue';
 import ActivityRevisits from '../components/educator/ActivityRevisits.vue';
-import ActiveUsers from '../components/educator/ActiveUsers.vue';
 import CourseCompletion from '../components/educator/CourseCompletion.vue';
 import EducatorRating from '@/components/educator/EducatorRating.vue';
+// import ActiveUsers_Educator from '../components/educator/ActiveUsers_Educator.vue';
 
 // insert all charts
 export default {
@@ -65,7 +65,7 @@ export default {
     PassRatesChart,
     AssessmentMarks,
     ActivityRevisits,
-    ActiveUsers,
+    //ActiveUsers_Educator,
     CourseCompletion,
     EducatorRating
   },

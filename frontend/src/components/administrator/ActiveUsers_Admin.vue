@@ -36,7 +36,7 @@ export default {
         });
 
         if (!response1.ok) {
-          throw new Error("Failed to fetch activeUser (30 days)");
+          throw new Error("Failed to fetch activeUser (1 days)");
         }
 
         const data1 = await response1.json();
@@ -50,7 +50,7 @@ export default {
         });
 
         if (!response30.ok) {
-          throw new Error("Failed to fetch activeUser (1 day)");
+          throw new Error("Failed to fetch activeUser (30 day)");
         }
 
         const data30 = await response30.json();

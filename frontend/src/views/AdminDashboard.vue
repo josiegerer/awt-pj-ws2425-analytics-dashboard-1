@@ -21,7 +21,7 @@
         <!-- Stats Row (4 Equal Boxes) -->
         <div class="stats-row">
           <div class="grid-item">
-            <ActiveUsers />
+            <ActiveUsers_Admin />
           </div>
 
           <div class="grid-item">
@@ -60,7 +60,7 @@ import KeywordsList from '../components/administrator/KeywordsList.vue';
 import TotalUsers from '../components/administrator/TotalUsers.vue';
 import TotalActivities from '../components/administrator/TotalActivities.vue';
 import TotalCourses from '../components/administrator/TotalCourses.vue';
-import ActiveUsers from '../components/educator/ActiveUsers.vue';
+import ActiveUsers_Admin from '@/components/administrator/ActiveUsers_Admin.vue';
 
 // insert all charts
 export default {
@@ -70,7 +70,7 @@ export default {
     PopularTimesChart,
     SearchTrendsChart,
     KeywordsList,
-    ActiveUsers,
+    ActiveUsers_Admin,
     TotalActivities,
     TotalCourses,
     TotalUsers

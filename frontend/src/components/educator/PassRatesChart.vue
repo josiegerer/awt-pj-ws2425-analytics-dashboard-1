@@ -40,32 +40,37 @@ export default {
   },
   methods: {
     async fetchData() {
-      try {
-        const response = await fetch("http://localhost:8000/passRate/instructor");
-        const data = await response.json();
-        const userResults = data.userResults;
+   try {
+     const response = await fetch("http://localhost:8000/passRate/instructor");
+     const data = await response.json();
+     console.log("Pass Rate Data:", data);
 
-        let passed = 0;
-        let failed = 0;
-        let open = 0;
+     const userResults = data.userResults || {};
+     let passed = 0;
+     let failed = 0;
+     let open = 0;
 
-        Object.values(userResults).forEach(user => {
-          passed += user.passed;
-          failed += user.failed;
-          open += user.open;
-        });
+     Object.values(userResults).forEach(user => {
+       passed += user.passed || 0;
+       failed += user.failed || 0;
+       open += user.open || 0;
+     });
 
-        const total = passed + failed + open;
+     const total = passed + failed + open;
 
-        this.chartSeries = [
-          Math.round((passed / total) * 100) || 0,
-          Math.round((failed / total) * 100) || 0,
-          Math.round((open / total) * 100) || 0
-        ];
-      } catch (error) {
-        console.error("Error fetching assessment data:", error);
-      }
-    }
+     this.chartSeries = total > 0
+       ? [
+           Math.round((passed / total) * 100),
+           Math.round((failed / total) * 100),
+           Math.round((open / total) * 100)
+         ]
+       : [0, 0, 0];
+
+   } catch (error) {
+     console.error("Error fetching assessment data:", error);
+   }
+ }
+
   },
   mounted() {
     this.fetchData();
