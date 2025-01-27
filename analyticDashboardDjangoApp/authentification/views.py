@@ -145,8 +145,10 @@ def verify_instructor_token_annotation(view_func):
     """
     @wraps(view_func)
     def _wrapped_view(request, *args, **kwargs):
-        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
-        token.replace(" ", "")
+        token = request.headers.get('Authorization', '').split('Bearer')[-1]
+        
+        token = token.replace(" ", "")
+        print("Z"+token+ "Z")
         try:
             decoded_token = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
             # Check if token is expired
