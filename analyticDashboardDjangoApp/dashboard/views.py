@@ -11,25 +11,27 @@ xapi_service = XAPIService(cache_duration=300)
 user_xapi_service=UserXAPIService(cache_duration=300) 
 
 
-def get_popularity_of_resources(request, **kwargs):
-    try:
-        statements = xapi_service.fetch_statements()
-        keyword = str(kwargs.get('keyword', 'actor'))
-        verb_id = construct_verb_id("searched")
-        object_id = construct_activity_id(keyword)
-        # Filter statements by verb searched
-        statements_filtered_by_id = filter_statements_by_verb_id(statements, verb_id)
-        # Filter statements by object id
-        statements_filtered_by_object_id = filter_statements_by_object_id(statements_filtered_by_id, object_id)
+@verify_admin_token_annotation
+def get_search_count_for_each_activity(request):
+            try:
+                statements = xapi_service.fetch_statements()
+                verb_id = construct_verb_id("searched")
+                statements_filtered_by_verb = filter_statements_by_verb_id(statements, verb_id)
+                search_count_by_activity = {}
 
-        responseJson = {"searchCount": len(statements_filtered_by_object_id)}
+                for statement in statements_filtered_by_verb:
+                    activity_id = statement['statement_payload']['object']['id']
+                    if activity_id not in search_count_by_activity:
+                        search_count_by_activity[activity_id] = 0
+                    search_count_by_activity[activity_id] += 1
 
-        return JsonResponse(responseJson, safe=False)
-    except Exception as e:
-        return JsonResponse({
-            "error": str(e)
-        }, status=500)
-        
+                responseJson = {"searchCount": search_count_by_activity}
+                return JsonResponse(responseJson, safe=False)
+            except Exception as e:
+                return JsonResponse({
+                    "error": str(e)
+                }, status=500)
+@verify_admin_token_annotation       
 def get_active_users_count_for_timeslot(request, **kwargs):
     try:
         statements = xapi_service.fetch_statements()
@@ -94,7 +96,8 @@ def get_active_users_count_for_timeslot_for_instructor_subcourses(request, **kwa
         return JsonResponse({
             "error": str(e)
         }, status=500)
-    
+
+@verify_admin_token_annotation   
 def get_all_courses_request(request):
     try:
         statements = xapi_service.fetch_statements()
@@ -107,7 +110,7 @@ def get_all_courses_request(request):
         return JsonResponse({
             "error": str(e)
         }, status=500)
-        
+@verify_admin_token_annotation        
 def get_all_user_count(request):
     try:
         statements = xapi_service.fetch_statements()
@@ -119,7 +122,7 @@ def get_all_user_count(request):
         return JsonResponse({
             "error": str(e)
         }, status=500)
-
+@verify_admin_token_annotation
 def get_list_of_all_activities(request):
     try:
         statements = xapi_service.fetch_statements()
@@ -206,7 +209,7 @@ def get_average_score_for_activities(request, **kwargs):
     average_score = total_score / count if count > 0 else 0
     
     responseJson = {"averageScore": average_score}
-    
+@verify_admin_token_annotation    
 def get_all_activities_summary(request):
     try:
         statements = xapi_service.fetch_statements()
