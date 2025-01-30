@@ -16,16 +16,12 @@
         <tr>
           <th>Activity</th>
           <th>Time Spent (minutes)</th>
-          <th>Compared to Last Week (%)</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in data" :key="item.activity">
-          <td>{{ item.activity }}</td>
-          <td>{{ item.current }}</td>
-          <td :class="getComparisonClass(item)">
-            {{ getComparison(item) }}
-          </td>
+        <tr v-for="item in activities" :key="item.activityId">
+          <td>{{ getActivityName(item.activityId) }}</td>
+          <td>{{ formatDuration(item.duration) }}</td>
         </tr>
       </tbody>
     </table>
@@ -33,42 +29,27 @@
 </template>
 
 <script>
-import VueApexCharts from "vue3-apexcharts";
+import VueApexCharts from 'vue3-apexcharts';
 
 export default {
-  name: "TimeSpent",
+  name: 'TimeSpent',
   components: {
-    apexchart: VueApexCharts
-  },
-  props: {
-    data: {
-      type: Array,
-      required: true,
-      default: () => [
-        { activity: "Activity 1", current: 120, previous: 100 },
-        { activity: "Activity 2", current: 90, previous: 80 },
-        { activity: "Activity 3", current: 60, previous: 70 },
-        { activity: "Activity 4", current: 150, previous: 140 },
-        { activity: "Activity 5", current: 200, previous: 180 },
-      ],
-    },
+    apexchart: VueApexCharts,
   },
   data() {
     return {
       showTable: false,
+      activities: [],
+      totalTime: 0,
     };
   },
   computed: {
     chartData() {
       return [
         {
-          name: 'Current Week',
-          data: this.data.map(item => item.current)
+          name: 'Time Spent',
+          data: this.activities.map((item) => item.duration),
         },
-        {
-          name: 'Previous Week',
-          data: this.data.map(item => item.previous)
-        }
       ];
     },
     chartOptions() {
@@ -81,106 +62,122 @@ export default {
           bar: {
             horizontal: false,
             columnWidth: '55%',
-            endingShape: 'rounded'
+            endingShape: 'rounded',
           },
         },
         dataLabels: {
-          enabled: false
+          enabled: false,
         },
         stroke: {
           show: true,
           width: 2,
-          colors: ['transparent']
+          colors: ['transparent'],
         },
         xaxis: {
-          categories: this.data.map(item => item.activity),
+          categories: this.activities.map((item) => this.getShortActivityName(item.activityId)),
         },
         yaxis: {
           title: {
-            text: 'Minutes'
-          }
+            text: 'Minutes',
+          },
         },
         fill: {
-          opacity: 1
+          opacity: 1,
         },
         tooltip: {
           y: {
-            formatter: function (val) {
-              return `${val} minutes`;
-            }
-          }
+            formatter: (val) => this.formatDuration(val) + ' minutes',
+          },
         },
-        colors: ['lightgrey', 'grey'], 
+        colors: ['#4CAF50'],
       };
-    }
+    },
   },
   methods: {
+    getCookie(name) {
+      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return match ? match[2] : null;
+    },
+
     toggleTable() {
       this.showTable = !this.showTable;
       this.$emit('button-click');
     },
-    getComparison(item) {
-      const percentage = ((item.current - item.previous) / item.previous) * 100;
-      return `${percentage.toFixed(2)}%`;
+
+    getActivityName(activityId) {
+      return activityId.split('/').pop().replace(/_/g, ' ');
     },
-    getComparisonClass(item) {
-      return ((item.current - item.previous) / item.previous) * 100 >= 0 ? 'positive' : 'negative';
-    }
-  }
-}
+
+    getShortActivityName(activityId) {
+      const name = this.getActivityName(activityId);
+      return name.length > 10 ? name.substring(0, 10) + '...' : name;
+    },
+
+    formatDuration(duration) {
+      return duration % 1 === 0 ? duration.toFixed(0) : duration.toFixed(2);
+    },
+
+    async fetchData() {
+      try {
+        const authToken = this.getCookie('auth_token');
+        if (!authToken) {
+          console.error('Authentication token not found.');
+          return;
+        }
+
+        const response = await fetch('http://localhost:8000/timeSpentOnActivities/learner', {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        this.activities = data.activities;
+        this.totalTime = data.totalTime;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    },
+  },
+  mounted() {
+    this.fetchData();
+  },
+};
 </script>
 
 <style scoped>
-
-h3 {
-  text-align: left; 
-  font-size: 15px;
-  color: black;
+.time-spent-container {
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
 }
-
-p{
-  font-size: 12px;
-}
-
 .view-more-button {
-  position: relative;
-  top: 10px;
-  right: 10px;
-  padding: 5px 10px;
+  background-color: #4CAF50;
+  color: white;
   border: none;
-  border-radius: 4px;
-  background-color: rgb(255, 255, 255);
-  color: rgb(189, 186, 186);
+  padding: 10px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 14px;
+  border-radius: 5px;
+  margin-top: 10px;
 }
-
 .view-more-button:hover {
-  background-color: rgb(253, 252, 252);
+  background-color: #45a049;
 }
-
 .time-spent-table {
-  margin-top: 20px;
   width: 100%;
+  margin-top: 10px;
   border-collapse: collapse;
 }
-
 .time-spent-table th, .time-spent-table td {
-  border: 1px solid #ccc;
-  padding: 10px;
+  border: 1px solid #ddd;
+  padding: 8px;
   text-align: left;
 }
-
 .time-spent-table th {
-  background-color: #f5f5f5;
-}
-
-.positive {
-  color: #49cb40;
-}
-
-.negative {
-  color: #c40d1e;
+  background-color: #f2f2f2;
 }
 </style>
