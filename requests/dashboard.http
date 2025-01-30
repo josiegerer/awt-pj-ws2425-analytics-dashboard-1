@@ -12,15 +12,17 @@ Content-Type: application/json
 }
 > {%
 client.global.set("adminToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NSIsInJvbGVzIjpbImh0dHA6Ly9wdXJsLmltc2dsb2JhbC5vcmcvdm9jYWIvbGlzL3YyL21lbWJlcnNoaXAjQWRtaW5pc3RyYXRvciJdLCJleHAiOjE3NTMzMTI4MDgsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20ifQ.18JYAn-C-_q3AVNQmir_HksoKul6E1HmHzNd4GxWZRc");
-client.global.set("instructorToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NSIsInJvbGVzIjpbImh0dHA6Ly9wdXJsLmltc2dsb2JhbC5vcmcvdm9jYWIvbGlzL3YyL21lbWJlcnNoaXAjSW5zdHJ1Y3RvciJdLCJleHAiOjE3NTI4NjE0MDAsImVtYWlsIjoiaW5zdHJ1Y3RvcjNAZXhhbXBsZS5jb20ifQ.TE9DBHiggewv16voMXhJ9q5TApvPzOGdZAZbFvIziko");
+client.global.set("instructorToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0Iiwicm9sZXMiOlsiaHR0cDovL3B1cmwuaW1zZ2xvYmFsLm9yZy92b2NhYi9saXMvdjIvbWVtYmVyc2hpcCNJbnN0cnVjdG9yIl0sImNvbnRleHRfaWQiOiIyIiwiZXhwIjoxNzM4MTY4ODcyLCJuYW1lIjoiSW5zdHJ1Y3RvciBJbmkiLCJlbWFpbCI6Imluc3RydWN0b3IzQGV4YW1wbGUuY29tIn0.2jsCHmT5cbk_0HhYa1uLzv42IxvwOMDKGW3IxMYoYb4");
 client.global.set("learnerToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NSIsInJvbGVzIjpbImh0dHA6Ly9wdXJsLmltc2dsb2JhbC5vcmcvdm9jYWIvbGlzL3YyL21lbWJlcnNoaXAjTGVhcm5lciJdLCJleHAiOjE3NTMzNjU1ODIsImVtYWlsIjoidXNlcl90ZXN0X2NvbnNpc3RlbnRfMTJ3XzcyNWJhYzVjQGV4YW1wbGUuY29tIn0.4_gyhiigwSrr87URlUUtN6mIPp7Ced30B5XlJ_OtPr8");
 console.log("Hallo")
 %}
 
 
 GET http://localhost:8000/activeUser/30
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer  {{adminToken}}
 
+GET http://localhost:8000/searchCount
+Authorization: Bearer {{adminToken}}
 
 GET http://localhost:8000/totalCourses
 Authorization: Bearer {{adminToken}}
@@ -35,7 +37,7 @@ GET http://localhost:8000/assessmentPerformance
 Authorization: Bearer {{adminToken}}
 
 GET http://localhost:8000/popularTimes
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer  {{adminToken}}
 
 GET http://localhost:8000/activityRatings/instructor
 Authorization: Bearer {{instructorToken}}
@@ -95,4 +97,7 @@ GET http://localhost:8000/parentsOfActivities
 Authorization: Bearer {{learnerToken}}
 
 GET http://localhost:8000/parentsOfParents
+Authorization: Bearer {{learnerToken}}
+
+GET http://localhost:8000/dailyStreak
 Authorization: Bearer {{learnerToken}}

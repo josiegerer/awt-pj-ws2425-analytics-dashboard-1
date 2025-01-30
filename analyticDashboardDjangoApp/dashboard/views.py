@@ -1080,3 +1080,30 @@ def get_parent_of_all_parents(request):
         return JsonResponse({
             "error": str(e)
         }, status=500)
+        
+@verify_learner_token_annotation
+def get_initialization_streak_for_learner(request):
+    email = request.email
+    statements = user_xapi_service.fetch_statements_for_user(email)
+    statements_filtered_by_verb = filter_statements_by_verb_id(statements, construct_verb_id("initialized"))
+    sorted_statements = sort_statements_by_timestamp(statements_filtered_by_verb)
+
+    if not sorted_statements:
+        return JsonResponse({"streak": 0, "lastDate": None}, safe=False)
+
+    streak = 1
+    last_streak = 1
+    last_date = sorted_statements[0]['timestamp'].date()
+    
+    for i in range(1, len(sorted_statements)):
+        current_date = sorted_statements[i]['timestamp'].date()
+        
+        if (current_date - last_date).days == 1:
+            streak += 1
+        elif current_date != last_date:
+            last_streak = streak
+            streak = 1  # Neustart der Streak
+
+        last_date = current_date
+
+    return JsonResponse({"lastStreak": last_streak, "lastDate": last_date.strftime("%Y-%m-%d")}, safe=False)
