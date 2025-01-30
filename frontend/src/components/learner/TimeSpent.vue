@@ -2,13 +2,14 @@
   <div class="time-spent-container">
     <h3>Time Spent on Activities</h3>
     <p>in Minutes</p>
-    <apexchart 
-      type="bar" 
-      :options="chartOptions" 
-      :series="chartData" 
-      height="350" 
-    />
-    <button @click.prevent="toggleTable" class="view-more-button">
+    <div class="chart-wrapper">
+      <apexchart 
+        type="bar" 
+        :options="chartOptions" 
+        :series="chartData" 
+      />
+    </div>
+    <button @click="toggleTable" class="view-more-button">
       {{ showTable ? 'View Less' : 'View More' }}
     </button>
     <table v-if="showTable" class="time-spent-table">
@@ -38,7 +39,7 @@ export default {
   },
   data() {
     return {
-      showTable: false,
+      showTable: false, // Controls the table visibility
       activities: [],
       totalTime: 0,
     };
@@ -56,12 +57,13 @@ export default {
       return {
         chart: {
           type: 'bar',
-          height: 350,
+          height: '100%',
+          width: '100%',
         },
         plotOptions: {
           bar: {
             horizontal: false,
-            columnWidth: '55%',
+            columnWidth: '80%',
             endingShape: 'rounded',
           },
         },
@@ -94,32 +96,22 @@ export default {
     },
   },
   methods: {
-    getCookie(name) {
-      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
-      return match ? match[2] : null;
-    },
-
     toggleTable() {
       this.showTable = !this.showTable;
-      this.$emit('button-click');
     },
-
     getActivityName(activityId) {
       return activityId.split('/').pop().replace(/_/g, ' ');
     },
-
     getShortActivityName(activityId) {
       const name = this.getActivityName(activityId);
       return name.length > 10 ? name.substring(0, 10) + '...' : name;
     },
-
     formatDuration(duration) {
       return duration % 1 === 0 ? duration.toFixed(0) : duration.toFixed(2);
     },
-
     async fetchData() {
       try {
-        const authToken = this.getCookie('auth_token');
+        const authToken = document.cookie.match(/(^| )auth_token=([^;]+)/)?.[2];
         if (!authToken) {
           console.error('Authentication token not found.');
           return;
@@ -151,10 +143,17 @@ export default {
 
 <style scoped>
 .time-spent-container {
-  max-width: 600px;
+  width: 100%;
+  max-width: 800px;
   margin: auto;
   text-align: center;
 }
+
+.chart-wrapper {
+  width: 100%;
+  height: 400px;
+}
+
 .view-more-button {
   background-color: #4CAF50;
   color: white;
@@ -164,19 +163,23 @@ export default {
   border-radius: 5px;
   margin-top: 10px;
 }
+
 .view-more-button:hover {
   background-color: #45a049;
 }
+
 .time-spent-table {
   width: 100%;
   margin-top: 10px;
   border-collapse: collapse;
 }
+
 .time-spent-table th, .time-spent-table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
 }
+
 .time-spent-table th {
   background-color: #f2f2f2;
 }
