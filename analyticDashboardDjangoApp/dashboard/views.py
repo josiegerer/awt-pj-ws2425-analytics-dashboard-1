@@ -1155,3 +1155,40 @@ def get_time_spent_daily_for_last_week(request):
     
     responseJson = {"timeSpentDaily": time_spent_daily}
     return JsonResponse(responseJson, safe=False)
+
+@verify_learner_token_annotation
+def get_assigned_and_completed_activities_for_learner(request):
+    email = request.email
+    statements_of_learner = user_xapi_service.fetch_statements_for_user(email)
+    all_subcourses = get_all_courses(statements_of_learner)
+    subcourses_summary = []
+
+    for subcourse_id in all_subcourses:
+        statements_filtered_by_subcourse = filter_statements_by_course_id(statements_of_learner, subcourse_id)
+        all_activities = get_all_objects_ids_used(statements_filtered_by_subcourse)
+        total_assessments = len(all_activities)
+        completed_assessments = 0
+        assessments = []
+
+        for activity_id in all_activities:
+            statements_filtered_by_activity = filter_statements_by_object_id(statements_filtered_by_subcourse, activity_id)
+            statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_activity, construct_verb_id("completed"))
+            status = "passed" if len(statements_filtered_by_verb) > 0 else "not passed"
+            if status == "passed":
+                completed_assessments += 1
+            assessments.append({
+                "activityId": activity_id,
+                "status": status
+            })
+
+        progress = (completed_assessments / total_assessments) * 100 if total_assessments > 0 else 0
+        subcourses_summary.append({
+            "name": subcourse_id,
+            "progress": progress,
+            "completedAssessments": completed_assessments,
+            "totalAssessments": total_assessments,
+            "assessments": assessments
+        })
+
+    responseJson = {"subcourses": subcourses_summary}
+    return JsonResponse(responseJson, safe=False)

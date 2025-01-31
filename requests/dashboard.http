@@ -108,3 +108,6 @@ Authorization: Bearer {{learnerToken}}
 
 GET http://localhost:8000/timeSpentOnLastSevenDays/learner
 Authorization: Bearer {{learnerToken}}
+
+GET http://localhost:8000/assessmentPerformance/learner
+Authorization: Bearer {{learnerToken}}
