@@ -400,6 +400,25 @@ def get_all_visits_of_all_activities_of_instructor(request):
 
     responseJson = {"activitiesVisits": activities_visits}
     return JsonResponse(responseJson, safe=False)
+
+@verify_learner_token_annotation
+def get_all_visits_of_all_activities_of_learner(request):
+    email = request.email
+    statements = xapi_service.fetch_statements()
+    statements_of_learner = get_statements_of_specfic_user_by_email(statements, email)
+    all_activities = get_all_objects_ids_used(statements_of_learner)
+    activities_visits = []
+
+    for activity_id in all_activities:
+        statements_filtered_by_object_id = filter_statements_by_object_id(statements_of_learner, activity_id)
+        statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object_id, construct_verb_id("initialized"))
+        activities_visits.append({
+            "activityId": activity_id,
+            "visits": len(statements_filtered_by_verb)
+        })
+
+    responseJson = {"activitiesVisits": activities_visits}
+    return JsonResponse(responseJson, safe=False)
 def get_all_activities(request):
     try:
         statements = xapi_service.fetch_statements()
@@ -645,18 +664,14 @@ def get_scoring_progress_array(request):
     scores_by_day = {}
     responseJson = {"score": []}
     
-    current_date = datetime.now()
-    start_of_week = current_date - timedelta(days=current_date.weekday())
-    
     for statement in statements_filtered_by_verb:
         if get_score(statement) is not None:
-            timestamp =statement['timestamp']
-            if timestamp.date() >= start_of_week.date() and timestamp.date() <= current_date.date():
-                date_str = timestamp.strftime('%Y-%m-%d')
-                if date_str not in scores_by_day:
-                    scores_by_day[date_str] = {'total_score': 0, 'count': 0}
-                scores_by_day[date_str]['total_score'] += get_score(statement)
-                scores_by_day[date_str]['count'] += 1
+            timestamp = statement['timestamp']
+            date_str = timestamp.strftime('%Y-%m-%d')
+            if date_str not in scores_by_day:
+                scores_by_day[date_str] = {'total_score': 0, 'count': 0}
+            scores_by_day[date_str]['total_score'] += get_score(statement)
+            scores_by_day[date_str]['count'] += 1
     
     for day, data in scores_by_day.items():
         average_score = data['total_score'] / data['count'] if data['count'] > 0 else 0
@@ -925,7 +940,7 @@ def learning_efficiency_for_learner(request):
         scores = []
         for duration in durations_of_tests:
             scores.append({
-                "duration": duration["duration"],
+                "duration": duration["duration"].total_seconds() / 60,  # Convert duration to minutes
                 "score": duration["score"],
                 "timestamp": duration["timestamp"]
             })
