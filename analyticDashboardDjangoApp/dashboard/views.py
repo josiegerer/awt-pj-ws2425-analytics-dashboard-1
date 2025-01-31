@@ -1159,13 +1159,15 @@ def get_time_spent_daily_for_last_week(request):
 @verify_learner_token_annotation
 def get_assigned_and_completed_activities_for_learner(request):
     email = request.email
-    statements_of_learner = user_xapi_service.fetch_statements_for_user(email)
+    statements = xapi_service.fetch_statements()
+    statements_of_learner = get_statements_of_specfic_user_by_email(statements, email)
     all_subcourses = get_all_courses(statements_of_learner)
     subcourses_summary = []
 
     for subcourse_id in all_subcourses:
         statements_filtered_by_subcourse = filter_statements_by_course_id(statements_of_learner, subcourse_id)
-        all_activities = get_all_objects_ids_used(statements_filtered_by_subcourse)
+        statements_filtered_by_sucourse_all = filter_statements_by_course_id(statements, subcourse_id)
+        all_activities = get_all_objects_ids_used(statements_filtered_by_sucourse_all)
         total_assessments = len(all_activities)
         completed_assessments = 0
         assessments = []
