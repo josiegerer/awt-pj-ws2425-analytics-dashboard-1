@@ -1122,3 +1122,36 @@ def get_initialization_streak_for_learner(request):
         last_date = current_date
 
     return JsonResponse({"lastStreak": last_streak, "lastDate": last_date.strftime("%Y-%m-%d")}, safe=False)
+
+@verify_learner_token_annotation
+def get_time_spent_daily_for_last_week(request):
+    email = request.email
+    statements = user_xapi_service.fetch_statements_for_user(email)
+    current_date = datetime.now().date()
+    start_date = current_date - timedelta(days=6)
+    
+    time_spent_daily = [{"day": (start_date + timedelta(days=i)).strftime('%A'), "minutes": 0} for i in range(7)]
+    
+    statements_filtered_by_week = [
+        statement for statement in statements
+        if start_date <= statement['timestamp'].date() <= current_date
+    ]
+    
+    durations = get_duration_of_activities(statements_filtered_by_week)
+    for duration_info in durations:
+        test_start = duration_info['test_start']
+        test_end = duration_info['test_end']
+        current_time = test_start
+        while current_time < test_end:
+            next_hour = (current_time + timedelta(hours=1)).replace(minute=0, second=0, microsecond=0)
+            if next_hour > test_end:
+                next_hour = test_end
+            duration = (next_hour - current_time).total_seconds() / 60  # Convert duration to minutes
+            statement_date = current_time.date()
+            day_index = (statement_date - start_date).days
+            if 0 <= day_index < 7:  # Ensure day_index is within range
+                time_spent_daily[day_index]["minutes"] += duration
+            current_time = next_hour
+    
+    responseJson = {"timeSpentDaily": time_spent_daily}
+    return JsonResponse(responseJson, safe=False)

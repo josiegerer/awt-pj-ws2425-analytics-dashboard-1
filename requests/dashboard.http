@@ -105,3 +105,6 @@ Authorization: Bearer {{learnerToken}}
 
 GET http://localhost:8000/activityRevists/learner
 Authorization: Bearer {{learnerToken}}
+
+GET http://localhost:8000/timeSpentOnLastSevenDays/learner
+Authorization: Bearer {{learnerToken}}
