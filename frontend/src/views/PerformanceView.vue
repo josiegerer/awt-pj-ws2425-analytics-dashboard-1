@@ -19,27 +19,27 @@
 
         <!-- Daily Streak -->
         <div class="grid-item daily-streak">
-          <DailyStreak :streak="dailyStreak" />
+          <DailyStreak />
         </div>
 
         <!-- Average Attempts Until Passed -->
         <div class="grid-item average-attempts">
-          <AttemptsUntilPassedCard :data="attemptsUntilPassed" />
+          <AttemptsUntilPassedCard/>
         </div>
 
         <!-- Pass Rate Chart -->
         <div class="grid-item pass-rate-chart">
-          <PassRateChart :data="passRateData" />
+          <PassRateChart />
         </div>
 
         <!-- Course Completion Chart -->
         <div class="grid-item course-completion-chart">
-          <CourseCompletionChart :courses="coursesData" />
+          <CourseCompletionChart  />
         </div>
 
         <!-- Assessment Attempts -->
         <div class="grid-item assessment-attempts-chart">
-          <AssessmentAttempts :data="assessmentAttemptsData" />
+          <AssessmentAttempts />
         </div>
       </div>
     </div>
@@ -66,34 +66,8 @@ export default {
   },
   data() {
     return {
-      showHeader: true, // Ensures the navigation bar is visible
-      dailyStreak: 3,
-      attemptsUntilPassed: 5,
-      coursesData: [
-        {
-          id: 1,
-          name: "Main Course 1",
-          progress: 50,
-          completedAssessments: 5,
-          totalAssessments: 10,
-          open: false,
-          subcourses: [
-            {
-              id: 1,
-              name: "Subcourse 1",
-              progress: 60,
-              completedAssessments: 3,
-              totalAssessments: 5,
-              open: false,
-              assessments: [
-                { id: 1, name: "Assessment 1", status: "passed" },
-                { id: 2, name: "Assessment 2", status: "not passed" },
-              ],
-            }
-          ],
-        }
-      ],
-    };
+      showHeader: true, 
+    }
   },
   methods: {
     navigateTo(route) {

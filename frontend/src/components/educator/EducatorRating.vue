@@ -25,8 +25,8 @@ export default {
   name: "EducatorRating",
   data() {
     return {
-      ratings: [], // Stores the fetched ratings
-      loaded: false, // Controls when to show the ratings
+      ratings: [], 
+      loaded: false, 
     };
   },
   methods: {
@@ -59,7 +59,7 @@ export default {
         const activities = data.activitiesRatings;
 
         this.ratings = activities.map((activity) => {
-          const rating = parseFloat(activity.meanRating.toFixed(1)); // Round to 1 decimal
+          const rating = parseFloat(activity.meanRating.toFixed(1)); 
           return {
             name: this.extractCourseName(activity.activityId),
             rating: rating,

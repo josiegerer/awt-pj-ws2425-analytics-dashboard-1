@@ -14,17 +14,17 @@
       <div class="grid-container">
         <!-- Time Spent Daily -->
         <div class="grid-item time-spent-daily">
-          <TimeSpentDaily :data="timeSpentDailyData" />
+          <TimeSpentDaily />
         </div>
 
         <!-- Learning Effectiveness Chart -->
         <div class="grid-item learning-effectiveness">
-          <LearningEffectivenessChart :data="learningEffectivenessData" />
+          <LearningEffectivenessChart />
         </div>
 
         <!-- Daily Streak -->
         <div class="grid-item daily-streak">
-          <DailyStreak :streak="dailyStreak" />
+          <DailyStreak />
         </div>
 
         <!-- Recommendation Box -->
@@ -34,7 +34,7 @@
 
         <!-- Course Completion Chart -->
         <div class="grid-item course-completion-chart">
-          <CourseCompletionChart :courses="coursesData" />
+          <CourseCompletionChart />
         </div>
       </div>
     </div>
@@ -59,60 +59,8 @@ export default {
   },
   data() {
     return {
-      showHeader: true, // Ensures the navigation bar is visible
-      timeSpentDailyData: [
-        { day: "Monday", minutes: 120 },
-        { day: "Tuesday", minutes: 90 },
-        { day: "Wednesday", minutes: 60 },
-        { day: "Thursday", minutes: 150 },
-        { day: "Friday", minutes: 200 },
-        { day: "Saturday", minutes: 180 },
-        { day: "Sunday", minutes: 100 },
-      ],
-      coursesData: [
-        {
-          id: 1,
-          name: "Main Course 1",
-          progress: 50,
-          completedAssessments: 5,
-          totalAssessments: 10,
-          open: false,
-          subcourses: [
-            {
-              id: 1,
-              name: "Subcourse 1",
-              progress: 60,
-              completedAssessments: 3,
-              totalAssessments: 5,
-              open: false,
-              assessments: [
-                { id: 1, name: "Assessment 1", status: "passed" },
-                { id: 2, name: "Assessment 2", status: "not passed" },
-              ],
-            },
-            {
-              id: 2,
-              name: "Subcourse 2",
-              progress: 40,
-              completedAssessments: 2,
-              totalAssessments: 5,
-              open: false,
-              assessments: [
-                { id: 3, name: "Assessment 3", status: "passed" },
-                { id: 4, name: "Assessment 4", status: "not passed" },
-              ],
-            },
-          ],
-        },
-      ],
-      dailyStreak: 3,
-      learningEffectivenessData: [
-        { x: 10, y: 20 },
-        { x: 20, y: 30 },
-        { x: 30, y: 10 },
-        { x: 40, y: 50 },
-      ],
-    };
+      showHeader: true, 
+    }
   },
   methods: {
     navigateTo(route) {

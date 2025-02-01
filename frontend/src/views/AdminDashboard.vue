@@ -37,10 +37,10 @@
           </div>
         </div>
 
-        <!-- Search Trends -->
+        <!-- Search Trends 
         <div class="grid-item search-trends">
           <SearchTrendsChart />
-        </div>
+        </div> -->
 
         <!-- Keyword List -->
         <div class="grid-item keyword-list">
@@ -55,7 +55,7 @@
 <script>
 import ActiveUsersChart from '../components/administrator/ActiveUsersChart.vue';
 import PopularTimesChart from '../components/administrator/PopularTimesChart.vue';
-import SearchTrendsChart from '../components/administrator/SearchTrendsChart.vue';
+//import SearchTrendsChart from '../components/administrator/SearchTrendsChart.vue';
 import KeywordsList from '../components/administrator/KeywordsList.vue';
 import TotalUsers from '../components/administrator/TotalUsers.vue';
 import TotalActivities from '../components/administrator/TotalActivities.vue';
@@ -68,7 +68,7 @@ export default {
   components: {
     ActiveUsersChart,
     PopularTimesChart,
-    SearchTrendsChart,
+    //SearchTrendsChart,
     KeywordsList,
     ActiveUsers_Admin,
     TotalActivities,

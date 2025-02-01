@@ -20,27 +20,27 @@
 
         <!-- Activity Engagement -->
         <div class="grid-item activity-engagement">
-          <ActivityEngagement :data="activityEngagementData" />
+          <ActivityEngagement />
         </div>
 
         <!-- Daily Streak -->
         <div class="grid-item daily-streak">
-          <DailyStreak :streak="dailyStreak" />
+          <DailyStreak />
         </div>
 
         <!-- Activity Revisits -->
         <div class="grid-item activity-revisits">
-          <ActivityRevisits :data="activityRevisitsData" />
+          <ActivityRevisits />
         </div>
 
         <!-- Time Spent -->
         <div class="grid-item time-spent">
-          <TimeSpent :data="timeSpentData" @button-click="handleTimeSpentClick" />
+          <TimeSpent @button-click="handleTimeSpentClick" />
         </div>
 
          <!-- Last Rating -->
         <div class="grid-item last-rating">
-          <LastRating :rating="lastRatingData" />
+          <LastRating />
         </div>
       </div>
     </div>
@@ -69,22 +69,7 @@ export default {
   data() {
     return {
       showHeader: true, 
-      activityEngagementData: [],
-      activityRevisitsData: [
-        { course: "Course 1", count: 15, change: "+10 in the last 30 days" },
-        { course: "Course 2", count: 13, change: "+13 in the last 30 days" },
-        { course: "Course 3", count: 8, change: "+1 in the last 30 days" },
-        { course: "Course 4", count: 20, change: "+5 in the last 30 days" },
-        { course: "Course 5", count: 10, change: "+2 in the last 30 days" },
-        { course: "Course 6", count: 18, change: "+7 in the last 30 days" },
-      ],
-      timeSpentData: [
-        { activity: "Activity 1", current: 120, previous: 100 },
-        { activity: "Activity 2", current: 90, previous: 80 },
-      ],
-      lastRatingData: 3,
-      dailyStreak: 3,
-    };
+    }
   },
   methods: {
     navigateTo(route) {

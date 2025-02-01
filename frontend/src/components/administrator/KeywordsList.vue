@@ -4,31 +4,72 @@
     <div class="keyword-item" v-for="(keyword, index) in keywords" :key="index">
       <div class="keyword-main">
         <span class="keyword-number">{{ index + 1 }}. </span>
-        <span class="keyword-name">{{ keyword.keyword }}</span> <!-- FIXED -->
+        <span class="keyword-name">{{ keyword.keyword }}</span>
         <span class="keyword-count">{{ keyword.count }}x</span>
       </div>
-      <span class="keyword-change">{{ keyword.change }} in the last 30 days</span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'KeywordsList',
-  props: {
-    keywords: Array
-  }
-}
+  name: "KeywordsList",
+  data() {
+    return {
+      keywords: [], // Holds the top 5 keywords
+    };
+  },
+  methods: {
+    async fetchKeywords() {
+      try {
+        const authToken = document.cookie.match(/(^| )auth_token=([^;]+)/)?.[2];
+        if (!authToken) {
+          console.error("Authentication token not found.");
+          return;
+        }
+
+        const response = await fetch("http://localhost:8000/searchCount", {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        this.processKeywords(data.searchCount);
+      } catch (error) {
+        console.error("Error fetching keywords:", error);
+      }
+    },
+    processKeywords(searchData) {
+      // Convert object into an array of keyword objects
+      const keywordArray = Object.entries(searchData).map(([url, count]) => ({
+        keyword: decodeURIComponent(url.split("/").pop().replace(/_/g, " ")), // Extract keyword
+        count,
+      }));
+
+      // Sort by count (descending) and take the top 5
+      this.keywords = keywordArray.sort((a, b) => b.count - a.count).slice(0, 5);
+    },
+  },
+  mounted() {
+    this.fetchKeywords();
+  },
+};
 </script>
 
 <style scoped>
 .keywords-list {
   padding: 10px 0;
+  width: 100%;
 }
 
 .keyword-item {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; 
   align-items: center;
   padding: 8px 0;
 }
@@ -37,6 +78,7 @@ export default {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-grow: 1; 
 }
 
 .keyword-number {
@@ -45,14 +87,13 @@ export default {
 
 .keyword-name {
   font-weight: 500;
+  flex-grow: 1; 
+  text-align: left; 
 }
 
 .keyword-count {
   color: #666;
-}
-
-.keyword-change {
-  color: #22bb33;
-  font-size: 0.9em;
+  text-align: right; 
+  min-width: 40px; 
 }
 </style>

@@ -8,10 +8,8 @@
           <div class="progress-bar">
             <div class="progress" :style="{ width: course.progress + '%' }"></div>
           </div>
-          <span>
-            {{ course.completed }} / {{ course.assigned }} students 
-            ({{ course.progress }}%)
-          </span>
+          <span>{{ course.progress }}%</span>
+          <span>{{ course.completedAssessments }}/{{ course.totalAssessments }}</span>
           <button class="toggle-button">{{ course.open ? '▼' : '▶' }}</button>
         </div>
         <ul v-if="course.open" class="subcourse-list">
@@ -21,24 +19,14 @@
               <div class="progress-bar">
                 <div class="progress" :style="{ width: subcourse.progress + '%' }"></div>
               </div>
-              <span>
-                {{ subcourse.completed }} / {{ subcourse.assigned }} students 
-                ({{ subcourse.progress }}%)
-              </span>
+              <span>{{ subcourse.progress }}%</span>
+              <span>{{ subcourse.completedAssessments }}/{{ subcourse.totalAssessments }}</span>
               <button class="toggle-button">{{ subcourse.open ? '▼' : '▶' }}</button>
             </div>
             <ul v-if="subcourse.open" class="assessment-list">
               <li v-for="assessment in subcourse.assessments" :key="assessment.id">
-                <div class="assessment-details">
-                  <span>{{ assessment.name }}</span>
-                  <div class="progress-bar">
-                    <div class="progress" :style="{ width: assessment.passRate + '%' }"></div>
-                  </div>
-                  <span>
-                    {{ assessment.passedStudents }} / {{ assessment.totalStudents }} students 
-                    ({{ assessment.passRate }}%)
-                  </span>
-                </div>
+                <span>{{ assessment.name }}</span>
+                <span :class="assessment.status">{{ assessment.status }}</span>
               </li>
             </ul>
           </li>
@@ -46,97 +34,58 @@
         <hr class="divider" />
       </li>
     </ul>
-    <p v-if="loading">Loading...</p>
   </div>
 </template>
 
 <script>
-
 export default {
   name: "CourseCompletionChart",
   data() {
     return {
-      chartSeries: [], // Will hold fetched data
-      chartOptions: {
-        chart: {
-          type: "bar",
-          zoom: { enabled: false },
-          toolbar: { show: false }
-        },
-        plotOptions: {
-          bar: {
-            horizontal: true,
-            columnWidth: "70%",
-            endingShape: "rounded"
-          }
-        },
-        dataLabels: {
-          enabled: true,
-          style: {
-            fontSize: "10px"
-          },
-          formatter: (val) => `${val}%`,
-          offsetX: 5
-        },
-        xaxis: {
-          categories: [], // Will be dynamically updated
-          labels: {
-            style: { fontSize: "10px" },
-            trim: false,
-            maxHeight: 120,
-            wrap: true
-          }
-        },
-        yaxis: {
-          min: 0,
-          max: 100,
-          labels: {
-            formatter: (val) => `${val}%`
-          },
-          title: { text: "Completion Rate (%)" }
-        },
-        colors: ["#4caf50"], // Green for completion rate
-        tooltip: {
-          y: { formatter: (val) => `${val}%` }
-        }
-      }
+      localCourses: [],
     };
   },
   methods: {
     async fetchData() {
       try {
-        const response = await fetch("http://localhost:8000/courseCompletionRate");
+        const authToken = document.cookie.match(/(^| )auth_token=([^;]+)/)?.[2];
+        if (!authToken) {
+          console.error('Authentication token not found.');
+          return;
+        }
+
+        const response = await fetch('http://localhost:8000/courseCompletionRate/learner', {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
         const data = await response.json();
-        const activities = data.activitiesSummary;
-
-        // Extract course names and completion rates
-        this.chartOptions = {
-          ...this.chartOptions,
-          xaxis: {
-            categories: activities.map(activity =>
-              activity.activityId.split("/").pop().replace(/_/g, " ")
-            )
-          }
-        };
-
-        this.chartSeries = [
-          {
-            name: "Completion Rate",
-            data: activities.map(activity =>
-              Math.round((activity.completed / activity.assigned) * 100) || 0 // Prevent NaN errors
-            )
-          }
-        ];
+        this.localCourses = data.map(course => ({ ...course, open: false, subcourses: course.subcourses.map(sub => ({ ...sub, open: false })) }));
       } catch (error) {
-        console.error("Error fetching course completion data:", error);
+        console.error("Error fetching courses:", error);
       }
-    }
+    },
+    toggleCourse(courseId) {
+      const course = this.localCourses.find(course => course.id === courseId);
+      if (course) course.open = !course.open;
+    },
+    toggleSubcourse(courseId, subcourseId) {
+      const course = this.localCourses.find(course => course.id === courseId);
+      if (course) {
+        const subcourse = course.subcourses.find(sub => sub.id === subcourseId);
+        if (subcourse) subcourse.open = !subcourse.open;
+      }
+    },
   },
-  mounted() {
-    this.fetchData();
-  }
+  created() {
+    this.fetchCourses();
+  },
 };
-
 </script>
 
 <style scoped>
@@ -144,17 +93,13 @@ export default {
   margin-top: 20px;
 }
 
-.course-header,
-.subcourse-header,
-.assessment-details {
+.course-header, .subcourse-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
   padding: 10px;
   margin-bottom: 5px;
-  background-color: #f9f9f9;
-  border-radius: 5px;
 }
 
 .progress-bar {
@@ -167,7 +112,26 @@ export default {
 
 .progress {
   height: 10px;
-  background-color: #4caf50; /* Green for completion rate */
+  background-color: #c40d1e;
+}
+
+.assessment-list {
+  margin-left: 20px;
+}
+
+.assessment-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+}
+
+.passed {
+  color: green;
+}
+
+.not-passed {
+  color: #c40d1e;
 }
 
 .toggle-button {
@@ -177,9 +141,7 @@ export default {
   font-size: 16px;
 }
 
-.course-list,
-.subcourse-list,
-.assessment-list {
+.course-list, .subcourse-list, .assessment-list {
   list-style-type: none;
   padding-left: 0;
 }

@@ -41,7 +41,7 @@ export default {
         console.log("Received Attempts Until Passed Data:", data);
 
         const attemptsData = data.attemptsUntilPassed || {};
-        const totalAssessments = 15; // Expected number of assessments
+        const totalAssessments = 0; 
         let totalAttempts = 0;
 
         Object.values(attemptsData).forEach(attempts => {

@@ -30,6 +30,11 @@
         <div class="grid-item active-users">
           <ActiveUsers_Educator />
         </div> -->
+        
+        <!-- Course Completion -->
+        <div class="grid-item course-completion">
+          <CourseCompletion :courses="courseCompletionData" />
+        </div>
 
         <!-- Activity Revisits -->
         <div class="grid-item activity-revisits">
@@ -41,10 +46,6 @@
           <EducatorRating />
         </div>
 
-        <!-- Course Completion -->
-        <div class="grid-item course-completion">
-          <CourseCompletion :courses="courseCompletionData" />
-        </div>
       </div>
     </div>
   </div>

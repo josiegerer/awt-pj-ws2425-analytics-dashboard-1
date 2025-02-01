@@ -18,6 +18,11 @@ export default {
   components: {
     apexchart: VueApexCharts,
   },
+  provide() {
+    return {
+      passRate: () => this.passRate,
+    };
+  },
   data() {
     return {
       chartData: [0, 0, 0], // [Failed, Open, Passed]
@@ -67,6 +72,9 @@ export default {
 
     // Update chart data
     this.chartData = [failed, open, passed];
+
+    // Calculate Pass Rate
+    this.passRate = failed + open > 0 ? (passed / (failed + open)).toFixed(2) : 0
 
   } catch (error) {
     console.error("Error fetching pass rate data:", error);
