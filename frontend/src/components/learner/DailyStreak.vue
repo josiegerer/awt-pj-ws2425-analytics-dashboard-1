@@ -1,4 +1,4 @@
-  <template>
+<template>
   <div class="streak-container">
     <h3>Daily Streak</h3>
     <p>
@@ -21,25 +21,90 @@
 <script>
 export default {
   name: 'DailyStreak',
-  props: {
-    streak: {
-      type: Number,
-      required: true,
+  data() {
+    return {
+      streak: 0, // Current streak from the API
+      activeDays: [], // Days in the current week where the user was active
+      daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // Days of the week
+    };
+  },
+  methods: {
+    getCookie(name) {
+      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return match ? match[2] : null;
     },
-    activeDays: {
-      type: Array,
-      required: true,
-      default: () => ['Mon', 'Tue'], // Example active days
+    async fetchDailyStreak() {
+      const token = this.getCookie("auth_token");
+
+      if (!token) {
+        console.error("No authentication token found.");
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:8000/dailyStreak", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Daily Streak Data:", data);
+
+        // Update streak
+        this.streak = data.lastStreak || 0;
+
+        // Fetch active days for the current week
+        this.fetchActiveDays();
+      } catch (error) {
+        console.error("Error fetching daily streak data:", error);
+      }
+    },
+    async fetchActiveDays() {
+      const token = this.getCookie("auth_token");
+
+      if (!token) {
+        console.error("No authentication token found.");
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:8000/activeHoursThisWeek", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Active Hours Data:", data);
+
+        // Extract active days from the response
+        const activeDays = [];
+        data.activeHours.forEach((dayData, index) => {
+          if (dayData.hours.some(hour => hour.timeSpent > 0)) {
+            activeDays.push(this.daysOfWeek[index]);
+          }
+        });
+
+        this.activeDays = activeDays;
+      } catch (error) {
+        console.error("Error fetching active hours data:", error);
+      }
     },
   },
-  computed: {
-    daysOfWeek() {
-      return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    },
+  mounted() {
+    this.fetchDailyStreak();
   },
 };
 </script>
-
 
 <style scoped>
 .streak {
@@ -78,10 +143,10 @@ export default {
   text-align: center;
   display: block;
 }
+
 h3 {
   text-align: left; /* Align title to the left */
   font-size: 15px;
   color: black;
 }
 </style>
-
