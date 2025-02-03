@@ -37,12 +37,6 @@ export default {
   components: {
     apexchart: VueApexCharts,
   },
-  provide() {
-    return {
-      activities: this.activities,
-      totalTime: this.totalTime
-    };
-  },
   data() {
     return {
       showTable: false, // Controls the table visibility

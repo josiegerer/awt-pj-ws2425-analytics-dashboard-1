@@ -5,14 +5,15 @@
       <p>Assessment points vs. Additional Time Spent on Activity</p>
       <canvas ref="scatterChart" style="width: 100%; height: 100%;"></canvas>
     </div>
+
     <!-- Manual Legend -->
-    <div class="manual-legend" style="display: flex; justify-content: center; margin-top: 10px;">
-      <div style="display: flex; align-items: center; margin-right: 20px;">
-        <div style="width: 15px; height: 15px; background-color: orange; margin-right: 5px;"></div>
+    <div class="manual-legend">
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: orange;"></div>
         <span class="legend-text">Improvement Potential</span>
       </div>
-      <div style="display: flex; align-items: center;">
-        <div style="width: 15px; height: 15px; background-color: green; margin-right: 5px;"></div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: green;"></div>
         <span class="legend-text">Best Practice</span>
       </div>
     </div>
@@ -26,18 +27,18 @@ import { Chart, registerables } from "chart.js";
 Chart.register(...registerables);
 
 export default defineComponent({
-  name: "ScatterPlot",
+  name: "LearningEffectivenessChart",
   setup() {
     const scatterChart = ref(null);
     const scatterData = ref([]);
+    const maxDuration = ref(120); // Default max
+    const currentDate = ref(new Date().toLocaleDateString());
 
-    // ✅ Function to retrieve cookies
     const getCookie = (name) => {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     };
 
-    // ✅ Fetch data from API
     const fetchData = async () => {
       try {
         const authToken = getCookie("auth_token");
@@ -60,19 +61,32 @@ export default defineComponent({
         const data = await response.json();
         console.log("API Response:", data);
 
-        // ✅ Correctly extract and map scores and time spent
+        let maxTimeSpent = 0; // Track highest time spent
+
         scatterData.value = data.activitiesEfficiency.flatMap(activity =>
           activity.scores.map(score => {
-            const duration = score.duration;
-            const hours = parseInt(duration.match(/PT(\d+)H/)?.[1] || 0);
-            const minutes = parseInt(duration.match(/H(\d+)M/)?.[1] || 0);
-            const totalMinutes = hours * 60 + minutes;
-            return { 
-              x: totalMinutes, // Time Spent (in minutes)
-              y: score.score   // Correct score value
-            };
+            let duration = score.duration;
+
+            if (typeof duration === "number") {
+              console.log(`Valid numeric duration: ${duration}`);
+            } else if (typeof duration === "string") {
+              // Handle ISO 8601 duration format (e.g., "PT2H30M")
+              const hours = parseInt(duration.match(/PT(\d+)H/)?.[1] || 0);
+              const minutes = parseInt(duration.match(/H(\d+)M/)?.[1] || 0);
+              duration = hours * 60 + minutes;
+              console.log(`Parsed duration: ${duration}`);
+            } else {
+              console.error("Invalid duration format:", duration);
+              return null;
+            }
+
+            maxTimeSpent = Math.max(maxTimeSpent, duration); // Track max value
+
+            return { x: duration, y: score.score };
           })
-        );
+        ).filter(Boolean);
+
+        maxDuration.value = Math.ceil(maxTimeSpent / 10) * 10; // Round up to nearest 10
 
         renderChart();
       } catch (error) {
@@ -80,7 +94,6 @@ export default defineComponent({
       }
     };
 
-    // ✅ Render the scatter plot with background image
     const renderChart = () => {
       const ctx = scatterChart.value?.getContext("2d");
       if (!ctx) {
@@ -88,68 +101,65 @@ export default defineComponent({
         return;
       }
 
-      new Chart(ctx, {
-        type: "scatter",
-        data: {
-          datasets: [
+      const img = new Image();
+      img.src = require("@/assets/learning_effectiveness_background.png");
+
+      img.onload = () => {
+        new Chart(ctx, {
+          type: "scatter",
+          data: {
+            datasets: [
+              {
+                label: "Learning Effectiveness",
+                data: scatterData.value,
+                backgroundColor: "rgba(75, 192, 192, 1)",
+              },
+            ],
+          },
+          options: {
+            plugins: {
+              legend: { display: false },
+            },
+            scales: {
+              x: {
+                type: "linear",
+                title: {
+                  display: true,
+                  text: "Time Spent (minutes)",
+                  font: { size: 12, weight: "bold" },
+                },
+                min: 0,
+                max: maxDuration.value, // Dynamic max value
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: "Assessment Points",
+                  font: { size: 12, weight: "bold" },
+                },
+                min: 0,
+                max: 100,
+              },
+            },
+          },
+          plugins: [
             {
-              label: "Learning Effectiveness",
-              data: scatterData.value,
-              backgroundColor: "rgba(75, 192, 192, 1)",
+              id: "backgroundImage",
+              beforeDraw: (chart) => {
+                if (chart?.chartArea) {
+                  const { top, left, width, height } = chart.chartArea;
+                  chart.ctx.drawImage(img, left, top, width, height);
+                }
+              },
             },
           ],
-        },
-        options: {
-          plugins: {
-            legend: { display: false },
-          },
-          scales: {
-            x: {
-              type: "linear",
-              title: {
-                display: true,
-                text: "Time Spent (minutes)",
-                font: { size: 12, weight: "bold" },
-              },
-              min: 0,
-              max: 120,
-              stepSize: 20,
-            },
-            y: {
-              title: {
-                display: true,
-                text: "Assessment Points",
-                font: { size: 12, weight: "bold" },
-              },
-              min: 0,
-              max: 100,
-              stepSize: 20,
-            },
-          },
-        },
-        plugins: [
-          {
-            id: "backgroundImage",
-            beforeDraw: (chart) => {
-              if (chart?.chartArea) {
-                const ctx = chart.ctx;
-                const { top, left, width, height } = chart.chartArea;
-
-                const img = new Image();
-                img.src = require("@/assets/learning_effectiveness_background.png");
-                img.onload = () => {
-                  ctx.drawImage(img, left, top, width, height);
-                };
-              }
-            },
-          },
-        ],
-      });
+        });
+      };
     };
 
     onMounted(fetchData);
 
-    return { scatterChart };
+    return { scatterChart, currentDate };
   },
 });
 </script>
@@ -165,7 +175,21 @@ p {
   font-size: 12px;
 }
 
-.manual-legend .legend-text {
-  font-size: 12pt;
+.manual-legend {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.legend-color {
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
 }
 </style>

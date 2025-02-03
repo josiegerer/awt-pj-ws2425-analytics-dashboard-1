@@ -1,7 +1,8 @@
 <template>
   <div class="attempts-until-passed-card">
     <h3>Average Attempts Until Passed</h3>
-    <p class="attempts-number">ø {{ averageAttempts }}</p> <!-- Prepending "ø" -->
+    <!-- Display "ø" only if average greater or equal to 1-->
+    <p class="attempts-number">{{ averageAttempts !== "User didn't have an attempt yet." ? "ø " + averageAttempts : averageAttempts }}</p> 
   </div>
 </template>
 <script>
@@ -40,18 +41,23 @@ export default {
         console.log("Received Attempts Until Passed Data:", data);
 
         const attemptsData = data.attemptsUntilPassed || {};
-        const totalAssessments = Object.keys(attemptsData).length;
         let totalAttempts = 0;
+        let count = 0;
 
+        // Sum only non-zero values and count them
         Object.values(attemptsData).forEach(attempts => {
-          totalAttempts += attempts + 1;
+          if (attempts !== 0) {
+            totalAttempts += attempts;
+            count++;
+          }
         });
 
-        if (totalAssessments > 0) {
-          this.averageAttempts = (totalAttempts / totalAssessments).toFixed(2);
+        if (count > 0) {
+          this.averageAttempts = (totalAttempts / count).toFixed(2);
         } else {
-          this.averageAttempts = "N/A";
+          this.averageAttempts = "User didn't have an attempt yet.";
         }
+        
       } catch (error) {
         console.error("Error fetching attempts until passed:", error);
       }

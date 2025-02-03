@@ -1,6 +1,6 @@
 <template>
   <div class="time-spent-daily-container">
-    <h3>Time Spent on Activities (Daily)</h3>
+    <h3>Time Spent on Activities (last 7 days)</h3>
     <p>in Minutes</p>
     <apexchart 
       type="bar" 

@@ -19,7 +19,10 @@
         v-for="(day, index) in daysOfWeek" 
         :key="index" 
         class="streak-day" 
-        :class="{ active: activeDays.includes(day) }">
+        :class="{ 
+          active: activeDays.includes(day),
+          today: isToday(day)
+        }">
         <span class="day-label">{{ day }}</span>
       </div>
     </div>
@@ -38,6 +41,14 @@ export default {
       daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // Days of the week
     };
   },
+  computed: {
+    // Check if the day is the current day
+    currentDay() {
+      const today = new Date();
+      const weekday = today.getDay(); // 0-6 (Sun-Sat)
+      return this.daysOfWeek[weekday === 0 ? 6 : weekday - 1]; // Adjust to match array
+    }
+  },
   methods: {
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
@@ -48,6 +59,9 @@ export default {
       const lastActive = new Date(lastDate);
       const differenceInTime = today - lastActive;
       return Math.floor(differenceInTime / (1000 * 60 * 60 * 24));
+    },
+    isToday(day) {
+      return day === this.currentDay; // Check if it's today's day
     },
     async fetchDailyStreak() {
       const token = this.getCookie("auth_token");
@@ -154,6 +168,12 @@ export default {
 
 .streak-day.active {
   background: #49cb40; /* Highlight active days */
+  color: white;
+}
+
+.streak-day.today {
+  border: 2px solid #ff5733; /* Highlight today with a border */
+  background: #ff5733; /* Different background for today */
   color: white;
 }
 

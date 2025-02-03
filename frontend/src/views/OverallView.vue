@@ -1,5 +1,9 @@
 <template>
   <div class="overall-container">
+     <!-- Date Box -->
+    <div class="date-box">
+      <span>{{ currentDate }}</span>
+    </div>
     <!-- Navigation -->
     <div class="nav-container">
       <nav v-if="showHeader" class="nav-buttons">
@@ -177,15 +181,6 @@ export default {
   .nav-buttons {
     flex-direction: column;
   }
-}
-
-/* Navigation Container */
-.nav-container {
-  width: 100%;
-  text-align: center;
-  padding: 10px 0;
-  border-radius: 8px;
-  background-color: transparent !important;
 }
 
 /* Navigation Buttons */

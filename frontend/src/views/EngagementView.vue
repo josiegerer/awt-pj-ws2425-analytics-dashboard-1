@@ -1,5 +1,9 @@
 <template>
   <div class="engagement-container">
+     <!-- Date Box -->
+     <div class="date-box">
+      <span>{{ currentDate }}</span>
+    </div>
     <!-- Navigation -->
     <div class="nav-container">
       <nav v-if="showHeader" class="nav-buttons">
