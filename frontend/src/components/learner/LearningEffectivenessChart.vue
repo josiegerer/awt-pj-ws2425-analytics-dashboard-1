@@ -129,7 +129,7 @@ export default defineComponent({
                   font: { size: 12, weight: "bold" },
                 },
                 min: 0,
-                max: maxDuration.value, // Dynamic max value
+                max: maxDuration.value,
               },
               y: {
                 title: {
@@ -139,8 +139,19 @@ export default defineComponent({
                 },
                 min: 0,
                 max: 100,
+                ticks: {
+                  padding: 15
+                },
+                afterFit: (scaleInstance) => {
+                  scaleInstance.paddingTop = 20;
+                }
               },
             },
+            layout: {
+              padding: {
+                top: 20
+              }
+            }
           },
           plugins: [
             {
@@ -185,6 +196,10 @@ p {
   display: flex;
   align-items: center;
   margin-right: 20px;
+}
+
+.legend-text{
+  font-size: 12px;
 }
 
 .legend-color {

@@ -1,9 +1,5 @@
 <template>
   <div class="overall-container">
-     <!-- Date Box -->
-    <div class="date-box">
-      <span>{{ currentDate }}</span>
-    </div>
     <!-- Navigation -->
     <div class="nav-container">
       <nav v-if="showHeader" class="nav-buttons">
@@ -88,11 +84,9 @@ export default {
   width: 100%;
   text-align: center;
   padding: 10px 0;
-  background-color: #ffffff;
-  border-bottom: 1px solid #ddd;
 }
 
-/* Navigation buttons */
+/* Navigation Buttons */
 .nav-buttons {
   display: flex;
   gap: 10px;
@@ -103,7 +97,7 @@ export default {
   padding: 10px 20px;
   font-size: 16px;
   border: none;
-  background-color: #3b82f6;
+  background-color: #c40d1e;
   color: white;
   cursor: pointer;
   border-radius: 5px;
@@ -111,8 +105,9 @@ export default {
 }
 
 .nav-buttons button:hover {
-  background-color: #2563eb;
+  background-color: #9e0b19;
 }
+
 
 /* Grid Layout */
 .grid-container {
@@ -140,17 +135,17 @@ export default {
 }
 
 .learning-effectiveness {
-  grid-column: span 4;
+  grid-column: span 5;
   grid-row: span 3;
 }
 
 .daily-streak {
-  grid-column: span 4;
+  grid-column: span 3;
   grid-row: span 1;
 }
 
 .recommendation-box {
-  grid-column: span 4;
+  grid-column: span 3;
   grid-row: span 2;
   background-image: linear-gradient(to right, #ff6c00, #c40d1e);
   padding: 20px;
@@ -181,27 +176,5 @@ export default {
   .nav-buttons {
     flex-direction: column;
   }
-}
-
-/* Navigation Buttons */
-.nav-buttons {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-
-.nav-buttons button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  background-color: #c40d1e;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background 0.3s;
-}
-
-.nav-buttons button:hover {
-  background-color: #9e0b19;
 }
 </style>

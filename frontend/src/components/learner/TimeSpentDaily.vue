@@ -157,6 +157,10 @@ h3 {
   color: black;
 }
 
+p{
+  font-size: 12px;
+}
+
 .view-more-button {
   position: relative;
   top: 10px;
