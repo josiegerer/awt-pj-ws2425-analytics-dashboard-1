@@ -18,22 +18,12 @@
         
         <!-- Pass Rates -->
         <div class="grid-item pass-rates">
-          <PassRatesChart />
+          <PassRatesInstructor />
         </div>
 
         <!-- Assessment Marks -->
         <div class="grid-item assessment-marks">
           <AssessmentMarks />
-        </div>
-
-        <!-- Active Users 
-        <div class="grid-item active-users">
-          <ActiveUsers_Educator />
-        </div> -->
-        
-        <!-- Course Completion -->
-        <div class="grid-item course-completion">
-          <CourseCompletion :courses="courseCompletionData" />
         </div>
 
         <!-- Activity Revisits -->
@@ -46,13 +36,23 @@
           <EducatorRating />
         </div>
 
+        <!-- Active Users 
+        <div class="grid-item active-users">
+          <ActiveUsers_Educator />
+        </div> -->
+        
+        <!-- Course Completion -->
+        <div class="grid-item course-completion">
+          <CourseCompletion />
+        </div>
+
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import PassRatesChart from '../components/educator/PassRatesChart.vue';
+import PassRatesInstructor from '../components/educator/PassRatesInstructor.vue';
 import AssessmentMarks from '../components/educator/AssessmentMarks.vue';
 import ActivityRevisits from '../components/educator/ActivityRevisits.vue';
 import CourseCompletion from '../components/educator/CourseCompletion.vue';
@@ -63,7 +63,7 @@ import EducatorRating from '@/components/educator/EducatorRating.vue';
 export default {
   name: 'EducatorDashboard',
   components: {
-    PassRatesChart,
+    PassRatesInstructor,
     AssessmentMarks,
     ActivityRevisits,
     //ActiveUsers_Educator,
@@ -108,13 +108,13 @@ export default {
 
 /* Grid Layout */
 .pass-rates {
-  grid-column: span 5;
-  grid-row: span 2;
+  grid-column: span 4;
+  grid-row: span 3;
 }
 
 .assessment-marks {
-  grid-column: span 7;
-  grid-row: span 2;
+  grid-column: span 5;
+  grid-row: span 3;
 }
 
 .active-users {
@@ -123,7 +123,7 @@ export default {
 }
 
 .activity-revisits {
-  grid-column: span 2;
+  grid-column: span 3;
   grid-row: span 1;
 }
 

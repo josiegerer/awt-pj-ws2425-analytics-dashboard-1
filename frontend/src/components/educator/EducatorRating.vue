@@ -3,7 +3,7 @@
     <h3>Educator Rating Overview</h3>
     <p>Average Ratings per Activity</p>
     <div v-if="loaded">
-      <div class="rating-list">
+      <div v-if="ratings.length > 0" class="rating-list">
         <div v-for="(activity, index) in ratings" :key="index" class="rating-item">
           <div class="activity-info">
             <p><strong>{{ activity.name }}</strong></p>
@@ -15,8 +15,9 @@
           <p class="rating-text">{{ activity.rating.toFixed(1) }} / 5</p>
         </div>
       </div>
+      <p v-else class="empty-message">No ratings available.</p>
     </div>
-    <p v-else>Loading...</p>
+    <p v-else class="loading-message">Loading...</p>
   </div>
 </template>
 
@@ -25,61 +26,62 @@ export default {
   name: "EducatorRating",
   data() {
     return {
-      ratings: [], 
-      loaded: false, 
+      ratings: [], // Initialize with empty data
+      loaded: false, // Track loading state
     };
   },
   methods: {
+    getCookie(name) {
+      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return match ? match[2] : null;
+    },
+
     async fetchEducatorRatings() {
+      const token = this.getCookie("auth_token");
+
+      if (!token) {
+        console.error("No authentication token found.");
+        return;
+      }
+
       try {
-        console.log("Fetching educator rating data...");
-
-       
-        const token = localStorage.getItem("token");
-        if (!token) {
-          console.error("No authentication token found.");
-          return;
-        }
-
         const response = await fetch("http://localhost:8000/activityRatings/instructor", {
-          method: "GET",
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         if (!response.ok) {
-          throw new Error(`Failed to fetch data: ${response.status}`);
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const data = await response.json();
         console.log("Fetched educator rating data:", data);
 
-        const activities = data.activitiesRatings;
+        const activities = data.activitiesRatings || [];
 
         this.ratings = activities.map((activity) => {
-          const rating = parseFloat(activity.meanRating.toFixed(1)); 
+          const rating = parseFloat(activity.meanRating.toFixed(1)); // Round to 1 decimal place
           return {
             name: this.extractCourseName(activity.activityId),
             rating: rating,
             fullStars: Math.floor(rating), // Full stars
-            emptyStars: 5 - Math.floor(rating) // Empty stars
+            emptyStars: 5 - Math.floor(rating), // Empty stars
           };
         });
 
         this.loaded = true;
       } catch (error) {
         console.error("Error fetching educator rating data:", error);
+        this.loaded = true; // Stop loading state even if there's an error
       }
     },
+
     extractCourseName(activityId) {
       return decodeURIComponent(activityId.split("/").pop().replace(/_/g, " "));
-    }
+    },
   },
   mounted() {
-    this.fetchEducatorRatings();
-  }
+    this.fetchEducatorRatings(); // Corrected method name
+  },
 };
 </script>
 
@@ -140,5 +142,13 @@ p {
 .rating-text {
   font-size: 14px;
   font-weight: bold;
+}
+
+.loading-message,
+.empty-message {
+  text-align: center;
+  font-size: 14px;
+  color: #888;
+  margin-top: 20px;
 }
 </style>
