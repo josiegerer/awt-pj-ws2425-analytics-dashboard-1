@@ -189,4 +189,9 @@ export default {
 .time-spent-table th {
   background-color: #f2f2f2;
 }
+h3 {
+  text-align: left; /* Align title to the left */
+  font-size: 15px;
+  color: black;
+}
 </style>

@@ -2,9 +2,17 @@
   <div class="streak-container">
     <h3>Daily Streak</h3>
     <p>
-      You have been active for 
-      <span class="streak">{{ streak }}</span> 
-      {{ streak === 1 ? 'day' : 'days' }} in a row!
+      <span v-if="streak === 0">
+        You don't have a streak. Your last streak was {{ daysSinceLastStreak }} days ago.
+      </span>
+      <span v-else-if="streak === 1">
+        You were last active on one day, but your streak hasn't continued yet!
+      </span>
+      <span v-else>
+        You have been active for 
+        <span class="streak">{{ streak }}</span> 
+        {{ streak === 1 ? 'day' : 'days' }} in a row!
+      </span>
     </p>
     <div class="streak-visual">
       <div 
@@ -24,6 +32,8 @@ export default {
   data() {
     return {
       streak: 0, // Current streak from the API
+      lastActiveDate: null, // Last date the user was active
+      daysSinceLastStreak: 0, // Days since last streak
       activeDays: [], // Days in the current week where the user was active
       daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // Days of the week
     };
@@ -32,6 +42,12 @@ export default {
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
+    },
+    calculateDaysSinceLastStreak(lastDate) {
+      const today = new Date();
+      const lastActive = new Date(lastDate);
+      const differenceInTime = today - lastActive;
+      return Math.floor(differenceInTime / (1000 * 60 * 60 * 24));
     },
     async fetchDailyStreak() {
       const token = this.getCookie("auth_token");
@@ -43,9 +59,7 @@ export default {
 
       try {
         const response = await fetch("http://localhost:8000/dailyStreak", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         if (!response.ok) {
@@ -55,10 +69,16 @@ export default {
         const data = await response.json();
         console.log("Daily Streak Data:", data);
 
-        // Update streak
-        this.streak = data.lastStreak || 0;
+        const today = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
+        if (data.lastDate === today) {
+          this.streak = data.lastStreak;
+          this.daysSinceLastStreak = 0; // Reset since user was active today
+        } else {
+          this.streak = 0; // Streak resets if not active today
+          this.daysSinceLastStreak = this.calculateDaysSinceLastStreak(data.lastDate);
+        }
 
-        // Fetch active days for the current week
+        this.lastActiveDate = data.lastDate;
         this.fetchActiveDays();
       } catch (error) {
         console.error("Error fetching daily streak data:", error);
@@ -74,9 +94,7 @@ export default {
 
       try {
         const response = await fetch("http://localhost:8000/activeHoursThisWeek", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         if (!response.ok) {

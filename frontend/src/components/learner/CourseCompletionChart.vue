@@ -2,13 +2,14 @@
   <div class="course-completion-container">
     <h3>Course Completion</h3>
     <ul class="course-list">
+      <!-- Main Course -->
       <li v-for="course in localCourses" :key="course.id">
         <div @click="toggleCourse(course.id)" class="course-header">
           <span>{{ course.name }}</span>
           <div class="progress-bar">
             <div class="progress" :style="{ width: course.progress + '%' }"></div>
           </div>
-          <span>{{ course.progress }}%</span>
+          <span>{{ formatPercentage(course.progress) }}%</span>
           <span>{{ course.completedAssessments }}/{{ course.totalAssessments }}</span>
           <button class="toggle-button">{{ course.open ? '▼' : '▶' }}</button>
         </div>
@@ -19,14 +20,19 @@
               <div class="progress-bar">
                 <div class="progress" :style="{ width: subcourse.progress + '%' }"></div>
               </div>
-              <span>{{ subcourse.progress }}%</span>
+              <span>{{ formatPercentage(subcourse.progress) }}%</span>
               <span>{{ subcourse.completedAssessments }}/{{ subcourse.totalAssessments }}</span>
               <button class="toggle-button">{{ subcourse.open ? '▼' : '▶' }}</button>
             </div>
             <ul v-if="subcourse.open" class="assessment-list">
               <li v-for="assessment in subcourse.assessments" :key="assessment.id">
                 <span>{{ assessment.name }}</span>
-                <span :class="assessment.status">{{ assessment.status }}</span>
+                <span :class="{
+                  'passed': assessment.status === 'passed',
+                  'not-passed': assessment.status === 'not passed'
+                }">
+                  {{ assessment.status }}
+                </span>
               </li>
             </ul>
           </li>
@@ -40,71 +46,154 @@
 <script>
 export default {
   name: "CourseCompletionChart",
-  props: {
-    courses: {
-      type: Array,
-      required: true,
-      default: () => [],
-    },
-  },
   data() {
     return {
-      localCourses: [...this.courses], // Initialize with prop data
+      // We store the main course (with its subcourses) here.
+      localCourses: []
     };
   },
   methods: {
+    transformName(url) {
+      // Extract the part after the last slash and replace underscores with spaces.
+      if (!url) return '';
+      const parts = url.split('/');
+      const namePart = parts[parts.length - 1];
+      return namePart.replace(/_/g, ' ');
+    },
+    formatPercentage(value) {
+      // Display as an integer if there's no fractional part, otherwise one decimal place.
+      return value % 1 === 0 ? value.toFixed(0) : value.toFixed(1);
+    },
     async fetchData() {
       try {
-        const authToken = document.cookie.match(/(^| )auth_token=([^;]+)/)?.[2];
+        // Get the authentication token from cookie.
+        const authTokenMatch = document.cookie.match(/(^| )auth_token=([^;]+)/);
+        const authToken = authTokenMatch ? authTokenMatch[2] : null;
         if (!authToken) {
           console.error('Authentication token not found.');
           return;
         }
 
-        const response = await fetch('http://localhost:8000/courseCompletionRate/learner', {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
+        // Fetch parent data to determine the main course name.
+        const parentResponse = await fetch('http://localhost:8000/parentsOfParents', {
+          headers: { Authorization: `Bearer ${authToken}` }
         });
+        if (!parentResponse.ok) {
+          throw new Error(`HTTP error from parentsOfParents! Status: ${parentResponse.status}`);
+        }
+        const parentData = await parentResponse.json();
+        // Extract one parent's URL. All values are assumed to be the same.
+        const parentUrls = Object.values(parentData.parentOfParents);
+        const mainCourseUrl = parentUrls.length ? parentUrls[0] : '';
+        const mainCourseName = this.transformName(mainCourseUrl);
 
+        // Fetch the course completion data.
+        const response = await fetch('http://localhost:8000/assessmentPerformance/learner', {
+          headers: { Authorization: `Bearer ${authToken}` }
+        });
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          throw new Error(`HTTP error from assessmentPerformance! Status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        // Expected data format: { subcourses: [ { name, progress, completedAssessments, totalAssessments, assessments: [ ... ] }, ... ] }
+        if (!data || !data.subcourses) {
+          console.error('No subcourses found in fetched data', data);
+          return;
         }
 
-        const data = await response.json();
-        this.localCourses = data; // Update local data property
+        // Transform subcourses.
+        const subcourses = data.subcourses.map((sub, index) => {
+          return {
+            id: index, // Simple unique id.
+            // Use the URL transformation for the subcourse name.
+            name: this.transformName(sub.name),
+            progress: sub.progress,
+            completedAssessments: sub.completedAssessments,
+            totalAssessments: sub.totalAssessments,
+            open: false,
+            assessments: sub.assessments.map((assess, idx) => ({
+              id: idx,
+              // Use the URL transformation for assessment names.
+              name: this.transformName(assess.activityId),
+              status: assess.status
+            }))
+          };
+        });
+
+        // Aggregate overall course data from subcourses.
+        const totalAssessments = subcourses.reduce((sum, sub) => sum + sub.totalAssessments, 0);
+        const completedAssessments = subcourses.reduce((sum, sub) => sum + sub.completedAssessments, 0);
+        const overallProgress = totalAssessments > 0 ? (completedAssessments / totalAssessments) * 100 : 0;
+
+        // Create the main course object using the parent's name.
+        const course = {
+          id: 'course1',
+          name: mainCourseName,
+          progress: overallProgress,
+          completedAssessments: completedAssessments,
+          totalAssessments: totalAssessments,
+          open: false,
+          subcourses: subcourses
+        };
+
+        this.localCourses = [course];
       } catch (error) {
         console.error('Error fetching courses:', error);
       }
     },
     toggleCourse(courseId) {
       const course = this.localCourses.find(course => course.id === courseId);
-      course.open = !course.open;
+      if (course) {
+        course.open = !course.open;
+      }
     },
     toggleSubcourse(courseId, subcourseId) {
       const course = this.localCourses.find(course => course.id === courseId);
-      const subcourse = course.subcourses.find(subcourse => subcourse.id === subcourseId);
-      subcourse.open = !subcourse.open;
-    },
+      if (course) {
+        const subcourse = course.subcourses.find(sub => sub.id === subcourseId);
+        if (subcourse) {
+          subcourse.open = !subcourse.open;
+        }
+      }
+    }
   },
   created() {
-    this.fetchCourses();
-  },
+    this.fetchData();
+  }
 };
 </script>
 
 <style scoped>
 .course-completion-container {
   margin-top: 20px;
+  font-family: Arial, sans-serif;
 }
 
-.course-header, .subcourse-header {
+h3 {
+  text-align: left;
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.course-list,
+.subcourse-list,
+.assessment-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.course-header,
+.subcourse-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
   padding: 10px;
   margin-bottom: 5px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
 }
 
 .progress-bar {
@@ -117,18 +206,24 @@ export default {
 
 .progress {
   height: 10px;
-  background-color: #c40d1e; /* Red color for the bars */
+  background-color: #c40d1e; /* Red color for the progress bars */
 }
 
-.assessment-list {
-  margin-left: 20px;
+.toggle-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #555;
 }
 
+/* Remove borders around assessment items for a cleaner look */
 .assessment-list li {
   display: flex;
   justify-content: space-between;
   padding: 5px 10px;
   margin-bottom: 5px;
+  background-color: #fff;
 }
 
 .passed {
@@ -139,24 +234,9 @@ export default {
   color: #c40d1e;
 }
 
-.toggle-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.course-list, .subcourse-list, .assessment-list {
-  list-style-type: none; /* Remove bullet points */
-  padding-left: 0;
-}
-
-.subcourse-list {
-  margin-left: 20px; /* Indent subpoints */
-}
-
 .divider {
-  border: 1px solid #ccc;
+  border: none;
+  border-bottom: 1px solid #ccc;
   margin: 10px 0;
 }
 </style>

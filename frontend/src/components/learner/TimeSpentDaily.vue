@@ -36,23 +36,9 @@ export default {
   components: {
     apexchart: VueApexCharts
   },
-  props: {
-    data: {
-      type: Array,
-      required: true,
-      default: () => [
-        { day: "Monday", minutes: 120 },
-        { day: "Tuesday", minutes: 90 },
-        { day: "Wednesday", minutes: 60 },
-        { day: "Thursday", minutes: 150 },
-        { day: "Friday", minutes: 200 },
-        { day: "Saturday", minutes: 180 },
-        { day: "Sunday", minutes: 100 },
-      ],
-    },
-  },
   data() {
     return {
+      data: [],
       showTable: false,
     };
   },
@@ -76,13 +62,6 @@ export default {
             horizontal: false,
             columnWidth: '55%',
             endingShape: 'rounded',
-            colors: {
-              ranges: [{
-                from: 0,
-                to: Infinity,
-                color: '#b0b0b0'
-              }]
-            }
           },
         },
         dataLabels: {
@@ -123,9 +102,6 @@ export default {
                   background: '#9013fe'
                 },
                 text: this.averageTimeSpent.toFixed(2),
-                hover: {
-                  text: 'Average'
-                }
               }
             }
           ]
@@ -133,23 +109,50 @@ export default {
       };
     },
     averageTimeSpent() {
+      if (!this.data.length) return 0;
       const totalMinutes = this.data.reduce((sum, item) => sum + item.minutes, 0);
       return totalMinutes / this.data.length;
     }
   },
   methods: {
-    toggleTable(event) {
-      event.preventDefault();
+    getCookie(name) {
+      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return match ? match[2] : null;
+    },
+    async fetchTimeSpentData() {
+      const token = this.getCookie("auth_token");
+      if (!token) {
+        console.error("No authentication token found");
+        return;
+      }
+      try {
+        const response = await fetch("http://localhost:8000/timeSpentOnLastSevenDays/learner", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const responseData = await response.json();
+        this.data = responseData.timeSpentDaily || [];
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    },
+    toggleTable() {
       this.showTable = !this.showTable;
     }
+  },
+  mounted() {
+    this.fetchTimeSpentData();
   }
 };
 </script>
 
 <style scoped>
-
 h3 {
-  text-align: left; /* Align title to the left */
+  text-align: left;
   font-size: 15px;
   color: black;
 }

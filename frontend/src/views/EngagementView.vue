@@ -50,7 +50,7 @@
 <script>
 import HeatmapChart from '../components/learner/ActiveHours.vue';
 import ActivityEngagement from '../components/learner/ActivityEngagement.vue';
-import ActivityRevisits from '../components/educator/ActivityRevisits.vue';
+import ActivityRevisits from '../components/learner/ActivityRevisitsLearner.vue';
 import TimeSpent from '../components/learner/TimeSpent.vue';
 import LastRating from '../components/learner/LastRating.vue';
 import DailyStreak from '../components/learner/DailyStreak.vue';

@@ -4,13 +4,12 @@
     <p class="attempts-number">ø {{ averageAttempts }}</p> <!-- Prepending "ø" -->
   </div>
 </template>
-
 <script>
 export default {
   name: 'AttemptsUntilPassedCard',
   data() {
     return {
-      averageAttempts: 0,
+      averageAttempts: "N/A",
     };
   },
   methods: {
@@ -41,19 +40,18 @@ export default {
         console.log("Received Attempts Until Passed Data:", data);
 
         const attemptsData = data.attemptsUntilPassed || {};
-        const totalAssessments = 0; 
+        const totalAssessments = Object.keys(attemptsData).length;
         let totalAttempts = 0;
 
         Object.values(attemptsData).forEach(attempts => {
-          totalAttempts += attempts + 1; // Adding 1 to include the first attempt
+          totalAttempts += attempts + 1;
         });
 
-        // If some assessments are missing from data, assume first attempt (1) for them
-        const missingAssessments = totalAssessments - Object.keys(attemptsData).length;
-        totalAttempts += missingAssessments; 
-
-        // Calculate average
-        this.averageAttempts = (totalAttempts / totalAssessments).toFixed(2);
+        if (totalAssessments > 0) {
+          this.averageAttempts = (totalAttempts / totalAssessments).toFixed(2);
+        } else {
+          this.averageAttempts = "N/A";
+        }
       } catch (error) {
         console.error("Error fetching attempts until passed:", error);
       }
@@ -79,5 +77,3 @@ h3 {
   color: black;
 }
 </style>
-
-  
