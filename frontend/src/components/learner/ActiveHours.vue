@@ -25,12 +25,23 @@ export default {
         chart: {
           height: 350,
           type: "heatmap",
+          toolbar: {
+            show: false
+          }
         },
         dataLabels: {
-          enabled: false,
+          enabled: true,
+          formatter: function(val) {
+            return val === 0 ? '' : val + 'm';
+          },
+          style: {
+            fontSize: '12px'
+          }
         },
         plotOptions: {
           heatmap: {
+            radius: 3,
+            enableShades: true,
             colorScale: {
               ranges: [
                 { from: 0, to: 0, color: "#f8e8cf", name: "No Activity" },
@@ -51,16 +62,30 @@ export default {
               fontSize: "12px",
             },
           },
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false
+          }
         },
         yaxis: {
-          title: {
-            text: "Time of Day",
+          labels: {
+            style: {
+              colors: "#000",
+              fontSize: "12px",
+            },
           },
+          reversed: true
         },
         tooltip: {
           y: {
-            formatter: function (val) {
-              return val > 0 ? `${val} minutes` : "No Activity";
+            formatter: function(val) {
+              if (val === 0) return "No Activity";
+              if (val < 60) return val + " minutes";
+              const hours = Math.floor(val / 60);
+              const minutes = val % 60;
+              return `${hours}h ${minutes}m`;
             },
           },
         },
@@ -72,9 +97,21 @@ export default {
             colors: "#000",
           },
           markers: {
+            radius: 3,
             size: 8,
           },
         },
+        grid: {
+          padding: {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+          }
+        },
+        stroke: {
+          width: 1
+        }
       },
     };
   },
@@ -98,68 +135,53 @@ export default {
         });
 
         if (!response.ok) {
-          console.error("Error fetching data:", response.statusText);
-          return;
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log("Received Data:", data);
+        
+        // Create time slots
+        const timeSlots = [
+          "00:00-04:00", "04:00-08:00", "08:00-12:00",
+          "12:00-16:00", "16:00-20:00", "20:00-24:00"
+        ];
 
-        // Initialize structure for 4-hour intervals across 7 days
-        let aggregatedData = {
-          "0:00-4:00": [0, 0, 0, 0, 0, 0, 0],
-          "4:00-8:00": [0, 0, 0, 0, 0, 0, 0],
-          "8:00-12:00": [0, 0, 0, 0, 0, 0, 0],
-          "12:00-16:00": [0, 0, 0, 0, 0, 0, 0],
-          "16:00-20:00": [0, 0, 0, 0, 0, 0, 0],
-          "20:00-24:00": [0, 0, 0, 0, 0, 0, 0],
-        };
+        // Initialize series data
+        this.chartData = timeSlots.map(slot => ({
+          name: slot,
+          data: Array(7).fill(0)
+        }));
 
-        // Process API response
-        data.activeHours.forEach((dayData, dayIndex) => {
-          dayData.hours.forEach(hourData => {
-            const interval = this.mapHourToInterval(hourData.hour);
-            if (interval) {
-              aggregatedData[interval][dayIndex] += this.roundToNearest(hourData.timeSpent, 10);
+        // Process data for each day and hour
+        data.activeHours.forEach((day, dayIndex) => {
+          day.hours.forEach(hourData => {
+            const timeSlotIndex = Math.floor(hourData.hour / 4);
+            if (timeSlotIndex >= 0 && timeSlotIndex < 6) {
+              this.chartData[timeSlotIndex].data[dayIndex] += hourData.timeSpent;
             }
           });
         });
 
-        // Convert aggregated data to ApexCharts format
-        this.chartData = Object.entries(aggregatedData).map(([interval, values]) => ({
-          name: interval,
-          data: values
-        }));
-
       } catch (error) {
         console.error("Error fetching active hours data:", error);
       }
-    },
-
-    roundToNearest(value, step = 10) {
-      return Math.round(value / step) * step;
-    },
-
-    mapHourToInterval(hour) {
-      if (hour >= 0 && hour < 4) return "0:00-4:00";
-      if (hour >= 4 && hour < 8) return "4:00-8:00";
-      if (hour >= 8 && hour < 12) return "8:00-12:00";
-      if (hour >= 12 && hour < 16) return "12:00-16:00";
-      if (hour >= 16 && hour < 20) return "16:00-20:00";
-      if (hour >= 20 && hour < 24) return "20:00-24:00";
-      return null;
-    },
+    }
   },
   mounted() {
     this.fetchActiveHours();
-  },
+  }
 };
 </script>
 
 <style scoped>
+.heatmap-container {
+  padding: 20px;
+}
+
 h3 {
   text-align: left;
   font-size: 15px;
   color: black;
+  margin-bottom: 20px;
 }
 </style>

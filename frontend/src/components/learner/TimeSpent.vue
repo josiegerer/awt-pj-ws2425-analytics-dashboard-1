@@ -1,6 +1,6 @@
 <template>
   <div class="time-spent-container">
-    <h3>Time Spent on Activities</h3>
+    <h3>Total Time Spent on Activities</h3>
     <p>in Minutes</p>
     <div class="chart-wrapper">
       <apexchart 
@@ -16,7 +16,7 @@
       <thead>
         <tr>
           <th>Activity</th>
-          <th>Time Spent (minutes)</th>
+          <th>Total Time Spent (minutes / hours)</th>
         </tr>
       </thead>
       <tbody>
@@ -88,10 +88,13 @@ export default {
         },
         tooltip: {
           y: {
-            formatter: (val) => this.formatDuration(val) + ' minutes',
+            formatter: (val) => {
+              const hours = (val / 60).toFixed(1);
+              return `${val} minutes (${hours}h)`;
+            },
           },
         },
-        colors: ['#4CAF50'],
+        colors: ['#555555'],
       };
     },
   },
@@ -107,8 +110,10 @@ export default {
       return name.length > 10 ? name.substring(0, 10) + '...' : name;
     },
     formatDuration(duration) {
-      return duration % 1 === 0 ? duration.toFixed(0) : duration.toFixed(2);
-    },
+          const hours = (duration / 60).toFixed(1);
+          const minutesFormatted = duration % 1 === 0 ? duration.toFixed(0) : duration.toFixed(2);
+          return `${minutesFormatted} (${hours}h)`;
+        },
     async fetchData() {
       try {
         const authToken = document.cookie.match(/(^| )auth_token=([^;]+)/)?.[2];
@@ -155,17 +160,18 @@ export default {
 }
 
 .view-more-button {
-  background-color: #4CAF50;
+  background-color: grey;
   color: white;
   border: none;
   padding: 10px;
   cursor: pointer;
   border-radius: 5px;
   margin-top: 10px;
+  border-color: grey;
 }
 
 .view-more-button:hover {
-  background-color: #45a049;
+  background-color: darkgrey;
 }
 
 .time-spent-table {
