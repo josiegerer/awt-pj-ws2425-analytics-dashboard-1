@@ -21,7 +21,7 @@ export default {
   },
   data() {
     return {
-      chartSeries: [], // Initialize with empty data
+      chartSeries: [], 
       chartOptions: {
         chart: {
           type: "bar",
@@ -44,7 +44,7 @@ export default {
           offsetY: -5,
         },
         xaxis: {
-          categories: [], // Will be populated with activity names
+          categories: [], 
           labels: {
             style: { fontSize: "10px" },
             rotate: -45,
@@ -72,7 +72,7 @@ export default {
     async fetchAssessmentMarks() {
       try {
         // Fetch assessment performance data
-        const response = await fetch("http://localhost:8000/assessmentPerformance");
+        const response = await fetch("http://localhost:8000/assesmentPerformance/instructor");
         const data = await response.json();
         const activities = data.activitiesSummary;
 
@@ -92,14 +92,14 @@ export default {
           ...this.chartOptions,
           xaxis: {
             ...this.chartOptions.xaxis,
-            categories: categories, // Set activity names as x-axis labels
+            categories: categories, 
           },
         };
 
         this.chartSeries = [
           {
             name: "Class Average",
-            data: averageScores, // Set average scores as y-axis data
+            data: averageScores, 
           },
         ];
       } catch (error) {
