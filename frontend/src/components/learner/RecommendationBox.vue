@@ -50,7 +50,7 @@ export default {
             if (timeSpentOnActivities < 60) {
               return "You're performing moderately well, but you may benefit from spending more time on learning activities to strengthen your understanding.";
             } else if (activityRevisits > 3) {
-              return "You're reviewing the material multiple times, which is great! Keep refining your approach to improve your assessment scores further.";
+              return "You're reviewing the material multiple times, which shows dedication! However, try to absorb the key information more effectively during the initial sessions to reduce the need for frequent revisits and improve your assessment scores further.";
             } else {
               return "You're doing well! Keep practicing to improve your consistency and reach a higher level of mastery.";
             }
@@ -60,10 +60,10 @@ export default {
           else if (assessmentPerformance >= 75) {
             if (assessmentPerformance >= 90 && attemptsUntilPassed === 1) {
               return "Excellent work! You're mastering assessments on the first attempt. Keep challenging yourself with more advanced topics.";
-            } else if (timeSpentOnActivities > 100) {
-              return "You're investing a lot of time in learning, and your high scores show the results. Keep up the great work and consider exploring deeper topics.";
+            } else if (timeSpentOnActivities > 120) {
+              return "You're investing a lot of time in learning, and your high scores show the results. However, consider optimizing your study approach to reduce time while maintaining your performance. Focus on key concepts and avoid overstudying.";
             } else {
-              return "You're performing at a high level! Maintain your momentum and challenge yourself to keep growing.";
+              return "You're performing at a good level! Maintain your momentum and challenge yourself to keep growing.";
             }
           }
 
@@ -143,8 +143,8 @@ export default {
           0
         );
         this.timeSpentOnActivities = (
-          totalTimeSpentOnActivities / timeSpentOnActivitiesData.activities.length / 60
-        ).toFixed(2); // Convert to minutes
+          totalTimeSpentOnActivities / timeSpentOnActivitiesData.activities.length 
+        ).toFixed(2); 
 
         console.log("TOTAL TIME SPENT", this.timeSpentOnActivities);
 
