@@ -34,7 +34,7 @@ GET http://localhost:8000/totalUsers
 Authorization: Bearer {{adminToken}}
 
 GET http://localhost:8000/assessmentPerformance
-Authorization: Bearer {{instructurToken}}
+Authorization: Bearer {{adminToken}}
 
 GET http://localhost:8000/popularTimes
 Authorization: Bearer  {{adminToken}}
@@ -111,3 +111,6 @@ Authorization: Bearer {{learnerToken}}
 
 GET http://localhost:8000/assessmentPerformance/learner
 Authorization: Bearer {{learnerToken}}
+
+GET http://localhost:8000/assesmentPerformance/instructor
+Authorization: Bearer {{instructorToken}}

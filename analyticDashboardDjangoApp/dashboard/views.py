@@ -250,7 +250,52 @@ def get_all_activities_summary(request):
         return JsonResponse({
             "error": str(e)
         }, status=500)
-    
+        
+@verify_instructor_token_annotation    
+def get_all_activities_summary_for_instructor(request):
+    try:
+        statements =  xapi_service.fetch_statements()
+        statements_of_instructor = filter_statements_by_instructor_email(statements, request.email)
+        all_activities = get_all_objects_ids_used(statements_of_instructor)
+        activities_summary = []
+
+        for activity_id in all_activities:
+            # Get the total visits
+            statements_filtered_by_object_id = filter_statements_by_object_id(statements_of_instructor, activity_id)
+            total_visits = len(statements_filtered_by_object_id)
+
+            # Get the average score
+            statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object_id, construct_verb_id("scored"))
+            total_score = sum(statement['statement_payload']['result']['score']['raw'] for statement in statements_filtered_by_verb if 'statement_payload' in statement and 'result' in statement['statement_payload'] and 'score' in statement['statement_payload']['result'])
+            average_score = total_score / len(statements_filtered_by_verb) if statements_filtered_by_verb else 0
+
+            # Get the average time spent
+            all_user_emails = get_all_actors_emails_used(statements_filtered_by_object_id)
+            total_time = 0
+            user_count = 0
+            for email in all_user_emails:
+                statements_filtered_by_user = get_statements_of_specfic_user_by_email(statements_filtered_by_object_id, email)
+                durations = get_durations_of_tests_for_user(statements_filtered_by_user)
+                total_time += sum(duration['duration'].total_seconds() / 60 for duration in durations)
+                user_count += 1
+            average_time = total_time / user_count if user_count > 0 else 0
+
+            activities_summary.append({
+                "activityId": activity_id,
+                "totalVisits": total_visits,
+                "averageScore": average_score,
+                "averageTimeSpent": average_time
+            })
+
+        responseJson = {"activitiesSummary": activities_summary}
+        return JsonResponse(responseJson, safe=False)
+    except Exception as e:
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
+        
+
+
 def get_average_timespent_for_activities(request):
     statements = xapi_service.fetch_statements()
     activity_id = request.GET.get('activityId')
