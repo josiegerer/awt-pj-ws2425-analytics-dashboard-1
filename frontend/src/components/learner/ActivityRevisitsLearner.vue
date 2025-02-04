@@ -38,32 +38,30 @@ export default {
     },
     async fetchActivityRevisits() {
       const token = this.getCookie("auth_token");
-
       if (!token) {
         console.error("No authentication token found.");
         return;
       }
-
       try {
         const response = await fetch("http://localhost:8000/activityRevists/learner", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.status}`);
         }
-
         const data = await response.json();
         console.log("Fetched Data:", data);
 
-        // Transform API data to match expected structure
-        this.activities = data.activitiesVisits.map((activity) => ({
-          course: this.extractCourseName(activity.activityId), // Extract name from URL
-          count: activity.visits,
-          activityId: activity.activityId, // Keep activityId for uniqueness
-        }));
+        // Transform API data to match expected structure and sort by count in descending order
+        this.activities = (data.activitiesVisits || [])
+          .map((activity) => ({
+            course: this.extractCourseName(activity.activityId), // Extract name from URL
+            count: activity.visits,
+            activityId: activity.activityId, // Keep activityId for uniqueness
+          }))
+          .sort((a, b) => b.count - a.count); // Sort by count in descending order
       } catch (error) {
         console.error("Error fetching activity revisits:", error);
       }

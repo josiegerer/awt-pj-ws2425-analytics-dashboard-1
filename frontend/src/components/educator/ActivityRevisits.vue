@@ -33,37 +33,33 @@ export default {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
-
     async fetchActivityRevisits() {
-        const token = this.getCookie("auth_token");
-
-        if (!token) {
-          console.error("No authentication token found.");
-          return;
+      const token = this.getCookie("auth_token");
+      if (!token) {
+        console.error("No authentication token found.");
+        return;
+      }
+      try {
+        const response = await fetch("http://localhost:8000/activityRatings/instructor", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
+        const data = await response.json();
+        console.log("Fetched educator rating data:", data); // Debugging line
 
-        try {
-          const response = await fetch("http://localhost:8000/activityRatings/instructor", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-
-          const data = await response.json();
-          console.log("Fetched educator rating data:", data); // Debugging line
-
-          // Ensure data.activitiesVisits exists before mapping
-          this.activities = data.activitiesVisits?.map((activity) => ({
+        // Ensure data.activitiesVisits exists before mapping
+        this.activities = (data.activitiesVisits || [])
+          .map((activity) => ({
             course: this.extractCourseName(activity.activityId),
             count: activity.visits,
-          })) || []; // Fallback to empty array if undefined
-        } catch (error) {
-          console.error("Error fetching activity revisits:", error);
-        }
-      },
-
+          }))
+          .sort((a, b) => b.count - a.count); // Sort by count in descending order
+      } catch (error) {
+        console.error("Error fetching activity revisits:", error);
+      }
+    },
     extractCourseName(activityId) {
       return decodeURIComponent(activityId.split("/").pop().replace(/_/g, " "));
     },

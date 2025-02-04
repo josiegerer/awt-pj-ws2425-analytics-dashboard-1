@@ -49,7 +49,7 @@ export default {
       }
 
       try {
-        const response = await fetch("http://localhost:8000/assessmentAttempts", {
+        const response = await fetch("http://localhost:8000/passRate/learner", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -59,7 +59,7 @@ export default {
         }
 
         const data = await response.json();
-        this.totalActivities = Object.keys(data.activitiesScored || {}).length; // Update total activities
+        this.totalActivities = (data.passed || 0) + (data.failed || 0) + (data.open || 0); 
         console.log("Total Activities:", this.totalActivities);
         this.fetchActivityEngagement();
       } catch (error) {
@@ -97,13 +97,9 @@ export default {
         let inProgress = 0;
         let completed = 0;
 
-        // Extract activities and verbs count
         const verbsCount = data.verbsCount || {};
         const receivedActivities = Object.keys(verbsCount);
 
-        console.log("Received Activities:", receivedActivities);
-
-        // Process each activity
         receivedActivities.forEach(activity => {
           const verbs = verbsCount[activity];
           const initialized = verbs.initialized || 0;
@@ -118,14 +114,10 @@ export default {
           }
         });
 
-        // Add missing activities to "Not Started"
         notStarted += Math.max(0, this.totalActivities - receivedActivities.length);
 
         console.log("Calculated Values:", { notStarted, inProgress, completed });
-
-        // Update chart data
         this.chartData = [notStarted, inProgress, completed];
-
       } catch (error) {
         console.error("Error fetching activity engagement data:", error);
       }
