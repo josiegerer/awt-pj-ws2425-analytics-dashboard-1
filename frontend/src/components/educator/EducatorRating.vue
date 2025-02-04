@@ -26,8 +26,8 @@ export default {
   name: "EducatorRating",
   data() {
     return {
-      ratings: [], // Initialize with empty data
-      loaded: false, // Track loading state
+      ratings: [], 
+      loaded: false, 
     };
   },
   methods: {
@@ -59,7 +59,7 @@ export default {
         const activities = data.activitiesRatings || [];
 
         this.ratings = activities.map((activity) => {
-          const rating = parseFloat(activity.meanRating.toFixed(1)); // Round to 1 decimal place
+          const rating = parseFloat(activity.meanRating.toFixed(1)); 
           return {
             name: this.extractCourseName(activity.activityId),
             rating: rating,
@@ -71,7 +71,7 @@ export default {
         this.loaded = true;
       } catch (error) {
         console.error("Error fetching educator rating data:", error);
-        this.loaded = true; // Stop loading state even if there's an error
+        this.loaded = true; 
       }
     },
 
@@ -80,7 +80,7 @@ export default {
     },
   },
   mounted() {
-    this.fetchEducatorRatings(); // Corrected method name
+    this.fetchEducatorRatings(); 
   },
 };
 </script>
@@ -141,7 +141,6 @@ p {
 
 .rating-text {
   font-size: 14px;
-  font-weight: bold;
 }
 
 .loading-message,

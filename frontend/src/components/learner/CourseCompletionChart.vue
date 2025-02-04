@@ -7,30 +7,54 @@
         <div @click="toggleCourse(course.id)" class="course-header">
           <span>{{ course.name }}</span>
           <div class="progress-bar">
-            <div class="progress" :style="{ width: course.progress + '%' }"></div>
+            <div
+              class="progress"
+              :style="{ width: course.progress + '%' }"
+            ></div>
           </div>
           <span>{{ formatPercentage(course.progress) }}%</span>
-          <span>{{ course.completedAssessments }}/{{ course.totalAssessments }}</span>
-          <button class="toggle-button">{{ course.open ? '▼' : '▶' }}</button>
+          <span
+            >{{ course.completedAssessments }}/{{
+              course.totalAssessments
+            }}</span
+          >
+          <button class="toggle-button">{{ course.open ? "▼" : "▶" }}</button>
         </div>
         <ul v-if="course.open" class="subcourse-list">
           <li v-for="subcourse in course.subcourses" :key="subcourse.id">
-            <div @click="toggleSubcourse(course.id, subcourse.id)" class="subcourse-header">
+            <div
+              @click="toggleSubcourse(course.id, subcourse.id)"
+              class="subcourse-header"
+            >
               <span>{{ subcourse.name }}</span>
               <div class="progress-bar">
-                <div class="progress" :style="{ width: subcourse.progress + '%' }"></div>
+                <div
+                  class="progress"
+                  :style="{ width: subcourse.progress + '%' }"
+                ></div>
               </div>
               <span>{{ formatPercentage(subcourse.progress) }}%</span>
-              <span>{{ subcourse.completedAssessments }}/{{ subcourse.totalAssessments }}</span>
-              <button class="toggle-button">{{ subcourse.open ? '▼' : '▶' }}</button>
+              <span
+                >{{ subcourse.completedAssessments }}/{{
+                  subcourse.totalAssessments
+                }}</span
+              >
+              <button class="toggle-button">
+                {{ subcourse.open ? "▼" : "▶" }}
+              </button>
             </div>
             <ul v-if="subcourse.open" class="assessment-list">
-              <li v-for="assessment in subcourse.assessments" :key="assessment.id">
+              <li
+                v-for="assessment in subcourse.assessments"
+                :key="assessment.id"
+              >
                 <span>{{ assessment.name }}</span>
-                <span :class="{
-                  'passed': assessment.status === 'passed',
-                  'not-passed': assessment.status === 'not passed'
-                }">
+                <span
+                  :class="{
+                    passed: assessment.status === 'passed',
+                    'not-passed': assessment.status === 'not passed',
+                  }"
+                >
                   {{ assessment.status }}
                 </span>
               </li>
@@ -49,16 +73,16 @@ export default {
   data() {
     return {
       // We store the main course (with its subcourses) here.
-      localCourses: []
+      localCourses: [],
     };
   },
   methods: {
     transformName(url) {
       // Extract the part after the last slash and replace underscores with spaces.
-      if (!url) return '';
-      const parts = url.split('/');
+      if (!url) return "";
+      const parts = url.split("/");
       const namePart = parts[parts.length - 1];
-      return namePart.replace(/_/g, ' ');
+      return namePart.replace(/_/g, " ");
     },
     formatPercentage(value) {
       // Display as an integer if there's no fractional part, otherwise one decimal place.
@@ -70,35 +94,45 @@ export default {
         const authTokenMatch = document.cookie.match(/(^| )auth_token=([^;]+)/);
         const authToken = authTokenMatch ? authTokenMatch[2] : null;
         if (!authToken) {
-          console.error('Authentication token not found.');
+          console.error("Authentication token not found.");
           return;
         }
 
         // Fetch parent data to determine the main course name.
-        const parentResponse = await fetch('http://localhost:8000/parentsOfParents', {
-          headers: { Authorization: `Bearer ${authToken}` }
-        });
+        const parentResponse = await fetch(
+          "http://localhost:8000/parentsOfParents",
+          {
+            headers: { Authorization: `Bearer ${authToken}` },
+          }
+        );
         if (!parentResponse.ok) {
-          throw new Error(`HTTP error from parentsOfParents! Status: ${parentResponse.status}`);
+          throw new Error(
+            `HTTP error from parentsOfParents! Status: ${parentResponse.status}`
+          );
         }
         const parentData = await parentResponse.json();
         // Extract one parent's URL. All values are assumed to be the same.
         const parentUrls = Object.values(parentData.parentOfParents);
-        const mainCourseUrl = parentUrls.length ? parentUrls[0] : '';
+        const mainCourseUrl = parentUrls.length ? parentUrls[0] : "";
         const mainCourseName = this.transformName(mainCourseUrl);
 
         // Fetch the course completion data.
-        const response = await fetch('http://localhost:8000/assessmentPerformance/learner', {
-          headers: { Authorization: `Bearer ${authToken}` }
-        });
+        const response = await fetch(
+          "http://localhost:8000/assessmentPerformance/learner",
+          {
+            headers: { Authorization: `Bearer ${authToken}` },
+          }
+        );
         if (!response.ok) {
-          throw new Error(`HTTP error from assessmentPerformance! Status: ${response.status}`);
+          throw new Error(
+            `HTTP error from assessmentPerformance! Status: ${response.status}`
+          );
         }
         const data = await response.json();
 
         // Expected data format: { subcourses: [ { name, progress, completedAssessments, totalAssessments, assessments: [ ... ] }, ... ] }
         if (!data || !data.subcourses) {
-          console.error('No subcourses found in fetched data', data);
+          console.error("No subcourses found in fetched data", data);
           return;
         }
 
@@ -116,51 +150,62 @@ export default {
               id: idx,
               // Use the URL transformation for assessment names.
               name: this.transformName(assess.activityId),
-              status: assess.status
-            }))
+              status: assess.status,
+            })),
           };
         });
 
         // Aggregate overall course data from subcourses.
-        const totalAssessments = subcourses.reduce((sum, sub) => sum + sub.totalAssessments, 0);
-        const completedAssessments = subcourses.reduce((sum, sub) => sum + sub.completedAssessments, 0);
-        const overallProgress = totalAssessments > 0 ? (completedAssessments / totalAssessments) * 100 : 0;
+        const totalAssessments = subcourses.reduce(
+          (sum, sub) => sum + sub.totalAssessments,
+          0
+        );
+        const completedAssessments = subcourses.reduce(
+          (sum, sub) => sum + sub.completedAssessments,
+          0
+        );
+        const overallProgress =
+          totalAssessments > 0
+            ? (completedAssessments / totalAssessments) * 100
+            : 0;
 
         // Create the main course object using the parent's name.
         const course = {
-          id: 'course1',
+          id: "course1",
           name: mainCourseName,
           progress: overallProgress,
           completedAssessments: completedAssessments,
           totalAssessments: totalAssessments,
           open: false,
-          subcourses: subcourses
+          subcourses: subcourses,
         };
 
         this.localCourses = [course];
       } catch (error) {
-        console.error('Error fetching courses:', error);
+        console.error("Error fetching courses:", error);
       }
     },
     toggleCourse(courseId) {
-      const course = this.localCourses.find(course => course.id === courseId);
+      const course = this.localCourses.find((course) => course.id === courseId);
       if (course) {
         course.open = !course.open;
       }
     },
     toggleSubcourse(courseId, subcourseId) {
-      const course = this.localCourses.find(course => course.id === courseId);
+      const course = this.localCourses.find((course) => course.id === courseId);
       if (course) {
-        const subcourse = course.subcourses.find(sub => sub.id === subcourseId);
+        const subcourse = course.subcourses.find(
+          (sub) => sub.id === subcourseId
+        );
         if (subcourse) {
           subcourse.open = !subcourse.open;
         }
       }
-    }
+    },
   },
   created() {
     this.fetchData();
-  }
+  },
 };
 </script>
 

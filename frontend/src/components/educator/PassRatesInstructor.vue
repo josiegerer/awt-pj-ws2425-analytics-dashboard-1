@@ -1,6 +1,6 @@
 <template>
   <div class="assessment-marks-container">
-    <h3>Assessment Performance Overview</h3>
+    <h3>Assessment Pass Rate</h3>
     <p>Student Pass Rate Distribution</p>
     <apexchart
       type="pie"
@@ -29,14 +29,14 @@ export default {
         labels: ["Not Passed", "Open", "Passed"],
         colors: ["#c40d1e", "#888888", "#49cb40"],
         legend: {
-          position: "bottom",
+          position: "top",
         },
         dataLabels: {
           enabled: true,
-          formatter: (val) => `${val}%`,
-        },
-        tooltip: {
-          y: { formatter: (val) => `${val}%` },
+          style: {
+            fontSize: '12px' 
+          },
+          formatter: (val) => `${Math.round(val)}%`,
         },
       },
     };
@@ -81,13 +81,17 @@ export default {
           open += user.open || 0;
         });
 
-        // Update chart data
+        // Round each value to 2 decimal places
+        passed = parseFloat(passed.toFixed(2));
+        failed = parseFloat(failed.toFixed(2));
+        open = parseFloat(open.toFixed(2));
+
         this.chartData = [failed, open, passed];
 
       } catch (error) {
         console.error("Error fetching assessment data:", error);
       }
-    },
+},
   },
   mounted() {
     this.fetchPassRateData();
