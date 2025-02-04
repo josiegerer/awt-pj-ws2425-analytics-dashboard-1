@@ -769,12 +769,21 @@ def time_spent_on_each_activity_for_learner(request):
 @verify_learner_token_annotation
 def get_passed_and_failed_tests_for_learner(request):
     email = request.email
-    statements = user_xapi_service.fetch_statements_for_user(email)
-    open_statements= get_open_activities(statements)
-    durations = get_durations_of_tests_for_user(statements)
+    statements = xapi_service.fetch_statements()
+    statements_of_user = get_statements_of_specfic_user_by_email(statements, email)
+    
+    all_subcourses = get_all_courses(statements_of_user)
+    all_activities = []
+
+    for subcourse_id in all_subcourses:
+        statements_filtered_by_subcourse = filter_statements_by_course_id(statements, subcourse_id)
+        all_activities_of_subcourse = get_all_objects_ids_used(statements_filtered_by_subcourse)
+        all_activities += all_activities_of_subcourse
+        
+    durations = get_durations_of_tests_for_user(statements_of_user)
     passed = sum(duration["result"] == "completed" for duration in durations)
     failed = sum(duration["result"] == "failed" for duration in durations)
-    open_activities = len(open_statements)
+    open_activities = len(all_activities)-passed
     responseJson = {
         "passed": passed,
         "failed": failed,
@@ -797,11 +806,12 @@ def get_passed_and_failed_tests_for_instructor(request):
         # Filter statements by instructor
         
         sorted_statements = sort_statements_by_timestamp(statements_of_learner)
-        open_statements = get_open_activities(statements_of_learner)
+        activities = get_all_objects_ids_used(statements_of_instructor)
+        print(activities)
         durations = get_durations_of_tests_for_user(sorted_statements)
         passed = sum(duration["result"] == "completed" for duration in durations)
         failed = sum(duration["result"] == "failed" for duration in durations)
-        open_activities = len(open_statements)
+        open_activities = len(activities) - passed
         
         user_results[email] = {
             "passed": passed,
