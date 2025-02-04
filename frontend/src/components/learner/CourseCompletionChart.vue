@@ -251,7 +251,7 @@ h3 {
 
 .progress {
   height: 10px;
-  background-color: #c40d1e; /* Red color for the progress bars */
+  background-color: #c40d1e; 
 }
 
 .toggle-button {
@@ -262,7 +262,6 @@ h3 {
   color: #555;
 }
 
-/* Remove borders around assessment items for a cleaner look */
 .assessment-list li {
   display: flex;
   justify-content: space-between;

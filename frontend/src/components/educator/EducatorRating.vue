@@ -1,7 +1,7 @@
 <template>
   <div class="educator-rating-container">
     <h3>Educator Rating Overview</h3>
-    <p>Average Ratings per Activity</p>
+    <p class="subheader">Average Ratings per Activity</p>
     <div v-if="loaded">
       <div v-if="ratings.length > 0" class="rating-list">
         <div v-for="(activity, index) in ratings" :key="index" class="rating-item">
@@ -98,7 +98,7 @@ h3 {
   margin-bottom: 5px;
 }
 
-p {
+p .subheader{
   text-align: left;
   font-size: 12px;
   color: grey;
@@ -122,11 +122,15 @@ p {
 
 .activity-info {
   flex: 1;
+  display: flex;
+  align-items: center;
   text-align: left;
 }
 
 .stars {
   display: flex;
+  min-width: 100px; /* Konsistente Breite */
+  justify-content: flex-start;
 }
 
 .star {
@@ -141,6 +145,10 @@ p {
 
 .rating-text {
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  min-width: 60px; /* Sorgt für gleichmäßige Platzierung */
 }
 
 .loading-message,

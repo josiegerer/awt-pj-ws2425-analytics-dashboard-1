@@ -1,16 +1,12 @@
 <template>
-  <div class="activity-revisits-container">
-    <h3>Activity Revisits</h3>
-    <div class="activity-revisits-content">
-      <ol class="activity-list">
-        <li v-for="(item, index) in visibleData" :key="item.course" class="activity-item">
-          <div class="activity-info">
-            <span>{{ index + 1 }}. {{ item.course }}</span>
-            <div class="activity-subtitle">{{ item.change }}</div>
-          </div>
-          <div class="activity-count">{{ item.count }}x</div>
-        </li>
-      </ol>
+  <div class="revisits-list">
+    <h3>Top Revisits</h3>
+    <div class="revisit-item" v-for="(item, index) in visibleData" :key="index">
+      <div class="revisit-main">
+        <span class="revisit-number">{{ index + 1 }}. </span>
+        <span class="revisit-name">{{ item.course }}</span>
+        <span class="revisit-count">{{ item.count }}x</span>
+      </div>
     </div>
     <button @click="toggleView" class="view-more-button">
       {{ showAll ? 'View Less' : 'View All' }}
@@ -23,91 +19,98 @@ export default {
   name: "ActivityRevisits",
   data() {
     return {
-      activities: [], // Store fetched data here
+      activities: [],
       showAll: false,
     };
   },
   computed: {
     visibleData() {
-      return this.showAll ? this.activities : this.activities.slice(0, 3);
+      return this.showAll ? this.activities : this.activities.slice(0, 5);
     },
   },
   methods: {
-    async fetchActivityRevisits() {
-      try {
-        const response = await fetch("http://localhost:8000/activityRevisits");
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data: ${response.status}`);
-        }
-        const data = await response.json();
-
-        console.log("Fetched Data:", data); 
-
-        // Transform API data to match expected structure
-        this.activities = data.activitiesVisits.map((activity) => ({
-          course: this.extractCourseName(activity.activityId), // Extract name from URL
-          count: activity.visits,
-          change: "+X in the last 30 days" // Placeholder for real change calculation
-        }));
-      } catch (error) {
-        console.error("Error fetching activity revisits:", error);
-      }
+    getCookie(name) {
+      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return match ? match[2] : null;
     },
+
+    async fetchActivityRevisits() {
+        const token = this.getCookie("auth_token");
+
+        if (!token) {
+          console.error("No authentication token found.");
+          return;
+        }
+
+        try {
+          const response = await fetch("http://localhost:8000/activityRatings/instructor", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          console.log("Fetched educator rating data:", data); // Debugging line
+
+          // Ensure data.activitiesVisits exists before mapping
+          this.activities = data.activitiesVisits?.map((activity) => ({
+            course: this.extractCourseName(activity.activityId),
+            count: activity.visits,
+          })) || []; // Fallback to empty array if undefined
+        } catch (error) {
+          console.error("Error fetching activity revisits:", error);
+        }
+      },
+
     extractCourseName(activityId) {
-      // Extracts readable course name from activityId URL
-      return decodeURIComponent(activityId.split("/").pop(                                          ).replace(/_/g, " "));
+      return decodeURIComponent(activityId.split("/").pop().replace(/_/g, " "));
     },
     toggleView() {
       this.showAll = !this.showAll;
     },
   },
   mounted() {
-    this.fetchActivityRevisits(); // Fetch data when the component loads
-  }
+    this.fetchActivityRevisits();
+  },
 };
 </script>
 
 <style scoped>
-h3 {
-  text-align: left;
-  font-size: 15px;
-  color: black;
+.revisits-list {
+  padding: 10px 0;
+  width: 100%;
 }
 
-.activity-revisits-content {
-  margin-top: 20px;
-}
-
-.activity-item {
+.revisit-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  padding: 8px 0;
 }
 
-.activity-info {
+.revisit-main {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex-grow: 1;
 }
 
-.activity-list {
-  list-style-type: decimal;
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-  font-weight: 600;
-  color: black;
+.revisit-number {
+  font-weight: 500;
 }
 
-.activity-subtitle {
-  font-size: 12px;
-  color: green;
-  font-family: Roboto, ui-sans-serif, system-ui, sans-serif;
+.revisit-name {
+  font-weight: 500;
+  flex-grow: 1;
+  text-align: left;
 }
 
-.activity-count {
-  font-size: 20px;
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-  font-weight: 600;
-  color: black;
+.revisit-count {
+  color: #666;
+  text-align: right;
+  min-width: 40px;
 }
 
 .view-more-button {

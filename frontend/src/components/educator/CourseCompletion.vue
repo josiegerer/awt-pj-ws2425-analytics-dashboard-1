@@ -161,56 +161,50 @@ h3 {
 
 .course-list,
 .subcourse-list,
-.details-list {
+.assessment-list {
   list-style-type: none;
   padding-left: 0;
 }
 
-.course-header, .subcourse-header {
+.course-header,
+.subcourse-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
   padding: 10px;
+  margin-bottom: 5px;
   background-color: #f9f9f9;
   border-radius: 4px;
-  font-size: 14px; /* Einheitliche Schriftgröße */
-}
-
-.course-header span,
-.subcourse-header span {
-  flex: 1; /* Alle Elemente gleichmäßig ausrichten */
-  text-align: left;
-  white-space: nowrap;
 }
 
 .progress-bar {
-  flex: 3; /* Balken nimmt mehr Platz ein */
+  width: 50%;
   background-color: #f5f5f5;
   border-radius: 4px;
   overflow: hidden;
-  height: 12px; /* Einheitliche Höhe für alle */
   margin: 0 10px;
 }
 
 .progress {
-  height: 100%;
-  background-color: #c40d1e;
+  height: 10px;
+  background-color: #c40d1e; 
 }
 
-.progress-text {
-  flex: 0.5;
-  text-align: right;
-  font-weight: bold;
-}
-
-.course-header .toggle-button {
-  flex: 0.3;
-  text-align: center;
+.toggle-button {
   background: none;
   border: none;
   cursor: pointer;
   font-size: 16px;
   color: #555;
+}
+
+.assessment-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  background-color: #fff;
 }
 
 .passed {
