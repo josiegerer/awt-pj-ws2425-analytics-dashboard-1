@@ -233,6 +233,7 @@ def get_all_activities_summary(request):
             for email in all_user_emails:
                 statements_filtered_by_user = get_statements_of_specfic_user_by_email(statements_filtered_by_object_id, email)
                 durations = get_durations_of_tests_for_user(statements_filtered_by_user)
+                durations += get_duration_of_activities(statements_filtered_by_user)
                 total_time += sum(duration['duration'].total_seconds() / 60 for duration in durations)
                 user_count += 1
             average_time = total_time / user_count if user_count > 0 else 0
@@ -276,6 +277,7 @@ def get_all_activities_summary_for_instructor(request):
             for email in all_user_emails:
                 statements_filtered_by_user = get_statements_of_specfic_user_by_email(statements_filtered_by_object_id, email)
                 durations = get_durations_of_tests_for_user(statements_filtered_by_user)
+                durations += get_duration_of_activities(statements_filtered_by_user)
                 total_time += sum(duration['duration'].total_seconds() / 60 for duration in durations)
                 user_count += 1
             average_time = total_time / user_count if user_count > 0 else 0
@@ -357,7 +359,10 @@ def get_average_timespent_for_all_activities(request):
         for email in all_user_emails:
             statements_filtered_by_user = get_statements_of_specfic_user_by_email(statements_filtered_by_object_id, email)
             durations = get_durations_of_tests_for_user(statements_filtered_by_user)
-            total_time += sum(durations["duration"])
+           
+            durations += get_duration_of_activities(statements_filtered_by_user)
+        
+            total_time += sum(duration["duration"] for duration in durations)
             user_count += 1
         
         average_time = total_time / user_count if user_count > 0 else 0

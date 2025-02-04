@@ -174,34 +174,31 @@ def get_durations_of_tests_for_user(statements):
 
 def get_duration_of_activities(statements):
     """
-    Extracts the durations of tests for a user from xAPI statements.
+    Extracts the total durations of activities from xAPI statements.
     
     :param statements: List of xAPI statements.
-    :return: List of durations of the tests for the user.
+    :return: Dictionary with activity IDs as keys and total durations as values.
     """
-    durations = []
-    test_start = None
-    sorted_statements=sort_statements_by_timestamp(statements)
+    durations = {}
+    test_start_times = {}
+    sorted_statements = sort_statements_by_timestamp(statements)
     
     for statement in sorted_statements:
         verb_id = get_id(statement, "verb")
         activity_id = get_id(statement, "object")
         if verb_id == construct_verb_id("initialized"):
-            test_start = statement.get("timestamp")
-        elif verb_id in [construct_verb_id("exited")]:
-            if test_start:
+            test_start_times[activity_id] = statement.get("timestamp")
+        elif verb_id == construct_verb_id("exited"):
+            if activity_id in test_start_times:
+                test_start = test_start_times.pop(activity_id)
                 test_end = statement.get("timestamp")
                 duration = test_end - test_start
-                durations.append({
-                    "activityId": activity_id,
-                    "duration": duration,
-                    "test_start": test_start,
-                    "test_end": test_end,
-                })
-                test_start = None  # Reset for the next test
+                if activity_id in durations:
+                    durations[activity_id] += duration
+                else:
+                    durations[activity_id] = duration
 
-    return durations
-    
+    return [{"activityId": activity_id, "duration": duration} for activity_id, duration in durations.items()]
 def get_all_user_names(statements):
  unique_users = set()
  for statement in statements:
