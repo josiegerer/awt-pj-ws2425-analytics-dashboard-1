@@ -9,9 +9,10 @@
 </template>
 
 <script>
+import 'chartjs-adapter-date-fns'; // Required for time-based charts
 import { Line } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, TimeScale } from 'chart.js';
-import 'chartjs-adapter-date-fns'; // Required for time-based charts
+
 
 // Register Chart.js components
 ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, TimeScale);

@@ -12,6 +12,7 @@
     "@vue/compiler-sfc": "^3.5.13",
     "apexcharts": "^4.3.0",
     "chart.js": "^4.4.7",
+    "chartjs-adapter-date-fns": "^3.0.0",
     "core-js": "^3.8.3",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
