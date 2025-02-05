@@ -61,7 +61,6 @@ export default {
     PassRatesInstructor,
     AssessmentMarks,
     ActivityRevisits,
-    //ActiveUsers_Educator,
     CourseCompletion,
     EducatorRating
   },

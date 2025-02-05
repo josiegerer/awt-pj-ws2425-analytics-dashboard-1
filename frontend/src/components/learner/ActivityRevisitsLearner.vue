@@ -3,9 +3,9 @@
     <h3>Activity Revisits</h3>
     <div class="activity-revisits-content">
       <ol class="activity-list">
-        <li v-for="(item, index) in visibleData" :key="item.activityId" class="activity-item">
+        <li v-for="(item) in visibleData" :key="item.activityId" class="activity-item">
           <div class="activity-info">
-            <span>{{ index + 1 }}. {{ item.course }}</span>
+            <span>{{ item.course }}</span>
           </div>
           <div class="activity-count">{{ item.count }}x</div>
         </li>
