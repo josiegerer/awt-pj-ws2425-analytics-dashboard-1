@@ -55,13 +55,6 @@ export default {
             return "Your performance is currently low, but every challenge is a learning opportunity! Focus on reviewing core concepts, practicing regularly, and seeking clarification where needed.";
           }
         }
-          if (assessmentPerformance < LOW_PERFORMANCE_THRESHOLD && attemptsUntilPassed > HIGH_ATTEMPTS_PASSED) {
-          return "You're making multiple attempts on assessments, but your scores are low. Focus on understanding the concepts rather than memorizing answers.";
-          } else if (assessmentPerformance < LOW_PERFORMANCE_THRESHOLD && timeSpentOnActivities < MIN_TIME_SPENT) {
-          return "You're spending little time on activities and scoring low on assessments. This might mean you're struggling with the material. Take time to review and reflect on what you've learned.";
-          } else if (timeSpentOnActivities > DOUBLE_TIME_SPENT && activityRevisits > 5 && assessmentPerformance < LOW_PERFORMANCE_THRESHOLD) {
-          return "You're spending a lot of time and revisiting content frequently, but your assessment performance is low. This might mean you're struggling with the material despite your effort. Try breaking down the material into smaller parts.";
-          } 
 
           // Moderate Performance
           else if (assessmentPerformance >= LOW_PERFORMANCE_THRESHOLD && assessmentPerformance < HIGH_PERFORMANCE_THRESHOLD) {
