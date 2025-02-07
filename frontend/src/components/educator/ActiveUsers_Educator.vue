@@ -28,20 +28,28 @@ export default {
     }
   },
   methods: {
+    getCookie(name) {
+      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return match ? match[2] : null;
+    },
     async fetchActiveUsers() {
-      try {
-        // Fetch Active Users for last day
-        const response1 = await fetch("http://localhost:8000/activeUserSubcours/30/instructor", {
-          headers: { Authorization: `Bearer ${this.instructorToken}` }
-        });
-
-        if (!response1.ok) {
-          throw new Error("Failed to fetch activeUser (30 days)");
+      const auth_Token = this.getCookie("auth_token");
+        if (!auth_Token) {
+          console.error("No authentication token found.");
+          return;
         }
-
-        const data1 = await response1.json();
-        if (data1.activeUser !== undefined) {
-          this.activeUsers = data1.activeUser;
+      try {
+        const response = await fetch("http://localhost:8000/activeUserSubcours/30/instructor", {
+          headers: { Authorization: `Bearer ${auth_Token}` },
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Fetched educator rating data:", data); // Debugging line
+     
+        if (data.activeUser !== undefined) {
+          this.activeUsers = data.activeUser;
         }
 
         // Fetch Active Users for last 30 days

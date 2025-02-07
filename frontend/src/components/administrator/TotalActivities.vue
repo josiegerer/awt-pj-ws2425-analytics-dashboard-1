@@ -14,24 +14,38 @@ data() {
   };
 },
 methods: {
+  getCookie(name) {
+      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return match ? match[2] : null;
+    },
   async fetchTotalActivities() {
     try {
-      const response = await fetch("http://localhost:8000/totalActivities", {
-        headers: { Authorization: `Bearer ${this.adminToken}` }
-      });
+        const auth_Token = this.getCookie("auth_token");
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch totalActivities");
-      }
+        if (!auth_Token) {
+          console.error("No authentication token found.");
+          return;
+        }
 
-      const data = await response.json();
-      
-      if (data.activities && Array.isArray(data.activities)) {
+        const response = await fetch("http://localhost:8000/totalActivities", {
+          headers: {
+            Authorization: `Bearer ${auth_Token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("API Response:", data);
+        
+        if (data.activities && Array.isArray(data.activities)) {
         this.totalActivities = data.activities.length; // Count total activities
       }
-    } catch (error) {
-      console.error("Error fetching totalActivities:", error);
-    }
+      } catch (error) {
+        console.error("Error fetching totalCourses:", error);
+      }
   }
 },
 created() {

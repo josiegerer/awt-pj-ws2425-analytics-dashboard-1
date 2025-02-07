@@ -20,17 +20,21 @@ export default {
     };
   },
   methods: {
+    getCookie(name) {
+      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return match ? match[2] : null;
+    },
     async fetchKeywords() {
-      try {
-        const authToken = document.cookie.match(/(^| )auth_token=([^;]+)/)?.[2];
-        if (!authToken) {
-          console.error("Authentication token not found.");
+      const auth_Token = this.getCookie("auth_token");
+
+        if (!auth_Token) {
+          console.error("No authentication token found.");
           return;
         }
-
+      try {
         const response = await fetch("http://localhost:8000/searchCount", {
           headers: {
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${auth_Token}`,
           },
         });
 

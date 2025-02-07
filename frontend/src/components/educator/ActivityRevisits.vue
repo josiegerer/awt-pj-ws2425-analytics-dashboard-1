@@ -34,14 +34,14 @@ export default {
       return match ? match[2] : null;
     },
     async fetchActivityRevisits() {
-      const token = this.getCookie("auth_token");
-      if (!token) {
+      const auth_Token = this.getCookie("auth_token");
+      if (!auth_Token) {
         console.error("No authentication token found.");
         return;
       }
       try {
         const response = await fetch("http://localhost:8000/activityRatings/instructor", {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${auth_Token}` },
         });
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

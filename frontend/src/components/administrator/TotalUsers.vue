@@ -14,23 +14,37 @@ export default {
     };
   },
   methods: {
+    getCookie(name) {
+      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return match ? match[2] : null;
+    },
     async fetchTotalUsers() {
       try {
+        const auth_Token = this.getCookie("auth_token");
+
+        if (!auth_Token) {
+          console.error("No authentication token found.");
+          return;
+        }
+
         const response = await fetch("http://localhost:8000/totalUsers", {
-          headers: { Authorization: `Bearer ${this.adminToken}` }
+          headers: {
+            Authorization: `Bearer ${auth_Token}`,
+          },
         });
 
         if (!response.ok) {
-          throw new Error("Failed to fetch totalUsers");
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const data = await response.json();
+        console.log("API Response:", data);
         
         if (data.totalUsers !== undefined) {
           this.totalUsers = data.totalUsers; 
         }
       } catch (error) {
-        console.error("Error fetching totalUsers:", error);
+        console.error("Error fetching totalCourses:", error);
       }
     }
   },

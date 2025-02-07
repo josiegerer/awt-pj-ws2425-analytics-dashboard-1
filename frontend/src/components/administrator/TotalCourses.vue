@@ -14,17 +14,31 @@ export default {
     };
   },
   methods: {
+    getCookie(name) {
+      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return match ? match[2] : null;
+    },
     async fetchTotalCourses() {
       try {
+        const auth_Token = this.getCookie("auth_token");
+
+        if (!auth_Token) {
+          console.error("No authentication token found.");
+          return;
+        }
+
         const response = await fetch("http://localhost:8000/totalCourses", {
-          headers: { Authorization: `Bearer ${this.adminToken}` }
+          headers: {
+            Authorization: `Bearer ${auth_Token}`,
+          },
         });
 
         if (!response.ok) {
-          throw new Error("Failed to fetch totalCourses");
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const data = await response.json();
+        console.log("API Response:", data);
         
         if (data.totalCourses && Array.isArray(data.totalCourses)) {
           this.totalCourses = data.totalCourses.length; // Count total courses
