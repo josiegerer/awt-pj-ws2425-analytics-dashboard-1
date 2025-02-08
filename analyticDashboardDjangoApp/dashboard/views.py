@@ -1028,7 +1028,7 @@ def active_hours_in_the_current_week_for_learner(request):
     
     active_hours = [{"day": (start_of_week + timedelta(days=i)).strftime('%A'), "hours": [{"hour": h, "timeSpent": 0} for h in range(24)]} for i in range(7)]
     
-    durations = get_duration_of_activities(statements_filtered_by_week)
+    durations = get_start_end_times_of_activities(statements_filtered_by_week)
     for duration_info in durations:
         test_start = duration_info['test_start']
         test_end = duration_info['test_end']
