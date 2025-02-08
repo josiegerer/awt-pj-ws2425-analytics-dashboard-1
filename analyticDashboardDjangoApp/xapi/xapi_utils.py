@@ -186,24 +186,57 @@ def get_duration_of_activities(statements):
     for statement in sorted_statements:
         verb_id = get_id(statement, "verb")
         activity_id = get_id(statement, "object")
+        timestamp = statement.get("timestamp")
+        
         if verb_id == construct_verb_id("initialized"):
-            test_start_times[activity_id] = statement.get("timestamp")
-        elif verb_id == construct_verb_id("exited"):
-            if activity_id in test_start_times:
-                test_start = test_start_times.pop(activity_id)
-                test_end = statement.get("timestamp")
-                duration = test_end - test_start
-                if activity_id in durations:
-                    durations[activity_id]["duration"] += duration
-                    durations[activity_id]["end"] = test_end
-                else:
-                    durations[activity_id] = {
-                        "duration": duration,
-                        "start": test_start,
-                        "end": test_end
-                    }
+            test_start_times[activity_id] = timestamp
+        elif verb_id == construct_verb_id("exited") and activity_id in test_start_times:
+            test_start = test_start_times.pop(activity_id)
+            duration = timestamp - test_start
+            
+            if activity_id in durations:
+                durations[activity_id]["duration"] += duration
+                durations[activity_id]["end"] = timestamp
+            else:
+                durations[activity_id] = {
+                    "duration": duration,
+                    "start": test_start,
+                    "end": timestamp
+                }
 
     return [{"activityId": activity_id, "duration": data["duration"], "test_start": data["start"], "test_end": data["end"]} for activity_id, data in durations.items()]
+
+def get_start_end_times_of_activities(statements):
+    """
+    Extracts the start and end times of each initialized and exited activity from xAPI statements.
+    
+    :param statements: List of xAPI statements.
+    :return: List of dictionaries with activity IDs, start times, end times, and durations.
+    """
+    activity_times = []
+    current_activities = {}
+    sorted_statements = sort_statements_by_timestamp(statements)
+    
+    for statement in sorted_statements:
+        verb_id = get_id(statement, "verb")
+        activity_id = get_id(statement, "object")
+        timestamp = statement.get("timestamp")
+        
+        if verb_id == construct_verb_id("initialized"):
+            current_activities[activity_id] = {"start": timestamp, "end": None}
+        elif verb_id == construct_verb_id("exited"):
+            if activity_id in current_activities:
+                current_activities[activity_id]["end"] = timestamp
+                duration = current_activities[activity_id]["end"] - current_activities[activity_id]["start"]
+                activity_times.append({
+                    "activityId": activity_id,
+                    "test_start": current_activities[activity_id]["start"],
+                    "test_end": current_activities[activity_id]["end"],
+                    "duration": duration
+                })
+                del current_activities[activity_id]
+    
+    return activity_times
 def get_all_user_names(statements):
  unique_users = set()
  for statement in statements:

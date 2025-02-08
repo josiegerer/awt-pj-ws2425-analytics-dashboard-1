@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from authentification.views import verify_admin_token_annotation, verify_instructor_token_annotation, verify_learner_token_annotation
 from dashboard.xapi_services import UserXAPIService, XAPIService
 from xapi.lrs_utils import  fetch_xapi_statements_from_db_for_user, fetch_xapi_statements_from_db, fetch_xapi_statements_from_db
-from xapi.xapi_utils import construct_activity_id, construct_verb_id, filter_statements_by_instructor_email, filter_statements_by_object_id, filter_statements_by_course_id, get_all_actors_emails_used, get_all_courses, get_all_objects_ids_used, get_all_objects_names_used, get_all_user_names, get_all_verbs_ids_used, get_all_verbs_name_used, get_duration_of_activities, get_durations_of_tests_for_user, get_id, get_name_of_verb_by_id, get_object_name, get_object_name_by_id, get_open_activities, get_score, get_statements_in_last_days, filter_statements_by_verb_id, get_statements_of_specfic_user_by_email, get_statements_with_specific_hour, sort_statements_by_timestamp
+from xapi.xapi_utils import construct_activity_id, construct_verb_id, filter_statements_by_instructor_email, filter_statements_by_object_id, filter_statements_by_course_id, get_all_actors_emails_used, get_all_courses, get_all_objects_ids_used, get_all_objects_names_used, get_all_user_names, get_all_verbs_ids_used, get_all_verbs_name_used, get_duration_of_activities, get_durations_of_tests_for_user, get_id, get_name_of_verb_by_id, get_object_name, get_object_name_by_id, get_open_activities, get_score, get_start_end_times_of_activities, get_statements_in_last_days, filter_statements_by_verb_id, get_statements_of_specfic_user_by_email, get_statements_with_specific_hour, sort_statements_by_timestamp
 from datetime import datetime, timedelta
 
 xapi_service = XAPIService(cache_duration=300) 
@@ -1160,29 +1160,24 @@ def get_parent_of_all_parents(request):
 def get_initialization_streak_for_learner(request):
     email = request.email
     statements = user_xapi_service.fetch_statements_for_user(email)
-    statements_filtered_by_verb = filter_statements_by_verb_id(statements, construct_verb_id("initialized"))
+    statements_filtered_by_verb1 = filter_statements_by_verb_id(statements, construct_verb_id("initialized"))
+    today = datetime.now().date()
+    statements_filtered_by_verb = [statement for statement in statements_filtered_by_verb1 if statement['timestamp'].date() < today]
     sorted_statements = sort_statements_by_timestamp(statements_filtered_by_verb)
-
-    if not sorted_statements:
-        return JsonResponse({"streak": 0, "lastDate": None}, safe=False)
-
-    streak = 1
-    last_streak = 1
-    last_date = sorted_statements[0]['timestamp'].date()
     
-    for i in range(1, len(sorted_statements)):
-        current_date = sorted_statements[i]['timestamp'].date()
-        
-        if (current_date - last_date).days == 1:
+    streak = 0
+    last_date = None
+    
+    for statement in sorted_statements:
+        current_date = statement['timestamp'].date()
+        if last_date is None or current_date == last_date + timedelta(days=1):
             streak += 1
-        elif current_date != last_date:
-            last_streak = streak
-            streak = 1  # Neustart der Streak
-
+        else:
+            streak = 1
         last_date = current_date
-
-    return JsonResponse({"lastStreak": last_streak, "lastDate": last_date.strftime("%Y-%m-%d")}, safe=False)
-
+    
+    responseJson = {"initializationStreak": streak, "lastDate": last_date}
+    return JsonResponse(responseJson, safe=False)
 @verify_learner_token_annotation
 def get_time_spent_daily_for_last_week(request):
     email = request.email
@@ -1196,8 +1191,8 @@ def get_time_spent_daily_for_last_week(request):
         statement for statement in statements
         if start_date <= statement['timestamp'].date() <= current_date
     ]
-    
-    durations = get_duration_of_activities(statements_filtered_by_week)
+       
+    durations = get_start_end_times_of_activities(statements_filtered_by_week)
     for duration_info in durations:
         test_start = duration_info['test_start']
         test_end = duration_info['test_end']
