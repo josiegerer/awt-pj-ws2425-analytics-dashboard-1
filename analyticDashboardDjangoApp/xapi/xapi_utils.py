@@ -177,7 +177,7 @@ def get_duration_of_activities(statements):
     Extracts the total durations of activities from xAPI statements.
     
     :param statements: List of xAPI statements.
-    :return: Dictionary with activity IDs as keys and total durations as values.
+    :return: List of dictionaries with activity IDs, total durations, start times, and end times.
     """
     durations = {}
     test_start_times = {}
@@ -194,11 +194,16 @@ def get_duration_of_activities(statements):
                 test_end = statement.get("timestamp")
                 duration = test_end - test_start
                 if activity_id in durations:
-                    durations[activity_id] += duration
+                    durations[activity_id]["duration"] += duration
+                    durations[activity_id]["end"] = test_end
                 else:
-                    durations[activity_id] = duration
+                    durations[activity_id] = {
+                        "duration": duration,
+                        "start": test_start,
+                        "end": test_end
+                    }
 
-    return [{"activityId": activity_id, "duration": duration} for activity_id, duration in durations.items()]
+    return [{"activityId": activity_id, "duration": data["duration"], "test_start": data["start"], "test_end": data["end"]} for activity_id, data in durations.items()]
 def get_all_user_names(statements):
  unique_users = set()
  for statement in statements:
