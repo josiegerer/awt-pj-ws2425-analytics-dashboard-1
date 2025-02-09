@@ -748,7 +748,13 @@ def is_activity_scored_for_learner(request):
     email = request.email
     statements = xapi_service.fetch_statements()
     statements_of_learner = get_statements_of_specfic_user_by_email(statements, email)
-    all_activities = get_all_objects_ids_used(statements)
+    all_subcourses = get_all_courses(statements_of_learner)
+    all_activities = []
+
+    for subcourse_id in all_subcourses:
+        statements_filtered_by_subcourse = filter_statements_by_course_id(statements, subcourse_id)
+        all_activities += get_all_objects_ids_used(statements_filtered_by_subcourse)
+        
     activities_scored = {}
 
     for activity_id in all_activities:
