@@ -746,12 +746,13 @@ def is_activity_completed_for_learner(request):
 @verify_learner_token_annotation
 def is_activity_scored_for_learner(request):
     email = request.email
-    statements = user_xapi_service.fetch_statements_for_user(email)
+    statements = xapi_service.fetch_statements()
+    statements_of_learner = get_statements_of_specfic_user_by_email(statements, email)
     all_activities = get_all_objects_ids_used(statements)
     activities_scored = {}
 
     for activity_id in all_activities:
-        statements_filtered_by_object = filter_statements_by_object_id(statements, activity_id)
+        statements_filtered_by_object = filter_statements_by_object_id(statements_of_learner, activity_id)
         statements_filtered_by_verb = filter_statements_by_verb_id(statements_filtered_by_object, construct_verb_id("scored"))
         activities_scored[activity_id] = len(statements_filtered_by_verb) > 0
 
