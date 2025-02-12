@@ -10,10 +10,9 @@
 export default {
   data() {
     return {
-      activeUsers: 0,  // Default before API call (last day)
-      previousActiveUsers: 0,  // Last 30 days
-      userChange: 0, 
-      adminToken: localStorage.getItem("adminToken") 
+      activeUsers: 0,
+      previousActiveUsers: 0,
+      userChange: 0
     };
   },
   computed: {
@@ -28,11 +27,20 @@ export default {
     }
   },
   methods: {
+    getCookie(name) {
+      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return match ? match[2] : null;
+    },
     async fetchActiveUsers() {
+      const token = this.getCookie("auth_token");
+      if (!token) {
+        console.error("No authentication token found.");
+        return;
+      }
+
       try {
-        // Fetch Active Users for last day
         const response1 = await fetch("http://localhost:8000/activeUser/1", {
-          headers: { Authorization: `Bearer ${this.adminToken}` }
+          headers: { Authorization: `Bearer ${token}` }
         });
 
         if (!response1.ok) {
@@ -44,9 +52,8 @@ export default {
           this.activeUsers = data1.activeUser;
         }
 
-        // Fetch Active Users for last 30 days
         const response30 = await fetch("http://localhost:8000/activeUser/30", {
-          headers: { Authorization: `Bearer ${this.adminToken}` }
+          headers: { Authorization: `Bearer ${token}` }
         });
 
         if (!response30.ok) {
@@ -58,7 +65,6 @@ export default {
           this.previousActiveUsers = data30.activeUser;
         }
 
-        // Calculate change in active users
         this.userChange = this.activeUsers - this.previousActiveUsers;
 
       } catch (error) {
@@ -67,7 +73,7 @@ export default {
     }
   },
   created() {
-    this.fetchActiveUsers(); // Fetch API data when component is created
+    this.fetchActiveUsers();
   }
 };
 </script>

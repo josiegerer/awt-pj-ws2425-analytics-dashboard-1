@@ -9,8 +9,7 @@
 export default {
   data() {
     return {
-      totalCourses: 0,  // Default before API call
-      adminToken: localStorage.getItem("adminToken") // Load token from local storage
+      totalCourses: 0  // Default before API call
     };
   },
   methods: {
@@ -19,29 +18,24 @@ export default {
       return match ? match[2] : null;
     },
     async fetchTotalCourses() {
+      const token = this.getCookie("auth_token");
+      if (!token) {
+        console.error("No authentication token found.");
+        return;
+      }
+
       try {
-        const auth_Token = this.getCookie("auth_token");
-
-        if (!auth_Token) {
-          console.error("No authentication token found.");
-          return;
-        }
-
         const response = await fetch("http://localhost:8000/totalCourses", {
-          headers: {
-            Authorization: `Bearer ${auth_Token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` }
         });
 
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          throw new Error("Failed to fetch totalCourses");
         }
 
         const data = await response.json();
-        console.log("API Response:", data);
-        
         if (data.totalCourses && Array.isArray(data.totalCourses)) {
-          this.totalCourses = data.totalCourses.length; // Count total courses
+          this.totalCourses = data.totalCourses.length;
         }
       } catch (error) {
         console.error("Error fetching totalCourses:", error);

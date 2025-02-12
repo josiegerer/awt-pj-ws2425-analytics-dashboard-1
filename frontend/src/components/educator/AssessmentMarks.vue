@@ -69,17 +69,41 @@ export default {
     };
   },
   methods: {
+    getCookie(name) {
+      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return match ? match[2] : null;
+    },
     async fetchAssessmentMarks() {
       try {
+        const authToken = this.getCookie("auth_token");
+        if (!authToken) {
+          console.error("No authentication token found.");
+          return;
+        }
+
         // Fetch assessment performance data
-        const response = await fetch("http://localhost:8000/assesmentPerformance/instructor");
+        const response = await fetch("http://localhost:8000/assesmentPerformance/instructor", {
+          headers: { Authorization: `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const data = await response.json();
         const activities = data.activitiesSummary;
 
         // Fetch activity names
-        const nameResponse = await fetch("http://localhost:8000/getNameForActivityId");
+        const nameResponse = await fetch("http://localhost:8000/getNameForActivityId", {
+          headers: { Authorization: `Bearer ${authToken}` }
+        });
+
+        if (!nameResponse.ok) {
+          throw new Error(`HTTP error! Status: ${nameResponse.status}`);
+        }
+
         const nameData = await nameResponse.json();
-        const nameMap = this.createNameMap(nameData.objects);
+        const nameMap = this.createNameMap(nameData.objects || []);
 
         // Map activity names to their IDs
         const categories = activities.map((activity) => nameMap[activity.activityId] || activity.activityId);

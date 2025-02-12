@@ -37,7 +37,6 @@ export default {
   components: { Line },
   data() {
     return {
-      adminToken: localStorage.getItem("adminToken"), // Load token from local storage
       activeUsersData: [], // Array to store daily active users
       selectedDays: 30 // Default to last 30 days
     };
@@ -103,7 +102,17 @@ export default {
     }
   },
   methods: {
+    getCookie(name) {
+      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return match ? match[2] : null;
+    },
     async fetchActiveUsersData() {
+      const token = this.getCookie("auth_token");
+      if (!token) {
+        console.error("No authentication token found.");
+        return;
+      }
+
       const today = new Date();
       let promises = [];
 
@@ -115,9 +124,14 @@ export default {
 
         promises.push(
           fetch(`http://localhost:8000/activeUser/${i + 1}`, {
-            headers: { Authorization: `Bearer ${this.adminToken}` }
+            //headers: { Authorization: `Bearer ${token}` }
           })
-            .then(response => response.json())
+            .then(response => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+              return response.json();
+            })
             .then(data => ({
               date: formattedDate,
               users: data.activeUser || 0

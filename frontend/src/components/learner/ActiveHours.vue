@@ -25,19 +25,9 @@ export default {
         chart: {
           height: 350,
           type: "heatmap",
-          toolbar: {
-            show: false
-          }
+          toolbar: { show: false }
         },
-        dataLabels: {
-          enabled: true,
-          formatter: function(val) {
-            return val === 0 ? '' : val + 'm';
-          },
-          style: {
-            fontSize: '12px'
-          }
-        },
+        dataLabels: { enabled: false }, // Hide numbers in heatmap cells
         plotOptions: {
           heatmap: {
             radius: 3,
@@ -56,25 +46,14 @@ export default {
         xaxis: {
           categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
           position: "top",
-          labels: {
-            style: {
-              colors: "#000",
-              fontSize: "12px",
-            },
-          },
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          }
+          labels: { style: { colors: "#000", fontSize: "12px" } },
+          axisBorder: { show: false },
+          axisTicks: { show: false }
         },
         yaxis: {
           labels: {
-            style: {
-              colors: "#000",
-              fontSize: "12px",
-            },
+            style: { colors: "#000", fontSize: "13px" }, // Slightly bigger font
+            offsetX: -10, // Moves labels left to prevent cutoff
           },
           reversed: true
         },
@@ -82,10 +61,11 @@ export default {
           y: {
             formatter: function(val) {
               if (val === 0) return "No Activity";
-              if (val < 60) return val + " minutes";
-              const hours = Math.floor(val / 60);
-              const minutes = val % 60;
-              return `${hours}h ${minutes}m`;
+              const roundedMinutes = Math.round(val);
+              if (roundedMinutes < 60) return roundedMinutes + " minutes";
+              const hours = Math.floor(roundedMinutes / 60);
+              const minutes = roundedMinutes % 60;
+              return `${hours}h ${minutes}`;
             },
           },
         },
@@ -93,25 +73,13 @@ export default {
           show: true,
           position: "bottom",
           horizontalAlign: "center",
-          labels: {
-            colors: "#000",
-          },
-          markers: {
-            radius: 3,
-            size: 8,
-          },
+          labels: { colors: "#000" },
+          markers: { radius: 3, size: 8 }
         },
         grid: {
-          padding: {
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0
-          }
+          padding: { top: 0, right: 0, bottom: 0, left: 20 } // Increased left padding
         },
-        stroke: {
-          width: 1
-        }
+        stroke: { width: 1 }
       },
     };
   },
@@ -140,19 +108,16 @@ export default {
 
         const data = await response.json();
         
-        // Create time slots
         const timeSlots = [
           "00:00-04:00", "04:00-08:00", "08:00-12:00",
           "12:00-16:00", "16:00-20:00", "20:00-24:00"
         ];
 
-        // Initialize series data
         this.chartData = timeSlots.map(slot => ({
           name: slot,
           data: Array(7).fill(0)
         }));
 
-        // Process data for each day and hour
         data.activeHours.forEach((day, dayIndex) => {
           day.hours.forEach(hourData => {
             const timeSlotIndex = Math.floor(hourData.hour / 4);

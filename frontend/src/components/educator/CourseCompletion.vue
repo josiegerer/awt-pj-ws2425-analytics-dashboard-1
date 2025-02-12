@@ -57,13 +57,16 @@ export default {
     await this.fetchData();
   },
   methods: {
+    getCookie(name) {
+      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return match ? match[2] : null;
+    },
     formatPercentage(value) {
       return value % 1 === 0 ? value.toFixed(0) : value.toFixed(1);
     },
     async fetchData() {
       try {
-        const authTokenMatch = document.cookie.match(/(^| )auth_token=([^;]+)/);
-        const authToken = authTokenMatch ? authTokenMatch[2] : null;
+        const authToken = this.getCookie("auth_token");
         if (!authToken) {
           console.error('Authentication token not found.');
           return;

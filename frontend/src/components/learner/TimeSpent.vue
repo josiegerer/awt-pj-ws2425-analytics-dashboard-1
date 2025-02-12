@@ -194,4 +194,7 @@ h3 {
   font-size: 15px;
   color: black;
 }
+p {
+  text-align: left; /* Align title to the left */
+}
 </style>

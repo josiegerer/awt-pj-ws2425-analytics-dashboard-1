@@ -9,8 +9,7 @@
 export default {
 data() {
   return {
-    totalActivities: 0,  // Default before API call
-    adminToken: localStorage.getItem("adminToken") // Load token from local storage
+    totalActivities: 0  // Default before API call
   };
 },
 methods: {

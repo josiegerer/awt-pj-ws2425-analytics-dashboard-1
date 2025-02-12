@@ -25,16 +25,15 @@ export default {
       return match ? match[2] : null;
     },
     async fetchKeywords() {
-      const auth_Token = this.getCookie("auth_token");
-
-        if (!auth_Token) {
-          console.error("No authentication token found.");
-          return;
-        }
+      const token = this.getCookie("auth_token");
+      if (!token) {
+        console.error("No authentication token found.");
+        return;
+      }
       try {
         const response = await fetch("http://localhost:8000/searchCount", {
           headers: {
-            Authorization: `Bearer ${auth_Token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 
