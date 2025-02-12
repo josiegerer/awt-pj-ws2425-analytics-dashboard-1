@@ -124,7 +124,7 @@ export default {
 
         promises.push(
           fetch(`http://localhost:8000/activeUser/${i + 1}`, {
-            //headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${token}` }
           })
             .then(response => {
               if (!response.ok) {
