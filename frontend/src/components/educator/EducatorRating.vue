@@ -1,7 +1,6 @@
 <template>
   <div class="educator-rating-container">
-    <h3>Educator Rating Overview</h3>
-    <p class="subheader">Average Ratings per Activity</p>
+    <h3>Rating Overview - Average per Activity</h3>
     <div v-if="loaded">
       <div v-if="ratings.length > 0" class="rating-list">
         <div v-for="(activity, index) in ratings" :key="index" class="rating-item">

@@ -104,14 +104,19 @@ export default {
             parentMap.set(parentId, {
               activityId: parentId,
               name: parentName,
-              assigned: activity.assigned,
-              completed: activity.completed,
-              progress: (activity.completed / activity.assigned) * 100,
+              assigned: 0, // Initialize assigned to 0
+              completed: 0, // Initialize completed to 0
+              progress: 0, // Initialize progress to 0
               open: false,
               subcourses: []
             });
           }
 
+          // Add the assigned and completed values to the parent
+          parentMap.get(parentId).assigned += activity.assigned;
+          parentMap.get(parentId).completed += activity.completed;
+
+          // Add the subcourse
           parentMap.get(parentId).subcourses.push({
             activityId: activity.activityId,
             name: activityNameMap.get(activity.activityId) || this.transformName(activity.activityId),
@@ -121,6 +126,11 @@ export default {
             open: false,
             assessments: activity.assessments || []
           });
+        });
+
+        // Calculate progress for each parent
+        parentMap.forEach(parent => {
+          parent.progress = (parent.completed / parent.assigned) * 100;
         });
 
         this.parentCourses = Array.from(parentMap.values());

@@ -6,7 +6,7 @@
       type="bar"
       :options="chartOptions"
       :series="chartSeries"
-      height="450"
+      height="550"
     />
   </div>
 </template>
@@ -51,6 +51,7 @@ export default {
             trim: false,
             maxHeight: 120,
             wrap: true,
+            hideOverlappingLabels: true,
           },
         },
         yaxis: {
