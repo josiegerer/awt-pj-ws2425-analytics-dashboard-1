@@ -1,4 +1,5 @@
 <template>
+  <!-- Card Chart with number of active users-->
     <div class="overview-box">
         <h3>Active Users in Course</h3>
         <x>{{ activeUsers }}</x>
@@ -16,6 +17,7 @@ export default {
     };
   },
   computed: {
+    // modify text of active user change in last 30 days
     userChangeText() {
       return `${this.userChange >= 0 ? '+' : ''}${this.userChange} Users in the last 30 days`;
     },
@@ -27,11 +29,13 @@ export default {
     }
   },
   methods: {
+    // fetch data from cookie
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
     async fetchActiveUsers() {
+      // Get the authentication token from cookie
       const token = this.getCookie("auth_token");
       if (!token) {
         console.error("No authentication token found.");
@@ -39,6 +43,7 @@ export default {
       }
 
       try {
+         // fetch data from url endpoint for 1 day
         const response1 = await fetch("http://localhost:8000/activeUser/1", {
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -52,6 +57,7 @@ export default {
           this.activeUsers = data1.activeUser;
         }
 
+        // fetch data from url endpoint for 30 days
         const response30 = await fetch("http://localhost:8000/activeUser/30", {
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -65,6 +71,7 @@ export default {
           this.previousActiveUsers = data30.activeUser;
         }
 
+        // calculate change of active users
         this.userChange = this.activeUsers - this.previousActiveUsers;
 
       } catch (error) {

@@ -1,4 +1,5 @@
 <template>
+   <!-- line Chart with number of active users and drop down to select timeframe in days (max. 50)-->
   <div class="chart-container">
     <div class="chart-header">
       <h3>Active Users (Last {{ selectedDays }} Days)</h3>
@@ -44,7 +45,7 @@ export default {
   computed: {
     averageUsers() {
       const totalUsers = this.activeUsersData.reduce((sum, d) => sum + d.users, 0);
-      return totalUsers / this.activeUsersData.length || 0; // Avoid division by zero
+      return totalUsers / this.activeUsersData.length || 0; 
     },
     chartData() {
       return {
@@ -60,11 +61,11 @@ export default {
           },
           {
             label: "Average Users",
-            data: Array(this.activeUsersData.length).fill(this.averageUsers), // Flat average line
+            data: Array(this.activeUsersData.length).fill(this.averageUsers), 
             borderColor: "rgb(255, 99, 132)",
             borderWidth: 2,
-            borderDash: [10, 5], // Dashed line
-            pointRadius: 0 // Hide points on the average line
+            borderDash: [10, 5], 
+            pointRadius: 0 
           }
         ]
       };
@@ -75,7 +76,7 @@ export default {
         maintainAspectRatio: false,
         layout: {
           padding: {
-            bottom: 20 // Increase bottom padding to prevent label cutoff
+            bottom: 20 
           }
         },
         plugins: {
@@ -87,10 +88,10 @@ export default {
           x: {
             title: { display: true, text: "Day" },
             ticks: {
-              autoSkip: false, // Show all labels
-              maxRotation: 45, // Rotate labels to avoid overlap
+              autoSkip: false, 
+              maxRotation: 45, 
               minRotation: 45,
-              padding: 10 // Move labels slightly upward
+              padding: 10 
             }
           },
           y: {
@@ -102,11 +103,13 @@ export default {
     }
   },
   methods: {
+     // get cookie
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
     async fetchActiveUsersData() {
+      // Get the authentication token from cookie
       const token = this.getCookie("auth_token");
       if (!token) {
         console.error("No authentication token found.");
@@ -123,6 +126,7 @@ export default {
         const formattedDate = day.toISOString().split("T")[0]; // YYYY-MM-DD format
 
         promises.push(
+           // fetch data from url endpoint for selected number of days
           fetch(`http://localhost:8000/activeUser/${i + 1}`, {
             headers: { Authorization: `Bearer ${token}` }
           })

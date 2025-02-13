@@ -2,7 +2,7 @@
   <div class="course-completion-container">
     <h3>Course Completion</h3>
     <ul class="course-list">
-      <!-- Main Course -->
+      <!-- Drop Down List with all Subcourses and Activities that the learner is enroled in-->
       <li v-for="course in localCourses" :key="course.id">
         <div @click="toggleCourse(course.id)" class="course-header">
           <span>{{ course.name }}</span>
@@ -72,25 +72,25 @@ export default {
   name: "CourseCompletionChart",
   data() {
     return {
-      // We store the main course (with its subcourses) here.
+      // store main course (with its subcourses)
       localCourses: [],
     };
   },
   methods: {
     transformName(url) {
-      // Extract the part after the last slash and replace underscores with spaces.
+      // Extract and transform url
       if (!url) return "";
       const parts = url.split("/");
       const namePart = parts[parts.length - 1];
       return namePart.replace(/_/g, " ");
     },
     formatPercentage(value) {
-      // Display as an integer if there's no fractional part, otherwise one decimal place.
+      // Format course completion rate as Percetage if possible
       return value % 1 === 0 ? value.toFixed(0) : value.toFixed(1);
     },
     async fetchData() {
       try {
-        // Get the authentication token from cookie.
+        // Get the authentication token from cookie
         const authTokenMatch = document.cookie.match(/(^| )auth_token=([^;]+)/);
         const authToken = authTokenMatch ? authTokenMatch[2] : null;
         if (!authToken) {
@@ -98,7 +98,7 @@ export default {
           return;
         }
 
-        // Fetch parent data to determine the main course name.
+        // Fetch parent data to determine the main course name
         const parentResponse = await fetch(
           "http://localhost:8000/parentsOfParents",
           {
@@ -111,12 +111,12 @@ export default {
           );
         }
         const parentData = await parentResponse.json();
-        // Extract one parent's URL. All values are assumed to be the same.
+        // Extract parents URL (All values are assumed to be the same)
         const parentUrls = Object.values(parentData.parentOfParents);
         const mainCourseUrl = parentUrls.length ? parentUrls[0] : "";
         const mainCourseName = this.transformName(mainCourseUrl);
 
-        // Fetch the course completion data.
+        // Fetch the course completion data
         const response = await fetch(
           "http://localhost:8000/assessmentPerformance/learner",
           {
@@ -136,11 +136,11 @@ export default {
           return;
         }
 
-        // Transform subcourses.
+        // Transform subcourses
         const subcourses = data.subcourses.map((sub, index) => {
           return {
-            id: index, // Simple unique id.
-            // Use the URL transformation for the subcourse name.
+            id: index, 
+            // Use URL transformation for subcourse name
             name: this.transformName(sub.name),
             progress: sub.progress,
             completedAssessments: sub.completedAssessments,
@@ -148,14 +148,14 @@ export default {
             open: false,
             assessments: sub.assessments.map((assess, idx) => ({
               id: idx,
-              // Use the URL transformation for assessment names.
+              // Use URL transformation for assessment names
               name: this.transformName(assess.activityId),
               status: assess.status,
             })),
           };
         });
 
-        // Aggregate overall course data from subcourses.
+        // Aggregate overall course data from subcourses
         const totalAssessments = subcourses.reduce(
           (sum, sub) => sum + sub.totalAssessments,
           0
@@ -169,7 +169,7 @@ export default {
             ? (completedAssessments / totalAssessments) * 100
             : 0;
 
-        // Create the main course object using the parent's name.
+        // Create main course object using the parents name
         const course = {
           id: "course1",
           name: mainCourseName,
@@ -185,12 +185,14 @@ export default {
         console.error("Error fetching courses:", error);
       }
     },
+    // toggle/ dropdown for course
     toggleCourse(courseId) {
       const course = this.localCourses.find((course) => course.id === courseId);
       if (course) {
         course.open = !course.open;
       }
     },
+     // toggle/dropdown for subcourses
     toggleSubcourse(courseId, subcourseId) {
       const course = this.localCourses.find((course) => course.id === courseId);
       if (course) {

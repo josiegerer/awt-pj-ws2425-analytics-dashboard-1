@@ -1,4 +1,5 @@
 <template>
+  <!-- Card Chart with number of total activities-->
   <div class="overview-box">
       <h3>Total Activities</h3>
       <x>{{ totalActivities }}</x>
@@ -13,19 +14,21 @@ data() {
   };
 },
 methods: {
+  // get cookie
   getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
   async fetchTotalActivities() {
     try {
+      // Get the authentication token from cookie
         const auth_Token = this.getCookie("auth_token");
 
         if (!auth_Token) {
           console.error("No authentication token found.");
           return;
         }
-
+         // fetch data from url endpoint
         const response = await fetch("http://localhost:8000/totalActivities", {
           headers: {
             Authorization: `Bearer ${auth_Token}`,
@@ -39,8 +42,9 @@ methods: {
         const data = await response.json();
         console.log("API Response:", data);
         
+        // get number of total activities
         if (data.activities && Array.isArray(data.activities)) {
-        this.totalActivities = data.activities.length; // Count total activities
+        this.totalActivities = data.activities.length; 
       }
       } catch (error) {
         console.error("Error fetching totalCourses:", error);

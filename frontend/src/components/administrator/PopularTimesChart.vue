@@ -1,4 +1,5 @@
 <template>
+  <!-- Bar chart of popular hours of the current day-->
    <h3 class="chart-header">Popular Times</h3>
   <div class="chart-container" style="width: 100%; height: 400px;">
     <canvas ref="chartRef"></canvas>

@@ -1,4 +1,5 @@
 <template>
+  <!-- Card Chart with number of total courses-->
     <div class="overview-box">
         <h3>Total Courses</h3>
         <x>{{ totalCourses }}</x>
@@ -13,11 +14,13 @@ export default {
     };
   },
   methods: {
+    // get cookie
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
     async fetchTotalCourses() {
+      // Get the authentication token from cookie
       const token = this.getCookie("auth_token");
       if (!token) {
         console.error("No authentication token found.");
@@ -25,6 +28,7 @@ export default {
       }
 
       try {
+         // fetch data from url endpoint
         const response = await fetch("http://localhost:8000/totalCourses", {
           headers: { Authorization: `Bearer ${token}` }
         });

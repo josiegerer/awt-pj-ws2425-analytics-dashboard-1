@@ -24,23 +24,21 @@
             <ActiveUsers_Admin />
           </div>
 
+           <!-- Total Users -->
           <div class="grid-item">
             <TotalUsers />
           </div>
 
+          <!-- Total Courses -->
           <div class="grid-item">
             <TotalCourses />
           </div>
 
+          <!-- Total Activities -->
           <div class="grid-item">
             <TotalActivities />
           </div>
         </div>
-
-        <!-- Search Trends 
-        <div class="grid-item search-trends">
-          <SearchTrendsChart />
-        </div> -->
 
         <!-- Keyword List -->
         <div class="grid-item keyword-list">
@@ -55,7 +53,6 @@
 <script>
 import ActiveUsersChart from '../components/administrator/ActiveUsersChart.vue';
 import PopularTimesChart from '../components/administrator/PopularTimesChart.vue';
-//import SearchTrendsChart from '../components/administrator/SearchTrendsChart.vue';
 import KeywordsList from '../components/administrator/KeywordsList.vue';
 import TotalUsers from '../components/administrator/TotalUsers.vue';
 import TotalActivities from '../components/administrator/TotalActivities.vue';
@@ -68,7 +65,6 @@ export default {
   components: {
     ActiveUsersChart,
     PopularTimesChart,
-    //SearchTrendsChart,
     KeywordsList,
     ActiveUsers_Admin,
     TotalActivities,

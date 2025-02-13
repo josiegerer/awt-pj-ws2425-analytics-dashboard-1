@@ -1,4 +1,5 @@
 <template>
+  <!-- Card Chart List of (max) top 5 keywords with count-->
   <div class="keywords-list">
     <h3>Top 5 Keywords</h3>
     <div class="keyword-item" v-for="(keyword, index) in keywords" :key="index">
@@ -20,17 +21,20 @@ export default {
     };
   },
   methods: {
+    // get cookie
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
     async fetchKeywords() {
+      // Get the authentication token from cookie
       const token = this.getCookie("auth_token");
       if (!token) {
         console.error("No authentication token found.");
         return;
       }
       try {
+        // fetch data from url endpoint
         const response = await fetch("http://localhost:8000/searchCount", {
           headers: {
             Authorization: `Bearer ${token}`,
