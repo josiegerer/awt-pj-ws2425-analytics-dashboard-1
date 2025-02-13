@@ -30,12 +30,14 @@ export default {
     };
   },
   methods: {
+    // get cookie
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
 
     async fetchEducatorRatings() {
+      // Get the authentication token from cookie
       const token = this.getCookie("auth_token");
 
       if (!token) {
@@ -44,6 +46,7 @@ export default {
       }
 
       try {
+        // fetch data from url endpoint
         const response = await fetch("http://localhost:8000/activityRatings/instructor", {
           headers: { Authorization: `Bearer ${token}` },
         });

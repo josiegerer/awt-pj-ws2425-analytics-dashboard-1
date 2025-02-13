@@ -37,6 +37,7 @@ export default {
           throw new Error("Failed to fetch totalCourses");
         }
 
+        // get number of total courses
         const data = await response.json();
         if (data.totalCourses && Array.isArray(data.totalCourses)) {
           this.totalCourses = data.totalCourses.length;

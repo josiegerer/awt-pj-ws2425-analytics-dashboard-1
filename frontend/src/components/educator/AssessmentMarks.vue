@@ -1,4 +1,5 @@
 <template>
+  <!-- Bar Chart with the average assessment scores of all learners for each course-->
   <div class="assessment-marks-container">
     <h3>Assessment Performance Overview</h3>
     <p>Class Average Grades per Assessment</p>
@@ -19,6 +20,7 @@ export default {
   components: {
     apexchart: VueApexCharts,
   },
+  // create and format bar chart
   data() {
     return {
       chartSeries: [], 
@@ -70,12 +72,14 @@ export default {
     };
   },
   methods: {
+    // get cookie
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
     async fetchAssessmentMarks() {
       try {
+        // Get the authentication token from cookie
         const authToken = this.getCookie("auth_token");
         if (!authToken) {
           console.error("No authentication token found.");

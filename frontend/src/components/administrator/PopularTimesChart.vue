@@ -42,7 +42,7 @@ const fetchData = async () => {
   }
 };
 
-// Render Chart
+
 const renderChart = () => {
   if (chartInstance.value) {
     chartInstance.value.destroy(); 

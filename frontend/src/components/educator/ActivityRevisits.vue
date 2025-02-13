@@ -1,4 +1,5 @@
 <template>
+  <!-- Card Chart with number of revisits of all users for each activity of an educator-->
   <div class="revisits-list">
     <h3>Top Revisits</h3>
     <div class="revisit-item" v-for="(item, index) in visibleData" :key="index">
@@ -29,17 +30,20 @@ export default {
     },
   },
   methods: {
+    // get cookie
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
     async fetchActivityRevisits() {
+      // Get the authentication token from cookie
       const authToken = this.getCookie("auth_token");
       if (!authToken) {
         console.error("No authentication token found.");
         return;
       }
       try {
+        // fetch data from url endpoint
         const response = await fetch("http://localhost:8000/activityRevisits", {
           headers: { Authorization: `Bearer ${authToken}` },
         });
@@ -60,9 +64,11 @@ export default {
         console.error("Error fetching activity revisits:", error);
       }
     },
+    // extract correct course name
     extractCourseName(activityId) {
       return decodeURIComponent(activityId.split("/").pop().replace(/_/g, " "));
     },
+    // button to show all activities
     toggleView() {
       this.showAll = !this.showAll;
     },

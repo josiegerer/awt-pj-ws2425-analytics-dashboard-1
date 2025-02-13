@@ -1,4 +1,5 @@
 <template>
+    <!-- Card Chart with number of active users in courses that below to specific educator-->
     <div class="overview-box">
         <h3>Active Users in Course</h3>
         <x>{{ activeUsers }}</x>
@@ -17,6 +18,7 @@ export default {
     };
   },
   computed: {
+    // modify text of active user change in last 30 days
     userChangeText() {
       return `${this.userChange >= 0 ? '+' : ''}${this.userChange} Users in the last 30 days`;
     },
@@ -28,17 +30,21 @@ export default {
     }
   },
   methods: {
+    // get cookie
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
     async fetchActiveUsers() {
+      // Get the authentication token from cookie
       const auth_Token = this.getCookie("auth_token");
         if (!auth_Token) {
           console.error("No authentication token found.");
           return;
         }
       try {
+
+        // fetch data from url endpoint
         const response = await fetch("http://localhost:8000/activeUserSubcours/30/instructor", {
           headers: { Authorization: `Bearer ${auth_Token}` },
         });
@@ -48,6 +54,7 @@ export default {
         const data = await response.json();
         console.log("Fetched educator rating data:", data); // Debugging line
      
+        // get number of active users today
         if (data.activeUser !== undefined) {
           this.activeUsers = data.activeUser;
         }
@@ -58,9 +65,10 @@ export default {
         });
 
         if (!response30.ok) {
-          throw new Error("Failed to fetch activeUser (1 day)");
+          throw new Error("Failed to fetch activeUser (30 days)");
         }
 
+        // get number of active users 30 days ago
         const data30 = await response30.json();
         if (data30.activeUser !== undefined) {
           this.previousActiveUsers = data30.activeUser;

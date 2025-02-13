@@ -1,4 +1,5 @@
 <template>
+  <!-- Pie chart of pass rates (total of all activities)-->
   <div class="assessment-marks-container">
     <h3>Assessment Pass Rate</h3>
     <p>Student Pass Rate Distribution</p>
@@ -20,6 +21,7 @@ export default {
     apexchart: VueApexCharts,
   },
   data() {
+    // create and format pie chart
     return {
       chartData: [0, 0, 0], // [Failed, Open, Passed]
       chartOptions: {
@@ -42,11 +44,13 @@ export default {
     };
   },
   methods: {
+    // get cookie
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
     async fetchPassRateData() {
+      // Get the authentication token from cookie
       const token = this.getCookie("auth_token");
 
       if (!token) {
@@ -55,6 +59,7 @@ export default {
       }
 
       try {
+        // fetch data from url endpoint
         const response = await fetch("http://localhost:8000/passRate/instructor", {
           headers: {
             Authorization: `Bearer ${token}`,

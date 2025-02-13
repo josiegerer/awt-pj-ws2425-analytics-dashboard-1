@@ -1,4 +1,5 @@
 <template>
+  <!-- Drop Down List with all Subcourses and Activities of educator-->
   <div class="course-completion-container">
     <h3>Course Completion</h3>
     <ul class="course-list">
@@ -57,15 +58,18 @@ export default {
     await this.fetchData();
   },
   methods: {
+    // get cookie
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
+    // format course completion value
     formatPercentage(value) {
       return value % 1 === 0 ? value.toFixed(0) : value.toFixed(1);
     },
     async fetchData() {
       try {
+        // Get the authentication token from cookie
         const authToken = this.getCookie("auth_token");
         if (!authToken) {
           console.error('Authentication token not found.');
