@@ -68,7 +68,4 @@ urlpatterns = [
     path('activityRevists/learner',get_all_visits_of_all_activities_of_learner),
     path('timeSpentOnLastSevenDays/learner',get_time_spent_daily_for_last_week),
     path('assessmentPerformance/learner', get_assigned_and_completed_activities_for_learner),
-    # 
-    #
-    #path
 ]

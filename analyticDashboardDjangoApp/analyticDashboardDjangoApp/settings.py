@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# Use later for production environment variables os.environ.get('SECRET_KEY')
 SECRET_KEY = 'django-insecure-_vpe_zb%6i09*rd6+7mq4y%ug=*!hhauf3w8=@_u)z8yknj!#y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -104,7 +105,12 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'  # For collecting static files in product
 
 WSGI_APPLICATION = 'analyticDashboardDjangoApp.wsgi.application'
 
-
+# Use later for production environment variables DATABASE_NAME = os.environ.get('DATABASE_NAME') for security
+DATABASE_NAME = "database" 
+DATABASE_USER = "postgres"
+DATABASE_PASSWORD = "postgres"
+DATABASE_HOST = "localhost" #use postgresdb if you are using docker or use localhost if you are running locally
+DATABASE_PORT = "5432"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -112,11 +118,11 @@ WSGI_APPLICATION = 'analyticDashboardDjangoApp.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "database",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
-        "HOST": "localhost", #use postgresdb if you are using docker or use localhost if you are running locally
-        "PORT": "5432",
+        "NAME": DATABASE_NAME,
+        "USER": DATABASE_USER,
+        "PASSWORD": DATABASE_PASSWORD,
+        "HOST": DATABASE_HOST, 
+        "PORT": DATABASE_PORT,
     },
 }
 

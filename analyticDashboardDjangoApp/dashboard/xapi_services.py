@@ -4,6 +4,26 @@ from threading import Lock
 from xapi.lrs_utils import fetch_xapi_statements_from_db, fetch_xapi_statements_from_db_for_user
 
 class XAPIService:
+    """
+    XAPIService is a class that handles the fetching and updating of xAPI statements. It uses caching to 
+    reduce the number of database queries and ensures thread safety during the update process.
+    Attributes:
+        statements (list): Cached xAPI statements.
+        new_statements (list): Temporary storage for new xAPI statements during an update.
+        last_fetched_time (float): Timestamp of the last fetch operation.
+        cache_duration (int): Duration (in seconds) for which the cache is valid.
+        is_updating (bool): Flag indicating if an update is currently in progress.
+        lock (Lock): A threading lock to ensure thread safety during updates.
+    Methods:
+        fetch_statements():
+            Fetches xAPI statements, either from cache or from the database. If an update is in progress, 
+            it returns the cached statements. If the cache has expired or there are no cached statements, 
+            it fetches fresh data from the database.
+        update_statements():
+            Updates the xAPI statements by fetching fresh data from the database or an external source. 
+            This method acquires a lock to ensure thread safety during the update process. It simulates a 
+            delay to represent the time taken to fetch and process the data.
+    """
     def __init__(self, cache_duration=300):
         self.statements = None
         self.new_statements = None  # Will hold new data while updating
@@ -14,9 +34,14 @@ class XAPIService:
 
     def fetch_statements(self):
         """
-        Fetch statements based on cache expiration.
-        If an update is in progress, serve the old data.
+        Fetches xAPI statements, either from cache or from the database.
+        This method checks if there is an ongoing update or if the cached data has expired.
+        If an update is in progress, it returns the cached statements. If the cache has expired
+        or there are no cached statements, it fetches fresh data from the database.
+        Returns:
+            list: A list of xAPI statements.
         """
+        
         current_time = time.time()
         
         # If there is an ongoing update, return old data until update is complete
@@ -34,8 +59,18 @@ class XAPIService:
 
     def update_statements(self):
         """
-        Simulate updating statements. This method will lock the update process.
+        Update the xAPI statements by fetching fresh data from the database or an external source.
+        This method acquires a lock to ensure thread safety during the update process. It marks the 
+        start of the update, simulates a long update process by fetching new xAPI statements from 
+        the database, and then replaces the current statements with the new data. The lock is 
+        released after the update is complete.
+        Note:
+            This method simulates a delay using `time.sleep(5)` to represent the time taken to 
+            fetch and process the data.
+        Raises:
+            Any exceptions raised during the fetching of xAPI statements will be propagated.
         """
+        
         self.lock.acquire()
         try:
             self.is_updating = True  # Mark the start of the update
@@ -55,6 +90,27 @@ class XAPIService:
 
 
 class UserXAPIService:
+    """
+    A service class to handle xAPI statements for users.
+    This class provides methods to fetch and update xAPI statements for users identified by their email addresses.
+    It uses caching to minimize database queries and ensures thread-safety during updates.
+    Attributes:
+        user_statements (dict): A dictionary to hold xAPI statements for each user.
+        new_user_statements (dict): A dictionary to hold new xAPI statements while updating.
+        last_fetched_time (float): The timestamp of the last fetch operation.
+        cache_duration (int): The duration (in seconds) for which the cache is valid.
+        is_updating (bool): A flag to indicate if an update is in progress.
+        lock (Lock): A lock to ensure thread-safety during updates.
+    Methods:
+        fetch_statements_for_user(email_of_user, query_params={}):
+            Fetches xAPI statements for a specific user. This method checks if there is an ongoing update 
+            or if the cached data has expired. If an update is in progress, it returns the cached statements. 
+            If the cache has expired or there are no cached statements, it fetches fresh data from the database.
+        update_statements_for_user(email_of_user, query_params={}):
+            Updates the xAPI statements for a specific user by fetching fresh data from the database or an 
+            external source. This method acquires a lock to ensure thread safety during the update process. 
+            It simulates a delay to represent the time taken to fetch and process the data.
+    """
     def __init__(self, cache_duration=300):
         self.user_statements = {}  # Dictionary to hold statements for each user
         self.new_user_statements = {}  # To hold new data while updating
@@ -65,9 +121,17 @@ class UserXAPIService:
 
     def fetch_statements_for_user(self, email_of_user, query_params={}):
         """
-        Fetch statements for a specific user based on cache expiration.
-        If an update is in progress, serve the old data.
+        Fetches xAPI statements for a specific user.
+        This function retrieves xAPI statements for a given user identified by their email.
+        It first checks if there is an ongoing update process. If so, it returns cached statements.
+        If there is no ongoing update or the cache has expired, it fetches fresh data from the database.
+        Args:
+            email_of_user (str): The email address of the user whose xAPI statements are to be fetched.
+            query_params (dict, optional): Additional query parameters to filter the xAPI statements. Defaults to an empty dictionary.
+        Returns:
+            list: A list of xAPI statements for the specified user.
         """
+        
         current_time = time.time()
         
         # Check if there is an ongoing update for the specific user
@@ -86,8 +150,19 @@ class UserXAPIService:
 
     def update_statements_for_user(self, email_of_user, query_params={}):
         """
-        Simulate updating statements for a specific user. This method will lock the update process.
+        Update the xAPI statements for a specific user.
+        This method acquires a lock to ensure thread safety, marks the start of the update process,
+        fetches fresh xAPI statements for the given user from the database or an external source,
+        and then updates the user's statements. The lock is released after the update is complete.
+        Args:
+            email_of_user (str): The email address of the user whose statements are to be updated.
+            query_params (dict, optional): Additional query parameters to filter the xAPI statements. Defaults to an empty dictionary.
+        Raises:
+            Any exceptions raised during the fetching of xAPI statements will propagate up.
+        Note:
+            This method simulates a long update process by sleeping for 5 seconds.
         """
+        
         self.lock.acquire()
         try:
             self.is_updating = True  # Mark the start of the update
