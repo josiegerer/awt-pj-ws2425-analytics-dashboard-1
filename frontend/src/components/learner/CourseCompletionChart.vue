@@ -1,8 +1,8 @@
 <template>
+  <!-- Drop Down List with all Subcourses and Activities that the learner is enroled in-->
   <div class="course-completion-container">
     <h3>Course Completion</h3>
     <ul class="course-list">
-      <!-- Drop Down List with all Subcourses and Activities that the learner is enroled in-->
       <li v-for="course in localCourses" :key="course.id">
         <div @click="toggleCourse(course.id)" class="course-header">
           <span>{{ course.name }}</span>
