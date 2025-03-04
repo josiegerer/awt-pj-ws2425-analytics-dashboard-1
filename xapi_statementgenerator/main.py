@@ -201,7 +201,7 @@ class XAPIGenerator:
             "study_duration": random.randint(30, 180),  # minutes per session
             "completion_rate": random.uniform(0.7, 1.0),  # probability of completing an activity
             "test_performance": random.uniform(0.6, 1.0),  # base test performance
-            # New parameters for enhanced learning patterns
+            
             "min_sessions_before_test": random.randint(2, 3),
             "max_sessions_before_test": random.randint(4, 6),
             "preferred_study_time": {  # Time window when user typically studies
@@ -233,14 +233,22 @@ class XAPIGenerator:
                 "definition": {
                     "name": {"de-DE": activity}
                 }
-            },
-            "context": {
-                "extensions": {
-                    "https://example.com/extensions/threshold": 0.5
             }
-            },
-            "timestamp": timestamp.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
         }
+        
+        # Only add threshold to appropriate statements (scored, completed, failed)
+        if verb in ["scored", "completed", "failed"]:
+            statement["context"] = {
+                "extensions": {
+                    "https://example.com/extensions/threshold": self.test_pass_threshold
+                }
+            }
+        else:
+            # Initialize context without threshold for other verbs
+            statement["context"] = {}
+            
+        # Add timestamp 
+        statement["timestamp"] = timestamp.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
 
         if score is not None:
             statement["result"] = {
@@ -435,9 +443,8 @@ class XAPIGenerator:
                 material
             )
         ]
-        return statements
 
-    
+        return statements
 
     def generate_user_journey_consistent(self, user_id, start_date, profile):
         """Generate a complete learning journey for one user with semi-random sequence"""
@@ -598,7 +605,6 @@ class XAPIGenerator:
 
         return statements
     
-## Generate a Learnining Journey for one user of type inconsistent learner 
     def generate_user_journey_of_inconsistent_learner(self, user_id, start_date, profile):
         """Generate a learning journey for an inconsistent learner"""
         statements = []
@@ -683,6 +689,7 @@ class XAPIGenerator:
             current_date = self.get_next_study_date(current_date, profile)
 
         return statements
+    
     def add_instructor_context(self, statement, material):
         """Add instructor context to a statement based on the material."""
         for subcourse, info in self.course_structure.items():
@@ -697,10 +704,6 @@ class XAPIGenerator:
                 self.deep_merge(statement, instructor_context)
                 break
         return statement
-
-
-## TODO: Generate a Learnining Journey for user of type Diminished Drive  D
-## Create a Logic so in the beginning the user is very active and then the user becomes less active (Samy)
 
     def generate_user_journey_of_diminished_drive_easy_quitter(self, user_id, start_date, profile):
         """
@@ -802,44 +805,6 @@ class XAPIGenerator:
 
         return statements
     
-
-
-          
-
-## TODO: Generate a Learnining Journey for user of type Diminished Drive C
-## Create a Logic so in the beginning the user is very active and then the user becomes less active then the user becomes very active again
-## First 4 weeks the user is very active, then the user becomes less active for 4-6 weeks and then the user becomes very active again for the last 4-2 weeks (Peter)
-
-# def generate_dataset(num_users=5, output_file="xapi_statements1.json"):
-#     """Generate complete dataset with multiple users"""
-#     generator = XAPIGenerator()
-#     all_statements = []
-
-#     # Generate data for each user
-#     for user_id in range(1, num_users + 1):
-#         # Random start date within last 3 months
-#         start_date = datetime.now() - timedelta(days=random.randint(0, 90))
-#         profile = generator.generate_user_profile()
-
-#         user_statements = generator.generate_user_journey_of_ushaped_learner(user_id, start_date, profile)
-#         all_statements.extend(user_statements)
-
-#     # Sort by timestamp
-#     all_statements.sort(key=lambda x: x["timestamp"])
-
-#     # Save to file
-#     with open(output_file, 'w', encoding='utf-8') as f:
-#         json.dump(all_statements, f, ensure_ascii=False, indent=2)
-
-#     return all_statements
-
-
-# if __name__ == "__main__":
-#     # Generate data for 5 users
-#     statements = generate_dataset(num_users=1)
-#     print(f"Generated {len(statements)} xAPI statements")
-
-
 def test_single_user_type(user_type):
     """Generate statements for a single user of specified type"""
     generator = XAPIGenerator()
@@ -856,14 +821,6 @@ def test_single_user_type(user_type):
     elif user_type == "diminished":
         statements = generator.generate_user_journey_of_diminished_drive_easy_quitter(user_id, start_date, profile)
     
-    # Save to file
-    # output_file = f"xapi_statements_{user_type}.json"
-    # with open(output_file, 'w', encoding='utf-8') as f:
-    #     json.dump(statements, f, ensure_ascii=False, indent=2)
-    
-    # print(f"Generated {len(statements)} statements for {user_type} learner")
-    # return statements
-
     # Save to file in a directory relative to the script location
     script_dir = os.path.dirname(os.path.abspath(__file__))
     output_dir = os.path.join(script_dir, "generated_data")
@@ -967,32 +924,29 @@ def generate_multi_duration_dataset(output_file="xapi_statements_combined.json")
     print(f"Saved to: {output_path}")
     
     # Generate summary statistics
-    user_stats = {}
-    for stmt in all_statements:
-        user_id = stmt["actor"]["name"]
-        if user_id not in user_stats:
-            user_stats[user_id] = {
-                "statements": 0,
-                "first_timestamp": stmt["timestamp"],
-                "last_timestamp": stmt["timestamp"]
-            }
-        user_stats[user_id]["statements"] += 1
-        user_stats[user_id]["last_timestamp"] = stmt["timestamp"]
+    # user_stats = {}
+    # for stmt in all_statements:
+    #     user_id = stmt["actor"]["name"]
+    #     if user_id not in user_stats:
+    #         user_stats[user_id] = {
+    #             "statements": 0,
+    #             "first_timestamp": stmt["timestamp"],
+    #             "last_timestamp": stmt["timestamp"]
+    #         }
+    #     user_stats[user_id]["statements"] += 1
+    #     user_stats[user_id]["last_timestamp"] = stmt["timestamp"]
     
-    print("\nPer-user statistics:")
-    for user_id, stats in user_stats.items():
-        print(f"\n{user_id}:")
-        print(f"  Statements: {stats['statements']}")
-        print(f"  Duration: {stats['first_timestamp']} to {stats['last_timestamp']}")
+    # print("\nPer-user statistics:")
+    # for user_id, stats in user_stats.items():
+    #     print(f"\n{user_id}:")
+    #     print(f"  Statements: {stats['statements']}")
+    #     print(f"  Duration: {stats['first_timestamp']} to {stats['last_timestamp']}")
     
     return all_statements
 
 if __name__ == "__main__":
-            # Test each type individually
+
     # user_types = ["consistent", "inconsistent", "u_shaped", "diminished"]
-    # user_types = ["diminished"]
-
-
     # for utype in user_types:
     #     print(f"\nTesting {utype} learner:")
     #     statements = test_single_user_type(utype)
