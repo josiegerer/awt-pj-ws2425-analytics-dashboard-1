@@ -126,7 +126,7 @@ python manage.py migrate
 ```
 
 ### 2.3 Configure the LTI Tool in Moodle
-Follow the same setup steps as in **1.7**, replacing local URLs with your external Django server (e.g., `http://your-django-server:8000`).
+Follow the same setup steps as in **1.7**
 
 ### 2.4 Verify Deployment and Client ID
 Ensure the **Client ID** and **Deployment ID** match the Moodle settings and update `config.json` accordingly.
