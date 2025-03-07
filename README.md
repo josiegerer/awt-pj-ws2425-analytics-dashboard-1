@@ -32,14 +32,25 @@ Update the database schema with:
 python manage.py migrate
 ```
 
-### 1.5 Access Moodle
+### 1.5 Save Data in Database
+- The database must contain **user emails** for authentication.
+- Use the `save_data_in_lrs.py` script in `xapi/` to store xAPI statements.
+- Generate new data using `main.py`, ensuring paths are correctly set in `save_data_in_lrs.py`.
+- Generated user emails will be stored in `user_mails.txt`. Use these emails when creating user accounts.
+
+**Instructor Emails:**
+- `instructor1@example.com`
+- `instructor2@example.com`
+- `instructor3@example.com`
+
+### 1.6 Access Moodle
 Moodle is available at [http://localhost:8081](http://localhost:8081).
 
 **Login Credentials:**
 - **Username:** `user`
 - **Password:** `bitnami`
 
-### 1.6 Configure the LTI Tool in Moodle
+### 1.7 Configure the LTI Tool in Moodle
 1. Navigate to **Site Administration > Plugins > Manage Tools**.
 2. Select **Configure a Tool Manually** and enter the following details:
    - **Tool Name:** Adaptive Analytic Dashboard
@@ -58,14 +69,21 @@ Moodle is available at [http://localhost:8081](http://localhost:8081).
 
 Save the configuration.
 
-### 1.7 Create and Test a Course in Moodle
+### 1.8 Create and Test a Course in Moodle
 1. Navigate to **Site Administration > Courses > Add a New Course**.
 2. Fill in course details and save.
 3. Go to **My Courses**, select the new course, and enable **Edit Mode**.
 4. Under **More > LTI External Tools**, verify that **Adaptive Analytics Dashboard** is available.
 5. Add the tool as an **activity/resource** in your course.
 
-### 1.8 Add Users to the Course
+### 1.9 User Creation in Moodle
+1. Navigate to **Site Administration > Users > Add a New User**.
+2. Use the emails stored in `user_mails.txt`.
+3. Fill in the required details.
+4. Save the new user.
+5. Assign the user to a course (see **1.10 Add Users to the Course**).
+
+### 1.10 Add Users to the Course
 1. In your course, go to **Participants**.
 2. Click **Enrol Users**.
 3. Assign the appropriate role:
@@ -73,7 +91,7 @@ Save the configuration.
    - **Student** for learners
 4. Confirm the enrolment.
 
-### 1.9 Verify Deployment ID and Client ID
+### 1.11 Verify Deployment ID and Client ID
 1. Navigate to **Manage Tools** in Moodle.
 2. Click **Tool Configuration Details** to find the **Client ID** and **Deployment ID**.
 3. Update the configuration file located at:
@@ -108,7 +126,7 @@ python manage.py migrate
 ```
 
 ### 2.3 Configure the LTI Tool in Moodle
-Follow the same setup steps as in **1.6**, replacing local URLs with your external Django server (e.g., `http://your-django-server:8000`).
+Follow the same setup steps as in **1.7**, replacing local URLs with your external Django server (e.g., `http://your-django-server:8000`).
 
 ### 2.4 Verify Deployment and Client ID
 Ensure the **Client ID** and **Deployment ID** match the Moodle settings and update `config.json` accordingly.
@@ -120,40 +138,16 @@ Ensure the **Client ID** and **Deployment ID** match the Moodle settings and upd
 
 ---
 
-## 3. Save Data in Database
-- The database must contain **user emails** for authentication.
-- Use the `save_data_in_lrs.py` script in `xapi/` to store xAPI statements.
-- Generate new data using `main.py`, ensuring paths are correctly set in `save_data_in_lrs.py`.
-- Generated user emails will be stored in `user_mails.txt`. Use these emails when creating user accounts.
+## 3. Conditions for Using the Tool
 
-**Instructor Emails:**
-- `instructor1@example.com`
-- `instructor2@example.com`
-- `instructor3@example.com`
-
----
-
-## 4. User Creation in Moodle
-
-1. Navigate to **Site Administration > Users > Add a New User**.
-2. Use the emails stored in `user_mails.txt`.
-3. Fill in the required details.
-4. Save the new user.
-5. Assign the user to a course (see **1.8 Add Users to the Course**).
-
----
-
-## 5. Conditions for Using the Tool
-
-### 5.1 Tracking Course Progress with xAPI Statements
+### 3.1 Tracking Course Progress with xAPI Statements
 - Each sub-course must send at least **one xAPI statement**.
 - Every xAPI statement must include the **parent course** in context.
 - xAPI statements should be sent to the **Learning Record Store (LRS)**.
 - Sub-courses can be updated but can only be removed if their corresponding xAPI statements are deleted from the LRS.
 
-### 5.2 Using the Tool as an Instructor
+### 3.2 Using the Tool as an Instructor
 - To enable instructor functionality, include the instructor’s email in the xAPI statement context.
 
 ---
-
 
