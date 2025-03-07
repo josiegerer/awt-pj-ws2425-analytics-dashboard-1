@@ -81,7 +81,7 @@ Save the configuration.
 2. Use the emails stored in `user_mails.txt`.
 3. Fill in the required details.
 4. Save the new user.
-5. Assign the user to a course (see **1.10 Add Users to the Course**).
+5. Assign the user to a course.
 
 ### 1.10 Add Users to the Course
 1. In your course, go to **Participants**.
