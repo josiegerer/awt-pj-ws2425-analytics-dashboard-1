@@ -63,7 +63,7 @@ def send_data_to_lrs(json_file_path, lrs_url, base_url, username, password):
     auth_token = generate_token_and_authenticate(base_url, username, password)
 
     # Read the JSON file
-    with open(json_file_path, 'r') as file:
+    with open(json_file_path, 'r', encoding='utf-8') as file:
         statements = json.load(file)
 
     headers = {
@@ -99,4 +99,4 @@ def send_data_to_lrs(json_file_path, lrs_url, base_url, username, password):
     print("User emails saved to user_emails.txt")
     
 
-send_data_to_lrs("./generated_data/07022025_xapi_statements_combined.json", "http://localhost:8080/xapi/statements", "http://localhost:8080", "my_username", "my_password")
+send_data_to_lrs("./generated_data/xapi_statements_combined.json", "http://localhost:8080/xapi/statements", "http://localhost:8080", "my_username", "my_password")
