@@ -19,22 +19,15 @@ Navigate to your Django application directory (e.g., `analyticDashboardDjangoApp
 pip install -r requirements.txt
 ```
 
-### 1.3 Start the Django Development Server
-Run the Django server in a new terminal:
-```sh
-python3 manage.py runserver 0.0.0.0:8000
-```
-Ensure the database settings in `settings.py` use `"localhost"` as the host.
-
-### 1.4 Apply Database Migrations
+### 1.3 Apply Database Migrations
 Update the database schema with:
 ```sh
 python manage.py migrate
 ```
 
-### 1.5 Save Data in Database
+### 1.4 Save Data in Database
 - The database must contain **user emails** for authentication.
-- Use the `save_data_in_lrs.py` script in `xapi/` to store xAPI statements.
+- Use the `python save_data_in_lrs.py` script in `xapi_statementgenerator` to store xAPI statements.
 - Generate new data using `main.py`, ensuring paths are correctly set in `save_data_in_lrs.py`.
 - Saved user emails will be stored in `user_mails.txt`. Use these emails when creating user accounts.
 
@@ -42,6 +35,17 @@ python manage.py migrate
 - `instructor1@example.com`
 - `instructor2@example.com`
 - `instructor3@example.com`
+
+**Admin**
+Use just the account wiht the Username User 
+
+### 1.5 Start the Django Development Server
+Run the Django server in a new terminal:
+```sh
+python manage.py runserver 0.0.0.0:8000
+```
+Ensure the database settings in `settings.py` use `"localhost"` as the host.
+
 
 ### 1.6 Access Moodle
 Moodle is available at [http://localhost:8081](http://localhost:8081).
