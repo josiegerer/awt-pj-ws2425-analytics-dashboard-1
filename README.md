@@ -13,11 +13,41 @@ docker-compose -f docker-compose-with-local-docker-LMS.yml up
 ```
 This starts all necessary services except Django.
 
-### 1.2 Install Django Dependencies
-Navigate to your Django application directory (e.g., `analyticDashboardDjangoApp`) and install dependencies:
+### 1.2 Install Django Dependencies  
+
+Before installing dependencies, make sure you're using Python 3.11.7, as this is the version we used for testing. While Django may work with other Python versions, using a different one could lead to compatibility issues.  
+
+#### 1. Set Up a Virtual Environment (Recommended)  
+To keep dependencies isolated and avoid conflicts, it's best to use a **virtual environment**. If you haven't created one yet, follow these steps:  
+
+1. **Navigate to your project directory** (e.g., `analyticDashboardDjangoApp`):  
+   ```sh
+   cd analyticDashboardDjangoApp
+   ```
+2. **Create a virtual environment** (Replace `venv` with any name you prefer):  
+   ```sh
+   python3 -m venv venv
+   ```
+3. **Activate the virtual environment**:  
+   - **On macOS/Linux**:  
+     ```sh
+     source venv/bin/activate
+     ```
+   - **On Windows**:  
+     ```sh
+     venv\Scripts\activate
+     ```
+
+For a detailed guide on creating Python virtual environments, check out the official documentation:  
+🔗 [Python Virtual Environments Guide](https://docs.python.org/3/tutorial/venv.html)  
+
+#### 2. Install Dependencies  
+Once your virtual environment is active, install the required dependencies using:  
 ```sh
 pip install -r requirements.txt
-```
+```  
+
+This ensures your Django application has all necessary packages installed.
 
 ### 1.3 Apply Database Migrations
 Update the database schema with:
