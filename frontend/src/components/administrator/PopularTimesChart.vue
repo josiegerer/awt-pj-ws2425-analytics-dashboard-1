@@ -1,6 +1,6 @@
 <template>
   <!-- Bar chart of popular hours of the current day-->
-   <h3 class="chart-header">Popular Times</h3>
+  <h3 class="chart-header">Popular Times</h3>
   <div class="chart-container" style="width: 100%; height: 400px;">
     <canvas ref="chartRef"></canvas>
   </div>
@@ -10,6 +10,7 @@
 import { ref, onMounted } from "vue";
 import { Chart, BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip } from "chart.js";
 
+// Register Chart.js components
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip);
 
 const chartRef = ref(null);
@@ -33,7 +34,8 @@ const fetchData = async () => {
     const data = await response.json();
     const activeUsers = data.activeUsersByHour;
 
-    chartData.value.labels = Object.keys(activeUsers).map((hour) => `${hour}:00`); // map active users to hours
+    // Map active users to hours
+    chartData.value.labels = Object.keys(activeUsers).map((hour) => `${hour}:00`);
     chartData.value.datasets[0].data = Object.values(activeUsers);
 
     renderChart();
@@ -42,7 +44,7 @@ const fetchData = async () => {
   }
 };
 
-
+// Function to render the chart
 const renderChart = () => {
   if (chartInstance.value) {
     chartInstance.value.destroy(); 
@@ -69,6 +71,7 @@ const renderChart = () => {
   });
 };
 
+// Fetch data when the component is mounted
 onMounted(fetchData);
 </script>
 

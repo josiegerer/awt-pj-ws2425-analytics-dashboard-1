@@ -3,6 +3,7 @@
     <h3>Rating Overview - Average per Activity</h3>
     <div v-if="loaded">
       <div v-if="ratings.length > 0" class="rating-list">
+        <!-- Loop through ratings to display each activity's rating -->
         <div v-for="(activity, index) in ratings" :key="index" class="rating-item">
           <div class="activity-info">
             <p><strong>{{ activity.name }}</strong></p>
@@ -25,17 +26,18 @@ export default {
   name: "EducatorRating",
   data() {
     return {
-      ratings: [], 
-      loaded: false, 
+      ratings: [], // Store fetched ratings data here
+      loaded: false, // Control whether data has been loaded
     };
   },
   methods: {
-    // get cookie
+    // Function to get a cookie value by name
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
 
+    // Function to fetch educator ratings data from the server
     async fetchEducatorRatings() {
       // Get the authentication token from cookie
       const token = this.getCookie("auth_token");
@@ -46,7 +48,7 @@ export default {
       }
 
       try {
-        // fetch data from url endpoint
+        // Fetch data from the server
         const response = await fetch("http://localhost:8000/activityRatings/instructor", {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -60,6 +62,7 @@ export default {
 
         const activities = data.activitiesRatings || [];
 
+        // Process and transform the fetched data
         this.ratings = activities.map((activity) => {
           const rating = parseFloat(activity.meanRating.toFixed(1)); 
           return {
@@ -77,10 +80,12 @@ export default {
       }
     },
 
+    // Function to extract readable course name from activityId URL
     extractCourseName(activityId) {
       return decodeURIComponent(activityId.split("/").pop().replace(/_/g, " "));
     },
   },
+  // Fetch educator ratings data when the component is mounted
   mounted() {
     this.fetchEducatorRatings(); 
   },
@@ -131,7 +136,7 @@ p .subheader{
 
 .stars {
   display: flex;
-  min-width: 100px; /* Konsistente Breite */
+  min-width: 100px; /* Consistent width */
   justify-content: flex-start;
 }
 
@@ -150,7 +155,7 @@ p .subheader{
   display: flex;
   align-items: center;
   text-align: left;
-  min-width: 60px; /* Sorgt für gleichmäßige Platzierung */
+  min-width: 60px; /* Ensure consistent placement */
 }
 
 .loading-message,

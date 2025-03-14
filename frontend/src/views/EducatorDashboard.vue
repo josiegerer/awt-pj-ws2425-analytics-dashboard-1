@@ -66,7 +66,7 @@ export default {
   },
   data() {
     return {
-      userName: 'Instructor',
+      userName: 'Instructor', // Default user name
       adminToken: localStorage.getItem("instructorToken"), // Load admin token
     };
   },
