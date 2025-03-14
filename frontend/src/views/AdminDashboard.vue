@@ -73,7 +73,7 @@ export default {
   },
   data() {
     return {
-      userName: 'Administrator',
+      userName: 'Administrator', // Default user name
       adminToken: localStorage.getItem("adminToken"), // Load admin token
     };
   },

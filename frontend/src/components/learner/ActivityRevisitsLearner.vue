@@ -1,9 +1,11 @@
 <template>
+  <!-- Container for the activity revisits list -->
   <div class="activity-revisits-container">
     <h3>Activity Revisits</h3>
     <div class="activity-revisits-content">
       <ol class="activity-list">
-        <li v-for="(item) in visibleData" :key="item.activityId" class="activity-item">
+        <!-- Loop through visibleData to display each activity -->
+        <li v-for="item in visibleData" :key="item.activityId" class="activity-item">
           <div class="activity-info">
             <span>{{ item.course }}</span>
           </div>
@@ -11,6 +13,7 @@
         </li>
       </ol>
     </div>
+    <!-- Button to toggle between showing all activities or just a few -->
     <button @click="toggleView" class="view-more-button">
       {{ showAll ? 'View Less' : 'View All' }}
     </button>
@@ -23,19 +26,22 @@ export default {
   data() {
     return {
       activities: [], // Store fetched data here
-      showAll: false,
+      showAll: false, // Control whether to show all activities or just a few
     };
   },
   computed: {
+    // Compute the visible data based on showAll flag
     visibleData() {
       return this.showAll ? this.activities : this.activities.slice(0, 3);
     },
   },
   methods: {
+    // Function to get a cookie value by name
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
+    // Function to fetch activity revisits data from the server
     async fetchActivityRevisits() {
       const token = this.getCookie("auth_token");
       if (!token) {
@@ -66,16 +72,18 @@ export default {
         console.error("Error fetching activity revisits:", error);
       }
     },
+    // Function to extract readable course name from activityId URL
     extractCourseName(activityId) {
-      // Extracts readable course name from activityId URL
       return decodeURIComponent(activityId.split("/").pop().replace(/_/g, " "));
     },
+    // Function to toggle between showing all activities or just a few
     toggleView() {
       this.showAll = !this.showAll;
     },
   },
+  // Fetch activity revisits data when the component is mounted
   mounted() {
-    this.fetchActivityRevisits(); // Fetch data when the component loads
+    this.fetchActivityRevisits();
   },
 };
 </script>

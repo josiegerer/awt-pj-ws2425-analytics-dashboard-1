@@ -1,6 +1,8 @@
 <template>
+  <!-- Container for the pass rate pie chart -->
   <div class="pass-rate-container">
     <h3>Pass Rate</h3>
+    <!-- ApexCharts component for rendering the pie chart -->
     <apexchart 
       type="pie" 
       :options="chartOptions" 
@@ -25,7 +27,9 @@ export default {
   },
   data() {
     return {
+      // Data for the pie chart
       chartData: [0, 0, 0], // [Failed, Open, Passed]
+      // Configuration options for the pie chart
       chartOptions: {
         chart: {
           type: 'pie',
@@ -47,10 +51,12 @@ export default {
     };
   },
   methods: {
+    // Function to get a cookie value by name
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
+    // Function to fetch pass rate data from the server
     async fetchPassRate() {
       const token = this.getCookie("auth_token");
 
@@ -86,6 +92,7 @@ export default {
       }
     },
   },
+  // Fetch pass rate data when the component is mounted
   mounted() {
     this.fetchPassRate();
   },

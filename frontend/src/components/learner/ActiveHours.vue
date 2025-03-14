@@ -1,6 +1,8 @@
 <template>
+  <!-- Container for the heatmap chart -->
   <div class="heatmap-container">
     <h3>Active Hours</h3>
+    <!-- ApexCharts component for rendering the heatmap -->
     <apexchart 
       type="heatmap" 
       :options="chartOptions" 
@@ -20,7 +22,9 @@ export default {
   },
   data() {
     return {
+      // Data for the heatmap chart
       chartData: [],
+      // Configuration options for the heatmap chart
       chartOptions: {
         chart: {
           height: 350,
@@ -84,11 +88,13 @@ export default {
     };
   },
   methods: {
+    // Function to get a cookie value by name
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
 
+    // Function to fetch active hours data from the server
     async fetchActiveHours() {
       const token = this.getCookie("auth_token");
 
@@ -113,11 +119,13 @@ export default {
           "12:00-16:00", "16:00-20:00", "20:00-24:00"
         ];
 
+        // Initialize chartData with time slots and empty data arrays
         this.chartData = timeSlots.map(slot => ({
           name: slot,
           data: Array(7).fill(0)
         }));
 
+        // Populate chartData with fetched data
         data.activeHours.forEach((day, dayIndex) => {
           day.hours.forEach(hourData => {
             const timeSlotIndex = Math.floor(hourData.hour / 4);
@@ -132,6 +140,7 @@ export default {
       }
     }
   },
+  // Fetch active hours data when the component is mounted
   mounted() {
     this.fetchActiveHours();
   }

@@ -59,12 +59,12 @@ export default {
   },
   data() {
     return {
-      showHeader: true, 
+      showHeader: true, // Boolean to control the visibility of the header
     }
   },
   methods: {
     navigateTo(route) {
-      this.$router.push(route);
+      this.$router.push(route); // Method to navigate to different routes
     }
   }
 };
@@ -107,7 +107,6 @@ export default {
 .nav-buttons button:hover {
   background-color: #9e0b19;
 }
-
 
 /* Grid Layout */
 .grid-container {

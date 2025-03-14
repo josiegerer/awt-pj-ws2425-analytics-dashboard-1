@@ -1,4 +1,5 @@
 <template>
+  <!-- Container for the attempts until passed card -->
   <div class="attempts-until-passed-card">
     <h3>Average Attempts Until Passed</h3>
     <!-- Display "ø" only if average greater or equal to 1-->
@@ -10,15 +11,17 @@ export default {
   name: 'AttemptsUntilPassedCard',
   data() {
     return {
-      averageAttempts: "N/A",
+      averageAttempts: "N/A", // Default value for average attempts
     };
   },
   methods: {
+    // Function to get a cookie value by name
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
 
+    // Function to fetch attempts until passed data from the server
     async fetchAttemptsUntilPassed() {
       const token = this.getCookie("auth_token");
 
@@ -52,6 +55,7 @@ export default {
           }
         });
 
+        // Calculate average attempts if there are any non-zero values
         if (count > 0) {
           this.averageAttempts = (totalAttempts / count).toFixed(2);
         } else {
@@ -63,6 +67,7 @@ export default {
       }
     },
   },
+  // Fetch attempts until passed data when the component is mounted
   mounted() {
     this.fetchAttemptsUntilPassed();
   },

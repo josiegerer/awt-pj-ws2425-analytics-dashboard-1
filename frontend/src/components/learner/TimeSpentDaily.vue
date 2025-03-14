@@ -2,15 +2,18 @@
   <div class="time-spent-daily-container">
     <h3>Time Spent on Activities (last 7 days)</h3>
     <p>in Minutes</p>
+    <!-- ApexCharts component for rendering the bar chart -->
     <apexchart 
       type="bar" 
       :options="chartOptions" 
       :series="chartData" 
       height="350" 
     />
+    <!-- Button to toggle the visibility of the table -->
     <button @click.prevent="toggleTable" class="view-more-button">
       {{ showTable ? 'View Less' : 'View More' }}
     </button>
+    <!-- Table to display detailed time spent on each day -->
     <table v-if="showTable" class="time-spent-table">
       <thead>
         <tr>
@@ -38,11 +41,12 @@ export default {
   },
   data() {
     return {
-      data: [],
-      showTable: false,
+      data: [], // Store fetched data here
+      showTable: false, // Controls the table visibility
     };
   },
   computed: {
+    // Data for the bar chart
     chartData() {
       return [
         {
@@ -51,6 +55,7 @@ export default {
         }
       ];
     },
+    // Configuration options for the bar chart
     chartOptions() {
       return {
         chart: {
@@ -108,6 +113,7 @@ export default {
         }
       };
     },
+    // Calculate the average time spent
     averageTimeSpent() {
       if (!this.data.length) return 0;
       const totalMinutes = this.data.reduce((sum, item) => sum + item.minutes, 0);
@@ -115,10 +121,12 @@ export default {
     }
   },
   methods: {
+    // Function to get a cookie value by name
     getCookie(name) {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     },
+    // Function to fetch time spent data from the server
     async fetchTimeSpentData() {
       const token = this.getCookie("auth_token");
       if (!token) {
@@ -140,10 +148,12 @@ export default {
         console.error("Error fetching data:", error);
       }
     },
+    // Function to toggle the visibility of the table
     toggleTable() {
       this.showTable = !this.showTable;
     }
   },
+  // Fetch time spent data when the component is mounted
   mounted() {
     this.fetchTimeSpentData();
   }

@@ -1,7 +1,9 @@
 <template>
+  <!-- Container for the assessment performance chart -->
   <div class="assessment-performance-chart">
     <h3>Assessment Performance Over Time</h3>
     <div style="height: 400px; width: 100%;">
+      <!-- LineChart component for rendering the line chart -->
       <LineChart v-if="chartData.labels.length" :data="chartData" :options="chartOptions" />
       <p v-else>No data available</p>
     </div>
@@ -9,27 +11,26 @@
 </template>
 
 <script>
-import 'chartjs-adapter-date-fns'; // Required for time-based charts
-import { Line } from 'vue-chartjs';
+import 'chartjs-adapter-date-fns'; // Import date adapter for Chart.js
+import { Line } from 'vue-chartjs'; // Import Line chart component from vue-chartjs
 import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, TimeScale } from 'chart.js';
 
-
-// Register Chart.js components
+// Register Chart.js components and date adapter
 ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, TimeScale);
 
 export default {
   name: 'AssessmentPerformanceChart',
   components: {
-    LineChart: Line,
+    LineChart: Line, // Register Line chart component
   },
   data() {
     return {
       chartData: {
-        labels: [],
+        labels: [], // Labels for the X-axis
         datasets: [
           {
             label: 'Assessment Scores',
-            data: [],
+            data: [], // Data for assessment scores
             borderColor: '#42A5F5',
             backgroundColor: 'rgba(66, 165, 245, 0.2)',
             fill: true,
@@ -97,11 +98,13 @@ export default {
     };
   },
   methods: {
+    // Function to get a cookie value by name
     getCookie(name) {
       const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
       return match ? match[2] : null;
     },
 
+    // Function to fetch assessment scores data from the server
     async fetchAssessmentScores() {
       const token = this.getCookie('auth_token');
 
@@ -158,6 +161,7 @@ export default {
       }
     },
   },
+  // Fetch assessment scores data when the component is mounted
   async mounted() {
     await this.fetchAssessmentScores();
   },

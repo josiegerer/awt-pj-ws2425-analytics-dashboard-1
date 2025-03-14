@@ -24,6 +24,7 @@
 import { defineComponent, onMounted, ref } from "vue";
 import { Chart, registerables } from "chart.js";
 
+// Register Chart.js components
 Chart.register(...registerables);
 
 export default defineComponent({
@@ -31,14 +32,16 @@ export default defineComponent({
   setup() {
     const scatterChart = ref(null);
     const scatterData = ref([]);
-    const maxDuration = ref(120); // Default max
+    const maxDuration = ref(120); // Default max duration
     const currentDate = ref(new Date().toLocaleDateString());
 
+    // Function to get a cookie value by name
     const getCookie = (name) => {
       const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
       return match ? match[2] : null;
     };
 
+    // Function to fetch data from the server
     const fetchData = async () => {
       try {
         const authToken = getCookie("auth_token");
@@ -94,6 +97,7 @@ export default defineComponent({
       }
     };
 
+    // Function to render the chart
     const renderChart = () => {
       const ctx = scatterChart.value?.getContext("2d");
       if (!ctx) {
@@ -168,6 +172,7 @@ export default defineComponent({
       };
     };
 
+    // Fetch data when the component is mounted
     onMounted(fetchData);
 
     return { scatterChart, currentDate };

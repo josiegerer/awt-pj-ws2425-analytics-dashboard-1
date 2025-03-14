@@ -2,6 +2,7 @@
   <div class="last-assessment-attempts">
     <h3>Assessment Attempts</h3>
     <ul>
+      <!-- Loop through displayedAttempts to display each attempt -->
       <li v-for="attempt in displayedAttempts" :key="attempt.id">
         <h4 class="assessment-title">{{ attempt.subcourse }}</h4>
         <p :class="{ passed: attempt.achieved === 'Passed', failed: attempt.achieved === 'Failed' }">
@@ -11,6 +12,7 @@
         <p>Last Attempt: {{ formatDate(attempt.timestamp) }}</p>
       </li>
     </ul>
+    <!-- Button to toggle between showing more or fewer attempts -->
     <button @click="toggleShowMore" class="view-more-button">
       {{ showMore ? 'Show Less' : 'Show More' }}
     </button>
@@ -22,20 +24,23 @@ export default {
   name: 'LastAssessmentAttempts',
   data() {
     return {
-      attempts: [],
-      showMore: false,
+      attempts: [], // Store fetched attempts data here
+      showMore: false, // Control whether to show more or fewer attempts
     };
   },
   computed: {
+    // Compute the displayed attempts based on showMore flag
     displayedAttempts() {
       return this.showMore ? this.attempts : this.attempts.slice(0, 3);
     },
   },
   methods: {
+    // Function to get a cookie value by name
     getCookie(name) {
       const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
       return match ? match[2] : null;
     },
+    // Function to fetch assessment attempts data from the server
     async fetchAssessmentAttempts() {
       const token = this.getCookie('auth_token');
       if (!token) {
@@ -64,6 +69,7 @@ export default {
         console.error(error);
       }
     },
+    // Function to process and combine attempts and effectiveness data
     processData(attemptsData, effectivenessData) {
       if (!attemptsData || !effectivenessData.activitiesEfficiency) return;
 
@@ -89,13 +95,16 @@ export default {
         }))
         .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // Sort most recent first
     },
+    // Function to format the timestamp to a readable date
     formatDate(timestamp) {
       return new Date(timestamp).toLocaleDateString(); // Removes the hour, only keeps the date
     },
+    // Function to toggle between showing more or fewer attempts
     toggleShowMore() {
       this.showMore = !this.showMore;
     },
   },
+  // Fetch assessment attempts data when the component is mounted
   mounted() {
     this.fetchAssessmentAttempts();
   },

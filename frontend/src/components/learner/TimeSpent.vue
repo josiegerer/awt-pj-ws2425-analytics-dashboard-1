@@ -3,15 +3,18 @@
     <h3>Total Time Spent on Activities</h3>
     <p>in Minutes</p>
     <div class="chart-wrapper">
+      <!-- ApexCharts component for rendering the bar chart -->
       <apexchart 
         type="bar" 
         :options="chartOptions" 
         :series="chartData" 
       />
     </div>
+    <!-- Button to toggle the visibility of the table -->
     <button @click="toggleTable" class="view-more-button">
       {{ showTable ? 'View Less' : 'View More' }}
     </button>
+    <!-- Table to display detailed time spent on each activity -->
     <table v-if="showTable" class="time-spent-table">
       <thead>
         <tr>
@@ -45,6 +48,7 @@ export default {
     };
   },
   computed: {
+    // Data for the bar chart
     chartData() {
       return [
         {
@@ -53,6 +57,7 @@ export default {
         },
       ];
     },
+    // Configuration options for the bar chart
     chartOptions() {
       return {
         chart: {
@@ -99,21 +104,26 @@ export default {
     },
   },
   methods: {
+    // Function to toggle the visibility of the table
     toggleTable() {
       this.showTable = !this.showTable;
     },
+    // Function to extract and transform activity name from activityId
     getActivityName(activityId) {
       return activityId.split('/').pop().replace(/_/g, ' ');
     },
+    // Function to get a shortened version of the activity name
     getShortActivityName(activityId) {
       const name = this.getActivityName(activityId);
       return name.length > 10 ? name.substring(0, 10) + '...' : name;
     },
+    // Function to format the duration in minutes and hours
     formatDuration(duration) {
-          const hours = (duration / 60).toFixed(1);
-          const minutesFormatted = duration % 1 === 0 ? duration.toFixed(0) : duration.toFixed(2);
-          return `${minutesFormatted} (${hours}h)`;
-        },
+      const hours = (duration / 60).toFixed(1);
+      const minutesFormatted = duration % 1 === 0 ? duration.toFixed(0) : duration.toFixed(2);
+      return `${minutesFormatted} (${hours}h)`;
+    },
+    // Function to fetch data from the server
     async fetchData() {
       try {
         const authToken = document.cookie.match(/(^| )auth_token=([^;]+)/)?.[2];
@@ -140,6 +150,7 @@ export default {
       }
     },
   },
+  // Fetch data when the component is mounted
   mounted() {
     this.fetchData();
   },
@@ -189,11 +200,13 @@ export default {
 .time-spent-table th {
   background-color: #f2f2f2;
 }
+
 h3 {
   text-align: left; /* Align title to the left */
   font-size: 15px;
   color: black;
 }
+
 p {
   text-align: left; /* Align title to the left */
 }
