@@ -57,7 +57,7 @@ python manage.py migrate
 
 ### 1.4 Save Data in Database
 - The database must contain **user emails** for authentication.
-- Use the `python save_data_in_lrs.py` script in `xapi_statementgenerator` to store xAPI statements.
+- Use the `save_data_in_lrs.py`script in `xapi_statementgenerator` to store xAPI statements.
 - Generate new data using `main.py`, ensuring paths are correctly set in `save_data_in_lrs.py`.
 - Saved user emails will be stored in `user_mails.txt`. Use these emails when creating user accounts.
 
