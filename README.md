@@ -67,7 +67,7 @@ python manage.py migrate
 - `instructor3@example.com`
 
 **Admin**
-Use just the account wiht the Username User 
+Use just the account with the Username User 
 
 ### 1.5 Start the Django Development Server
 Run the Django server in a new terminal:
@@ -80,7 +80,7 @@ Ensure the database settings in `settings.py` use `"localhost"` as the host.
 ### 1.6 Access Moodle
 Moodle is available at [http://localhost:8081](http://localhost:8081).
 
-**Login Credentials:**
+**Login Credentials for Admin:**
 - **Username:** `user`
 - **Password:** `bitnami`
 
@@ -110,9 +110,9 @@ Save the configuration.
 4. Under **More > LTI External Tools**, verify that **Adaptive Analytics Dashboard** is available.
 5. Add the tool as an **activity/resource** in your course.
 
-### 1.9 User Creation in Moodle
+### 1.9 User Creation in Moodle (Learner or Instructor)
 1. Navigate to **Site Administration > Users > Add a New User**.
-2. Use the emails stored in `user_mails.txt`.
+2. Use the emails stored in `user_mails.txt` or the instructor emails named above.
 3. Fill in the required details.
 4. Save the new user.
 5. Assign the user to a course.
